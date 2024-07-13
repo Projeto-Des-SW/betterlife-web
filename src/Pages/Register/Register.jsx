@@ -23,7 +23,7 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const submeter = (e) => {
     e.preventDefault();
     console.log(dadosCadastro);
   };
@@ -64,7 +64,7 @@ const Register = () => {
           Departamento
         </button>
       </div>
-      <form onSubmit={handleSubmit} className={styles.registerForm}>
+      <form onSubmit={submeter} className={styles.registerForm}>
         <div className={styles.formGroup}>
           <label htmlFor="email">Email:</label>
           <input
