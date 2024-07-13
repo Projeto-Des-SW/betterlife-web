@@ -8,6 +8,7 @@ const Register = () => {
   const [dadosCadastro, setDadosCadastro] = useState({
     email: '',
     senha: '',
+    confirmacaoSenha: '',
     nome: '',
     cpf: '',
     telefone: '',
@@ -25,7 +26,11 @@ const Register = () => {
 
   const submeter = (e) => {
     e.preventDefault();
-    console.log(dadosCadastro);
+    if(dadosCadastro.senha != dadosCadastro.confirmacaoSenha){
+      alert('Senhas diferentes')
+    }else{
+      console.log(dadosCadastro);
+    }    
   };
 
   useEffect(() => {
@@ -83,6 +88,17 @@ const Register = () => {
             id="senha"
             name="senha"
             value={dadosCadastro.senha}
+            onChange={alterarDados}
+            required
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label htmlFor="confirmacaoSenha">Confirmação da senha:</label>
+          <input
+            type="password"
+            id="confirmacaoSenha"
+            name="confirmacaoSenha"
+            value={dadosCadastro.confirmacaoSenha}
             onChange={alterarDados}
             required
           />
