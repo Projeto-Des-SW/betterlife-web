@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from "./Register.module.css";
 import logo from "../../Assets/logo.png";
-import { cpf } from 'cpf-cnpj-validator';
+import { cpf, cnpj } from 'cpf-cnpj-validator';
 
 const Register = () => {
   const [tipoCadastro, setTipoCadastro] = useState('pessoaComum');
@@ -27,11 +27,13 @@ const Register = () => {
 
   const submeter = (e) => {
     e.preventDefault();
-    if(dadosCadastro.senha != dadosCadastro.confirmacaoSenha){
-      alert('Senhas diferentes')
-    }else if(tipoCadastro === 'pessoaComum' && !cpf.isValid(dadosCadastro.cpf)) {
+    if(dadosCadastro.senha !== dadosCadastro.confirmacaoSenha){
+      alert('Senhas diferentes');
+    } else if(tipoCadastro === 'pessoaComum' && !cpf.isValid(dadosCadastro.cpf)) {
       alert('CPF inválido');
-    }else{
+    } else if(tipoCadastro === 'departamento' && !cnpj.isValid(dadosCadastro.cnpj)) {
+      alert('CNPJ inválido');
+    } else {
       console.log(dadosCadastro);
     }    
   };
