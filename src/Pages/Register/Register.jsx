@@ -3,19 +3,19 @@ import { Link } from 'react-router-dom';
 import styles from "./Register.module.css";
 import logo from "../../Assets/logo.png";
 import { cpf, cnpj } from 'cpf-cnpj-validator';
+import { registerUser } from '../../Services/Register/Register-service';
 
 const Register = () => {
   const [tipoCadastro, setTipoCadastro] = useState('pessoaComum');
   const [dadosCadastro, setDadosCadastro] = useState({
     email: '',
     senha: '',
-    confirmacaoSenha: '',
     nome: '',
-    cpf: '',
     telefone: '',
     documento: '',
-    cnpj: ''
   });
+  const [erro, setErro] = useState('');
+  const [confirmacaoSenha, setConfirmacaoSenha] = useState('');
 
   const alterarDados = (e) => {
     const { name, value } = e.target;
@@ -25,25 +25,40 @@ const Register = () => {
     });
   };
 
-  const submeter = (e) => {
+  const submeter = async (e) => {
     e.preventDefault();
-    if(dadosCadastro.senha !== dadosCadastro.confirmacaoSenha){
+    if (dadosCadastro.senha !== confirmacaoSenha) {
       alert('Senhas diferentes');
-    } else if(tipoCadastro === 'pessoaComum' && !cpf.isValid(dadosCadastro.cpf)) {
+      // setErro('Senhas diferentes');
+      return;
+    } else if (tipoCadastro === 'pessoaComum' && !cpf.isValid(dadosCadastro.documento)) {
       alert('CPF inválido');
-    } else if(tipoCadastro === 'departamento' && !cnpj.isValid(dadosCadastro.cnpj)) {
+      // setErro('CPF inválido');
+      return;
+    } else if (tipoCadastro === 'departamento' && !cnpj.isValid(dadosCadastro.documento)) {
       alert('CNPJ inválido');
-    } else {
-      console.log(dadosCadastro);
-    }    
+      // setErro('CNPJ inválido');
+      return;
+    }
+
+    try {
+      const userData = {
+        ...dadosCadastro,
+        tipousuarioid: tipoCadastro === 'pessoaComum' ? 4 : tipoCadastro === 'veterinaria' ? 2 : 3
+      };
+      
+      const response = await registerUser(JSON.stringify(userData));
+      console.log(response);
+    } catch (error) {
+      alert(error.message || 'Erro ao registrar usuário')
+      // setErro(error.message || 'Erro ao registrar usuário');
+    }
   };
 
   useEffect(() => {
     setDadosCadastro(prevState => ({
       ...prevState,
-      cpf: '',
-      documento: '',
-      cnpj: ''
+      documento: ''
     }));
   }, [tipoCadastro]);
 
@@ -75,6 +90,7 @@ const Register = () => {
         </button>
       </div>
       <form onSubmit={submeter} className={styles.registerForm}>
+        {/* {erro && <p className={styles.error}>{erro}</p>} */}
         <div className={styles.formGroup}>
           <label htmlFor="email">Email:</label>
           <input
@@ -103,8 +119,8 @@ const Register = () => {
             type="password"
             id="confirmacaoSenha"
             name="confirmacaoSenha"
-            value={dadosCadastro.confirmacaoSenha}
-            onChange={alterarDados}
+            value={confirmacaoSenha}
+            onChange={(event) => setConfirmacaoSenha(event.target.value)}
             required
           />
         </div>
@@ -124,9 +140,9 @@ const Register = () => {
             <label htmlFor="cpf">CPF:</label>
             <input
               type="text"
-              id="cpf"
-              name="cpf"
-              value={dadosCadastro.cpf}
+              id="documento"
+              name="documento"
+              value={dadosCadastro.documento}
               onChange={alterarDados}
               required
             />
@@ -150,9 +166,9 @@ const Register = () => {
             <label htmlFor="cnpj">CNPJ:</label>
             <input
               type="text"
-              id="cnpj"
-              name="cnpj"
-              value={dadosCadastro.cnpj}
+              id="documento"
+              name="documento"
+              value={dadosCadastro.documento}
               onChange={alterarDados}
               required
             />
