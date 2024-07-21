@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from "./Login.module.css";
 import logo from "../../Assets/logo.png";
 import { loginUser } from '../../Services/Login/Login-service';
 
 const Login = () => {
+  const navigate = useNavigate();
+  
   const [dadosLogin, setDadosLogin] = useState({
     email: '',
     senha: ''
@@ -19,6 +22,7 @@ const Login = () => {
   };
 
   const realizarLogin = async (e) => {
+    
     e.preventDefault();
     try {
       const response = await loginUser(JSON.stringify(dadosLogin));

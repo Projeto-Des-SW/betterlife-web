@@ -23,4 +23,4 @@ const loginUser = async (userData) => {
     }
 };
 
-export { registerUser };
+export { loginUser };
