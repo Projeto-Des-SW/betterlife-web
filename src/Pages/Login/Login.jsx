@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState , useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from "./Login.module.css";
 import logo from "../../Assets/logo.png";
 import { loginUser } from '../../Services/Login/Login-service';
+import { UserContext } from '../../Contexts/UserContext';
 
 const Login = () => {
   const navigate = useNavigate();
-  
+  const { setUser } = useContext(UserContext);
+
   const [dadosLogin, setDadosLogin] = useState({
     email: '',
     senha: ''
@@ -27,6 +29,7 @@ const Login = () => {
       const response = await loginUser(JSON.stringify(dadosLogin));
 
       if (response.error === false) {
+        setUser(response.data);
         setTimeout(() => {
           navigate('/telaPrincipal');
         }, 2000);
