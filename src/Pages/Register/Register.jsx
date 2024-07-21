@@ -26,19 +26,24 @@ const Register = () => {
     });
   };
 
+  const validarDocumento = (tipo, documento) => {
+    if (tipo === 'pessoaComum') {
+      return cpf.isValid(documento);
+    } else if (tipo === 'departamento') {
+      return cnpj.isValid(documento);
+    } else if (tipo === 'veterinaria') {
+      return /^\d{6}$/.test(documento);
+    }
+    return false;
+  };
+
   const submeter = async (e) => {
     e.preventDefault();
     if (dadosCadastro.senha !== confirmacaoSenha) {
       alert('Senhas diferentes');
-      // setErro('Senhas diferentes');
       return;
-    } else if (tipoCadastro === 'pessoaComum' && !cpf.isValid(dadosCadastro.documento)) {
-      alert('CPF inválido');
-      // setErro('CPF inválido');
-      return;
-    } else if (tipoCadastro === 'departamento' && !cnpj.isValid(dadosCadastro.documento)) {
-      alert('CNPJ inválido');
-      // setErro('CNPJ inválido');
+    } else if (!validarDocumento(tipoCadastro, dadosCadastro.documento)) {
+      alert('Documento inválido');
       return;
     }
 
@@ -50,16 +55,15 @@ const Register = () => {
 
       const response = await registerUser(JSON.stringify(userData));
 
-      if (response.error == false) {
-        alert('Usuário cadastrado com sucesso!')
+      if (response.error === false) {
+        alert('Usuário cadastrado com sucesso!');
         setTimeout(() => {
           navigate('/login');
         }, 4000);
       }
 
     } catch (error) {
-      alert(error.message || 'Erro ao registrar usuário')
-      // setErro(error.message || 'Erro ao registrar usuário');
+      alert(error.message || 'Erro ao registrar usuário');
     }
   };
 
@@ -98,7 +102,6 @@ const Register = () => {
         </button>
       </div>
       <form onSubmit={submeter} className={styles.registerForm}>
-        {/* {erro && <p className={styles.error}>{erro}</p>} */}
         <div className={styles.formGroup}>
           <label htmlFor="email">Email:</label>
           <input
@@ -158,7 +161,7 @@ const Register = () => {
         )}
         {tipoCadastro === 'veterinaria' && (
           <div className={styles.formGroup}>
-            <label htmlFor="documento">Número do Documento:</label>
+            <label htmlFor="documento">Número do Registro de Medicina Veterinária:</label>
             <input
               type="text"
               id="documento"
