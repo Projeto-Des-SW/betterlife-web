@@ -7,7 +7,17 @@ const registerUser = async (userData) => {
         const response = await axios.post(`${API_URL}/register`, userData, {
             headers: { 'Content-Type': 'application/json' }
         });
-        return response.data;
+
+        if (response.status === 201)
+            return {
+                error: false,
+                data: response.data
+            }
+
+        return {
+            error: true,
+            data: response.data
+        }
     } catch (error) {
         throw error.response ? error.response.data : new Error('Network Error');
     }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from "./Register.module.css";
 import logo from "../../Assets/logo.png";
 import { cpf, cnpj } from 'cpf-cnpj-validator';
@@ -16,6 +16,7 @@ const Register = () => {
   });
   const [erro, setErro] = useState('');
   const [confirmacaoSenha, setConfirmacaoSenha] = useState('');
+  const navigate = useNavigate();
 
   const alterarDados = (e) => {
     const { name, value } = e.target;
@@ -46,9 +47,16 @@ const Register = () => {
         ...dadosCadastro,
         tipousuarioid: tipoCadastro === 'pessoaComum' ? 4 : tipoCadastro === 'veterinaria' ? 2 : 3
       };
-      
+
       const response = await registerUser(JSON.stringify(userData));
-      console.log(response);
+
+      if (response.error == false) {
+        alert('Usuário cadastrado com sucesso!')
+        setTimeout(() => {
+          navigate('/login');
+        }, 4000);
+      }
+
     } catch (error) {
       alert(error.message || 'Erro ao registrar usuário')
       // setErro(error.message || 'Erro ao registrar usuário');
