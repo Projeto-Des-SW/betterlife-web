@@ -59,7 +59,7 @@ const Register = () => {
         alert('Usuário cadastrado com sucesso!');
         setTimeout(() => {
           navigate('/login');
-        }, 4000);
+        }, 2000);
       }
 
     } catch (error) {

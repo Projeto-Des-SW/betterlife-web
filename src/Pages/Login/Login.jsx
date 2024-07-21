@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from "./Login.module.css";
 import logo from "../../Assets/logo.png";
+import { loginUser } from '../../Services/Login/Login-service';
 
 const Login = () => {
   const [dadosLogin, setDadosLogin] = useState({
@@ -17,16 +18,29 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const realizarLogin = async (e) => {
     e.preventDefault();
-    console.log(dadosLogin);
+    try {
+      const response = await loginUser(JSON.stringify(dadosLogin));
+
+      if (response.error === false) {
+        setTimeout(() => {
+          navigate('/telaPrincipal');
+        }, 2000);
+      }else{
+        alert("Usuário ou Senha inválida!")
+      }
+
+    } catch (error) {
+      alert(error.message || 'Usuário ou Senha inválida!');
+    }
   };
 
   return (
     <div className={styles.loginContainer}>
       <img src={logo} alt="Logo" className={styles.logo} />
       <h2>Login</h2>
-      <form onSubmit={handleSubmit} className={styles.loginForm}>
+      <form onSubmit={realizarLogin} className={styles.loginForm}>
         <div className={styles.formGroup}>
           <label htmlFor="email">Email:</label>
           <input
