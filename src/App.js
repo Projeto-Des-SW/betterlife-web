@@ -5,9 +5,11 @@ import Login from './Pages/Login/Login';
 import Register from './Pages/Register/Register';
 import RecuperarSenha from './Pages/RecuperarSenha/RecuperarSenha';
 import TelaPrincipal from './Pages/TelaPrincipal/TelaPrincipal';
-
+//Context
+import { UserProvider } from './Contexts/UserContext';
 function App() {
   return (
+    <UserProvider>
     <BrowserRouter>
     <div>
       <Routes>
@@ -19,6 +21,7 @@ function App() {
       </Routes>
     </div>
     </BrowserRouter>
+    </UserProvider>
   );
 }
 
