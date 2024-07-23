@@ -30,7 +30,7 @@ const RedefinirSenha = () => {
     }
 
     try {
-      const response = await RecuperarSenhaService.ResetPassword(JSON.stringify(dados));
+      const response = await RecuperarSenhaService.resetPassword(JSON.stringify(dados));
 
       if (response.error === false) {
         setTimeout(() => {
