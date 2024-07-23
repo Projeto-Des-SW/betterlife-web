@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styles from "./RedefinirSenha.module.css";
 import logo from "../../Assets/logo.png";
+import RecuperarSenhaService from '../../Services/RecuperarSenha/RecuperarSenha-service';
 
 const RedefinirSenha = () => {
   const [senhaValida, setSenhaValida] = useState({
@@ -11,22 +13,45 @@ const RedefinirSenha = () => {
     number: false,
     special: false,
   });
-
-  const criarNovaSenha = async (e) => {
-    e.preventDefault();
-    // Lógica de redefinição de senha
-  };
-
+  const navigate = useNavigate();
   const [novaSenha, setNovaSenha] = useState('');
   const [repetirSenha, setRepetirSenha] = useState('');
   const [token, setToken] = useState('');
+  const [tokenValido, setTokenValido] = useState(true);
   const location = useLocation();
+
+  const criarNovaSenha = async (e) => {
+    e.preventDefault();
+
+    const dados = {
+      senha: novaSenha,
+      confirmacaoSenha: repetirSenha,
+      token: token
+    }
+
+    try {
+      const response = await RecuperarSenhaService.ResetPassword(JSON.stringify(dados));
+
+      if (response.error === false) {
+        setTimeout(() => {
+          navigate('/telaPrincipal');
+        }, 2000);
+      } else {
+        alert(response.error);
+      }
+
+    } catch (error) {
+      alert(error.error);
+    }
+  };
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const tokenParam = queryParams.get('token');
     if (tokenParam) {
       setToken(tokenParam);
+    } else {
+      setTokenValido(false);
     }
   }, [location.search]);
 
@@ -39,13 +64,23 @@ const RedefinirSenha = () => {
     setSenhaValida({ length, uppercase, lowercase, number, special });
   }, [novaSenha]);
 
+  if (!tokenValido) {
+    return (
+      <div className={styles.forgotPasswordContainer}>
+        <img src={logo} alt="Logo" className={styles.logo} />
+        <h2>Token Inválido</h2>
+        <p>O token fornecido não é válido. Por favor, solicite uma nova redefinição de senha.</p>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.forgotPasswordContainer}>
       <img src={logo} alt="Logo" className={styles.logo} />
       <h2>Recuperar Senha</h2>
       <form onSubmit={criarNovaSenha} className={styles.forgotPasswordForm}>
         <div className={styles.formGroup}>
-        <label className={styles.label} htmlFor="novasenha">Nova Senha</label>
+          <label className={styles.label} htmlFor="novasenha">Nova Senha</label>
           <input
             type="password"
             id="novaSenha"
