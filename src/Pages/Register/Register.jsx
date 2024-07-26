@@ -16,7 +16,18 @@ const Register = () => {
   });
   const [erro, setErro] = useState('');
   const [confirmacaoSenha, setConfirmacaoSenha] = useState('');
+  const [showPasswordTooltip, setShowPasswordTooltip] = useState(false);
   const navigate = useNavigate();
+
+
+  const [senhaValida, setSenhaValida] = useState({
+    length: false,
+    uppercase: false,
+    lowercase: false,
+    number: false,
+    special: false,
+  });
+
 
   const alterarDados = (e) => {
     const { name, value } = e.target;
@@ -37,10 +48,23 @@ const Register = () => {
     return false;
   };
 
+  const validarSenha = (senha) => {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(senha);
+    const hasLowerCase = /[a-z]/.test(senha);
+    const hasNumber = /[0-9]/.test(senha);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(senha);
+
+    return senha.length >= minLength && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
+  };
+
   const submeter = async (e) => {
     e.preventDefault();
     if (dadosCadastro.senha !== confirmacaoSenha) {
       alert('Senhas diferentes');
+      return;
+    } else if (!validarSenha(dadosCadastro.senha)) {
+      alert('A senha deve ter no mínimo 8 caracteres, incluir uma letra maiúscula, uma letra minúscula, um número e um caractere especial.');
       return;
     } else if (!validarDocumento(tipoCadastro, dadosCadastro.documento)) {
       alert('Documento inválido');
@@ -120,9 +144,23 @@ const Register = () => {
             id="senha"
             name="senha"
             value={dadosCadastro.senha}
+            onFocus={() => setShowPasswordTooltip(true)}
+            onBlur={() => setShowPasswordTooltip(false)}
             onChange={alterarDados}
             required
           />
+          {showPasswordTooltip && (
+            <div className={styles.passwordTooltip}>
+              <p>A senha deve ter:</p>
+              <ul>
+                <li>Mínimo de 8 caracteres:</li>
+                <li>Letra maiúscula</li>
+                <li>Letra minúscula</li>
+                <li>Número</li>
+                <li>Caractere especial</li>
+              </ul>
+            </div>
+          )}
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="confirmacaoSenha">Confirmação da senha:</label>
