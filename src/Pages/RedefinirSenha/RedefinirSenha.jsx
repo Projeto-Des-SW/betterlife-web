@@ -5,10 +5,10 @@ import logo from "../../Assets/logo.png";
 
 const RedefinirSenha = () => {
   const [senhaValida, setSenhaValida] = useState({
-    length: false,
-    uppercase: false,
-    lowercase: false,
-    number: false,
+    tamanho: false,
+    hasUpperCase: false,
+    hasLowerCase: false,
+    numero: false,
     special: false,
   });
 
@@ -31,12 +31,12 @@ const RedefinirSenha = () => {
   }, [location.search]);
 
   useEffect(() => {
-    const length = novaSenha.length >= 8;
-    const uppercase = /[A-Z]/.test(novaSenha);
-    const lowercase = /[a-z]/.test(novaSenha);
-    const number = /[0-9]/.test(novaSenha);
+    const tamanho = novaSenha.length >= 8;
+    const hasUpperCase = /[A-Z]/.test(novaSenha);
+    const hasLowerCase = /[a-z]/.test(novaSenha);
+    const numero = /[0-9]/.test(novaSenha);
     const special = /[^A-Za-z0-9]/.test(novaSenha);
-    setSenhaValida({ length, uppercase, lowercase, number, special });
+    setSenhaValida({ tamanho, hasUpperCase, hasLowerCase, numero, special });
   }, [novaSenha]);
 
   return (
@@ -67,10 +67,10 @@ const RedefinirSenha = () => {
           />
         </div>
         <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-          <div className={styles.passwordCriteria}>Mínimo de 8 caracteres: {senhaValida.length ? "✔️" : "❌"}</div>
-          <div className={styles.passwordCriteria}>Letra maiúscula: {senhaValida.uppercase ? "✔️" : "❌"}</div>
-          <div className={styles.passwordCriteria}>Letra minúscula: {senhaValida.lowercase ? "✔️" : "❌"}</div>
-          <div className={styles.passwordCriteria}>Número: {senhaValida.number ? "✔️" : "❌"}</div>
+          <div className={styles.passwordCriteria}>Mínimo de 8 caracteres: {senhaValida.tamanho ? "✔️" : "❌"}</div>
+          <div className={styles.passwordCriteria}>Letra maiúscula: {senhaValida.hasUpperCase ? "✔️" : "❌"}</div>
+          <div className={styles.passwordCriteria}>Letra minúscula: {senhaValida.hasLowerCase ? "✔️" : "❌"}</div>
+          <div className={styles.passwordCriteria}>Número: {senhaValida.numero ? "✔️" : "❌"}</div>
           <div className={styles.passwordCriteria}>Caractere especial: {senhaValida.special ? "✔️" : "❌"}</div>
         </div>
         <button type="submit" className={styles.submitButton}>

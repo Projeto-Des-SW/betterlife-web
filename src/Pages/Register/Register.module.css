@@ -128,3 +128,9 @@
 .backToLogin a:hover {
   color: #E68010; 
 }
+
+.passwordTooltip {
+  color: black;
+
+}
+
