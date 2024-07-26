@@ -31,7 +31,7 @@ const RedefinirSenha = () => {
   }, [location.search]);
 
   useEffect(() => {
-    const tamanho = novaSenha.tamanho >= 8;
+    const tamanho = novaSenha.length >= 8;
     const hasUpperCase = /[A-Z]/.test(novaSenha);
     const hasLowerCase = /[a-z]/.test(novaSenha);
     const numero = /[0-9]/.test(novaSenha);
