@@ -23,7 +23,6 @@ const Login = () => {
   };
 
   const realizarLogin = async (e) => {
-    
     e.preventDefault();
     try {
       const response = await loginUser(JSON.stringify(dadosLogin));

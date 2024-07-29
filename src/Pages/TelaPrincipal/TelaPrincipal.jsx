@@ -12,8 +12,8 @@ function TelaPrincipal() {
   const navigate = useNavigate();
 
   const realizarLogout = () => {
-    setUser(null); // Limpa os dados do usuário no contexto
-    navigate('/login'); // Redireciona para a tela de login
+    setUser(null);
+    navigate('/login');
   };
   
   const renderContent = () => {
