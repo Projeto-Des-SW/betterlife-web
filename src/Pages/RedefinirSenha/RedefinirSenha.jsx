@@ -28,20 +28,15 @@ const RedefinirSenha = () => {
       confirmacaoSenha: repetirSenha,
       token: token
     }
+    const response = await RecuperarSenhaService.resetPassword(dados);
 
-    try {
-      const response = await RecuperarSenhaService.resetPassword(JSON.stringify(dados));
-
-      if (response.error === false) {
-        setTimeout(() => {
-          navigate('/telaPrincipal');
-        }, 2000);
-      } else {
-        alert(response.error);
-      }
-
-    } catch (error) {
-      alert(error.error);
+    if (!response.error) {
+      alert(response.data);
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+    } else {
+      alert(response.data);
     }
   };
 
