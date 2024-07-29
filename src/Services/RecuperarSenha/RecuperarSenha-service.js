@@ -30,18 +30,22 @@ class RecuperarSenhaService {
                 headers: { 'Content-Type': 'application/json' }
             });
 
-            if (response.status === 201)
+            if (response.status === 200) {
                 return {
                     error: false,
-                    data: response.data
-                }
+                    data: response.data.message || response.data
+                };
+            }
 
             return {
                 error: true,
-                data: response.data
-            }
+                data: response.data.error || response.data.message
+            };
         } catch (error) {
-            throw error.response ? error.response.data : new Error('Network Error');
+            return {
+                error: true,
+                data: error.response ? error.response.data.error || error.response.data.message : 'Network Error'
+            };
         }
     }
 }
