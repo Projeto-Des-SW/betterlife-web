@@ -31,7 +31,7 @@ const Login = () => {
         setUser(response.data);
         setTimeout(() => {
           navigate('/telaPrincipal');
-        }, 2000);
+        }, 1000);
       }else{
         alert("Usuário ou Senha inválida!")
       }
