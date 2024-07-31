@@ -1,0 +1,33 @@
+.UserProfileContainer {
+  background-color: #1C4839;
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.UserProfileContainer h2 {
+  margin-bottom: 20px;
+}
+
+.UserProfileContainer p {
+  margin: 5px 0;
+}
+
+.BackButton {
+  background-color: #fff;
+  color: #1C4839;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.BackButton:hover {
+  background-color: #f0f0f0;
+}
