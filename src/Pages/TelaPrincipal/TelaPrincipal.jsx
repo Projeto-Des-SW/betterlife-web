@@ -1,21 +1,15 @@
 import React, { useContext } from 'react';
-import Styles from './TelaPrincipal.module.css'
+import Styles from './TelaPrincipal.module.css';
 import { UserContext } from '../../Contexts/UserContext';
-import { useNavigate } from 'react-router-dom';
 import AdminComponent from '../../Components/AdminComponent';
 import UserComponent from '../../Components/UserComponent';
 import VeterinariaComponent from '../../Components/VeterinariaComponent';
 import DepartmentoComponent from '../../Components/DepartamentoComponent';
+import Header from '../Header/Header';
 
 function TelaPrincipal() {
-  const { user, setUser } = useContext(UserContext);
-  const navigate = useNavigate();
+  const { user } = useContext(UserContext);
 
-  const realizarLogout = () => {
-    setUser(null);
-    navigate('/login');
-  };
-  
   const renderContent = () => {
     switch (user.tipousuario) {
       case 'ADM':
@@ -33,18 +27,13 @@ function TelaPrincipal() {
 
   return (
     <div className={Styles.TelaPrincipalContainer}>
-      <h1>Bem Vindo</h1>
-      <div>
-        <p>Email: {user.email}</p>
-        <p>Nome: {user.nome}</p>
-        <p>Documento: {user.documento}</p>
-        <p>Telefone: {user.telefone}</p>
-        <p>Tipo de Usuário: {user.tipousuario}</p>
+      <Header />
+      <div className={Styles.mainContent}>
+        <h1>Bem Vindo</h1>
+        {renderContent()}
       </div>
-      {renderContent()}
-      <button onClick={realizarLogout} className={Styles.logoutButton}>Logout</button>
     </div>
-  )
+  );
 }
 
-export default TelaPrincipal
+export default TelaPrincipal;
