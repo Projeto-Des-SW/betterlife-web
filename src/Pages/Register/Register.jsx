@@ -6,6 +6,8 @@ import { cpf, cnpj } from 'cpf-cnpj-validator';
 import { registerUser } from '../../Services/Register/Register-service';
 
 const Register = () => {
+  const [confirmacaoSenha, setConfirmacaoSenha] = useState('');
+  const navigate = useNavigate();
   const [tipoCadastro, setTipoCadastro] = useState('pessoaComum');
   const [dadosCadastro, setDadosCadastro] = useState({
     email: '',
@@ -14,20 +16,13 @@ const Register = () => {
     telefone: '',
     documento: '',
   });
-  const [erro, setErro] = useState('');
-  const [confirmacaoSenha, setConfirmacaoSenha] = useState('');
-  const [showPasswordTooltip, setShowPasswordTooltip] = useState(false);
-  const navigate = useNavigate();
-
-
   const [senhaValida, setSenhaValida] = useState({
-    length: false,
-    uppercase: false,
-    lowercase: false,
-    number: false,
+    tamanho: false,
+    hasUpperCase: false,
+    hasLowerCase: false,
+    numero: false,
     special: false,
   });
-
 
   const alterarDados = (e) => {
     const { name, value } = e.target;
@@ -98,6 +93,15 @@ const Register = () => {
     }));
   }, [tipoCadastro]);
 
+  useEffect(() => {
+    const tamanho = dadosCadastro.senha.length >= 8;
+    const hasUpperCase = /[A-Z]/.test(dadosCadastro.senha);
+    const hasLowerCase = /[a-z]/.test(dadosCadastro.senha);
+    const numero = /[0-9]/.test(dadosCadastro.senha);
+    const special = /[^A-Za-z0-9]/.test(dadosCadastro.senha);
+    setSenhaValida({ tamanho, hasUpperCase, hasLowerCase, numero, special });
+  }, [dadosCadastro.senha]);
+
   return (
     <div className={styles.registerContainer}>
       <div className={styles.registerHeader}>
@@ -144,23 +148,18 @@ const Register = () => {
             id="senha"
             name="senha"
             value={dadosCadastro.senha}
-            onFocus={() => setShowPasswordTooltip(true)}
-            onBlur={() => setShowPasswordTooltip(false)}
             onChange={alterarDados}
             required
           />
-          {showPasswordTooltip && (
-            <div className={styles.passwordTooltip}>
-              <p>A senha deve ter:</p>
-              <ul>
-                <li>Mínimo de 8 caracteres:</li>
-                <li>Letra maiúscula</li>
-                <li>Letra minúscula</li>
-                <li>Número</li>
-                <li>Caractere especial</li>
-              </ul>
+          <div className={styles.passwordTooltip}>
+            <div style={{ marginTop: '10px', marginBottom: '10px' }}>
+              <div className={styles.passwordCriteria}>Mínimo de 8 caracteres: {senhaValida.tamanho ? "✔️" : "❌"}</div>
+              <div className={styles.passwordCriteria}>Letra maiúscula: {senhaValida.hasUpperCase ? "✔️" : "❌"}</div>
+              <div className={styles.passwordCriteria}>Letra minúscula: {senhaValida.hasLowerCase ? "✔️" : "❌"}</div>
+              <div className={styles.passwordCriteria}>Número: {senhaValida.numero ? "✔️" : "❌"}</div>
+              <div className={styles.passwordCriteria}>Caractere especial: {senhaValida.special ? "✔️" : "❌"}</div>
             </div>
-          )}
+          </div>
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="confirmacaoSenha">Confirmação da senha:</label>
