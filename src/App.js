@@ -7,11 +7,9 @@ import RecuperarSenha from './Pages/RecuperarSenha/RecuperarSenha';
 import TelaPrincipal from './Pages/TelaPrincipal/TelaPrincipal';
 import RedefinirSenha from './Pages/RedefinirSenha/RedefinirSenha';
 import UserProfile from './Pages/PerfilUsuario/PerfilUsuario';
-//Context
-import { UserProvider } from './Contexts/UserContext';
+
 function App() {
   return (
-    <UserProvider>
     <BrowserRouter>
     <div>
       <Routes>
@@ -25,7 +23,6 @@ function App() {
       </Routes>
     </div>
     </BrowserRouter>
-    </UserProvider>
   );
 }
 

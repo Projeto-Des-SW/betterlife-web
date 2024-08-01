@@ -1,17 +1,16 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Styles from './TelaPrincipal.module.css';
-import { UserContext } from '../../Contexts/UserContext';
 import AdminComponent from '../../Components/AdminComponent';
 import UserComponent from '../../Components/UserComponent';
 import VeterinariaComponent from '../../Components/VeterinariaComponent';
 import DepartmentoComponent from '../../Components/DepartamentoComponent';
 import Header from '../Header/Header';
+import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
 
 function TelaPrincipal() {
-  const { user } = useContext(UserContext);
 
   const renderContent = () => {
-    switch (user.tipousuario) {
+    switch (dadosUserLogadoService.getUserInfo().tipousuario) {
       case 'ADM':
         return <AdminComponent />;
       case 'Usuário':
