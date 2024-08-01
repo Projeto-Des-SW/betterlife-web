@@ -24,9 +24,9 @@ class UsuarioService {
         }
     };
 
-    async deleteUser(data) {
+    async deleteUser(idUsuario) {
         try {
-            const response = await axios.post(`${API_URL}/resetPassword`, data, {
+            const response = await axios.put(`${API_URL}/deleteUser/${idUsuario}`, {
                 headers: { 'Content-Type': 'application/json' }
             });
 

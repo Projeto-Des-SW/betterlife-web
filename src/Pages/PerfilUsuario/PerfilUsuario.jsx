@@ -41,6 +41,22 @@ const UserProfile = () => {
     }
   };
 
+  const deletarUser = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await usuarioService.deleteUser(dadosUserLogadoService.getUserInfo().id);
+
+      if (response.error === false) {
+        alert('Usuário deletado com sucesso!');
+        dadosUserLogadoService.logOut();
+        navigate('/login');
+      }
+
+    } catch (error) {
+      alert(error.message || 'Erro ao deletar usuário');
+    }
+  };
+
   const handleBack = () => {
     navigate('/telaPrincipal');
   };
@@ -120,6 +136,7 @@ const UserProfile = () => {
             </Grid>
           </div>
           <div className={Styles.buttonContainer}>
+            <button type="button" className={Styles.BackButton} onClick={deletarUser}>Deletar Conta</button>
             <button type="submit" className={Styles.SaveButton}>Salvar</button>
             <button type="button" className={Styles.BackButton} onClick={handleBack}>Voltar</button>
           </div>

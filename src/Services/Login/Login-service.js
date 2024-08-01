@@ -8,18 +8,21 @@ const loginUser = async (userData) => {
             headers: { 'Content-Type': 'application/json' }
         });
 
-        if (response.status === 200)
+        if (response.status === 200) {
             return {
                 error: false,
                 data: response.data
-            }
-
+            };
+        }
         return {
             error: true,
-            data: response.data
-        }
+            data: response.data.error
+        };
     } catch (error) {
-        throw error.response ? error.response.data : new Error('Network Error');
+        return {
+            error: true,
+            data: error.response ? error.response.data : 'Network Error'
+        };
     }
 };
 
