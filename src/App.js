@@ -1,28 +1,12 @@
 import './App.css';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-//Pages
-import Login from './Pages/Login/Login';
-import Register from './Pages/Register/Register';
-import RecuperarSenha from './Pages/RecuperarSenha/RecuperarSenha';
-import TelaPrincipal from './Pages/TelaPrincipal/TelaPrincipal';
-import RedefinirSenha from './Pages/RedefinirSenha/RedefinirSenha';
-import UserProfile from './Pages/PerfilUsuario/PerfilUsuario';
 
+//Routes
+import AppRoutes from './Routes';
 function App() {
   return (
-    <BrowserRouter>
     <div>
-      <Routes>
-        <Route path='/' element={<Navigate to='/login' />} />
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/telaPrincipal' element={<TelaPrincipal/>}/>
-        <Route path='/register' element={<Register/>}/>
-        <Route path='/recuperarSenha' element={<RecuperarSenha />} />
-        <Route path='/redefinirSenha' element={<RedefinirSenha/>} />
-        <Route path='/perfil' element={<UserProfile/>} />
-      </Routes>
+      <AppRoutes/>
     </div>
-    </BrowserRouter>
   );
 }
 
