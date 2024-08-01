@@ -3,7 +3,7 @@ import Styles from '../PerfilUsuario/PerfilUsuario.module.css';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Header/Header';
 import {
-  TextField, Grid, Paper
+  TextField, Grid, Paper, Dialog, DialogActions, DialogContent, DialogTitle, Button
 } from '@material-ui/core';
 import usuarioService from '../../Services/Usuario/Usuario-service';
 import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
@@ -16,7 +16,9 @@ const UserProfile = () => {
     telefone: dadosUserLogadoService.getUserInfo().telefone,
   });
   const navigate = useNavigate();
-
+  const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+  const [password, setPassword] = useState('');
+  
   const alterarDados = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -41,22 +43,22 @@ const UserProfile = () => {
     }
   };
 
-  const deletarUser = async (e) => {
-    e.preventDefault();
+  const confirmarDelecao = async () => {
     try {
-      const response = await usuarioService.deleteUser(dadosUserLogadoService.getUserInfo().id);
+      const response = await usuarioService.deleteUser(dadosUserLogadoService.getUserInfo().id, password);
 
       if (response.error === false) {
         alert('Usuário deletado com sucesso!');
         dadosUserLogadoService.logOut();
         navigate('/login');
       }
-
     } catch (error) {
       alert(error.message || 'Erro ao deletar usuário');
+    } finally {
+      setShowConfirmPopup(false);
+      setPassword('');
     }
   };
-
   const handleBack = () => {
     navigate('/telaPrincipal');
   };
@@ -136,12 +138,36 @@ const UserProfile = () => {
             </Grid>
           </div>
           <div className={Styles.buttonContainer}>
-            <button type="button" className={Styles.BackButton} onClick={deletarUser}>Deletar Conta</button>
+            <button type="button" className={Styles.BackButton} onClick={() => setShowConfirmPopup(true)}>Deletar Conta</button>
             <button type="submit" className={Styles.SaveButton}>Salvar</button>
             <button type="button" className={Styles.BackButton} onClick={handleBack}>Voltar</button>
           </div>
         </form>
       </Paper>
+      {/* Popup de confirmação de senha */}
+      <Dialog open={showConfirmPopup} onClose={() => setShowConfirmPopup(false)}>
+        <DialogTitle>Confirmação de Senha</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Senha"
+            type="password"
+            fullWidth
+            variant="outlined"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShowConfirmPopup(false)} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={confirmarDelecao} color="primary">
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
