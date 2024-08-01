@@ -51,6 +51,8 @@ const UserProfile = () => {
         alert('Usuário deletado com sucesso!');
         dadosUserLogadoService.logOut();
         navigate('/login');
+      }else{
+        alert('Senha incorreta - Usuário não deletado')
       }
     } catch (error) {
       alert(error.message || 'Erro ao deletar usuário');
