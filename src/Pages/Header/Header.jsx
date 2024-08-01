@@ -1,12 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 import { IoMdExit } from "react-icons/io";
 import Styles from '../Header/Header.module.css';
-import { UserContext } from '../../Contexts/UserContext';
+import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
 
-function Header() {
-  const { setUser } = useContext(UserContext);
+const Header = () => {
   const navigate = useNavigate();
 
   const goToProfile = () => {
@@ -14,7 +13,7 @@ function Header() {
   };
 
   const realizarLogout = () => {
-    setUser(null);
+    dadosUserLogadoService.logOut();
     navigate('/login');
   };
 
