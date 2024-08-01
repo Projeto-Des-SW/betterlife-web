@@ -22,22 +22,19 @@ const Login = () => {
 
   const realizarLogin = async (e) => {
     e.preventDefault();
-    try {
-      const response = await loginUser(JSON.stringify(dadosLogin));
 
-      if (response.error === false) {
-        await localStorage.setItem('userInfo', JSON.stringify(response.data));
-        setTimeout(() => {
-          navigate('/telaPrincipal');
-        }, 1000);
-      }else{
-        alert("Usuário ou Senha inválida!")
-      }
+    const response = await loginUser(JSON.stringify(dadosLogin));
 
-    } catch (error) {
-      alert(error.message || 'Usuário ou Senha inválida!');
+    if (response.error === false) {
+      await localStorage.setItem('userInfo', JSON.stringify(response.data));
+      setTimeout(() => {
+        navigate('/telaPrincipal');
+      }, 1000);
+    } else {
+      alert(response.data.error);
     }
   };
+
 
   return (
     <div className={styles.loginContainer}>
