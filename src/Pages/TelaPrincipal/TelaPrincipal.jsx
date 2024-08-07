@@ -11,9 +11,7 @@ function TelaPrincipal() {
 
   const renderContent = () => {
     switch (dadosUserLogadoService.getUserInfo().tipousuario) {
-      case 'ADM':
-        return <AdminComponent />;
-      case 'Usuário':
+      case 'Usuário Comum':
         return <UserComponent />;
       case 'Veterinário':
         return <VeterinariaComponent />;
