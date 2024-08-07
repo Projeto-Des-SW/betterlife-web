@@ -3,12 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from "./Register.module.css";
 import logo from "../../Assets/logo.png";
 import { cpf, cnpj } from 'cpf-cnpj-validator';
-import { registerUser } from '../../Services/Register/Register-service';
+import {
+  TextField, Grid, Paper, LinearProgress
+} from '@material-ui/core';
+import registerService from '../../Services/Register/Register-service';
 
 const Register = () => {
-  const [confirmacaoSenha, setConfirmacaoSenha] = useState('');
   const navigate = useNavigate();
   const [tipoCadastro, setTipoCadastro] = useState('pessoaComum');
+
   const [dadosCadastro, setDadosCadastro] = useState({
     email: '',
     senha: '',
@@ -16,6 +19,18 @@ const Register = () => {
     telefone: '',
     documento: '',
   });
+
+  const [dadosEndereco, setDadosEndereco] = useState({
+    cep: '',
+    logradouro: '',
+    bairro: '',
+    uf: '',
+    pais: '',
+    complemento: '',
+    numero: '',
+    localidade: ''
+  });
+
   const [senhaValida, setSenhaValida] = useState({
     tamanho: false,
     hasUpperCase: false,
@@ -24,12 +39,38 @@ const Register = () => {
     special: false,
   });
 
+  const validarSenha = (senha) => {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(senha);
+    const hasLowerCase = /[a-z]/.test(senha);
+    const hasNumber = /[0-9]/.test(senha);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(senha);
+
+    return senha.length >= minLength && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
+  };
+
+
   const alterarDados = (e) => {
     const { name, value } = e.target;
-    setDadosCadastro({
-      ...dadosCadastro,
-      [name]: value
+    setDadosCadastro((prevState) => {
+      const novoEstado = { ...prevState, [name]: value };
+
+      if (name === 'senha') {
+        const tamanho = value.length >= 8;
+        const hasUpperCase = /[A-Z]/.test(value);
+        const hasLowerCase = /[a-z]/.test(value);
+        const numero = /[0-9]/.test(value);
+        const special = /[^A-Za-z0-9]/.test(value);
+        setSenhaValida({ tamanho, hasUpperCase, hasLowerCase, numero, special });
+      }
+
+      return novoEstado;
     });
+  };
+
+  const alterarDadosEndereco = (e) => {
+    const { name, value } = e.target;
+    setDadosEndereco((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const validarDocumento = (tipo, documento) => {
@@ -43,36 +84,45 @@ const Register = () => {
     return false;
   };
 
-  const validarSenha = (senha) => {
-    const minLength = 8;
-    const hasUpperCase = /[A-Z]/.test(senha);
-    const hasLowerCase = /[a-z]/.test(senha);
-    const hasNumber = /[0-9]/.test(senha);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(senha);
-
-    return senha.length >= minLength && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
-  };
-
   const submeter = async (e) => {
     e.preventDefault();
-    if (dadosCadastro.senha !== confirmacaoSenha) {
-      alert('Senhas diferentes');
+
+    if (!dadosCadastro.email || !dadosCadastro.senha || !dadosCadastro.nome || !dadosCadastro.telefone || !dadosCadastro.documento) {
+      alert('Todos os campos de cadastro são obrigatórios.');
+      return;
+    }
+
+    if (!dadosEndereco.cep || !dadosEndereco.logradouro || !dadosEndereco.bairro ||
+      !dadosEndereco.uf || !dadosEndereco.pais || !dadosEndereco.numero || !dadosEndereco.localidade) {
+      alert('Todos os campos de endereço são obrigatórios.');
+      return;
+    }
+
+    if (!validarDocumento(tipoCadastro, dadosCadastro.documento)) {
+      alert('Documento inválido');
       return;
     } else if (!validarSenha(dadosCadastro.senha)) {
       alert('A senha deve ter no mínimo 8 caracteres, incluir uma letra maiúscula, uma letra minúscula, um número e um caractere especial.');
       return;
-    } else if (!validarDocumento(tipoCadastro, dadosCadastro.documento)) {
-      alert('Documento inválido');
-      return;
     }
 
     try {
-      const userData = {
+      const dados = {
         ...dadosCadastro,
-        tipousuarioid: tipoCadastro === 'pessoaComum' ? 4 : tipoCadastro === 'veterinaria' ? 2 : 3
+        tipousuarioid: tipoCadastro === 'pessoaComum' ? 1 : tipoCadastro === 'veterinaria' ? 2 : 3,
+        endereco: {
+          cep: dadosEndereco.cep,
+          logradouro: dadosEndereco.logradouro,
+          bairro: dadosEndereco.bairro,
+          uf: dadosEndereco.uf,
+          pais: dadosEndereco.pais,
+          complemento: dadosEndereco.complemento,
+          numero: dadosEndereco.numero,
+          cidade: dadosEndereco.localidade
+        }
       };
 
-      const response = await registerUser(JSON.stringify(userData));
+      const response = await registerService.registerUser(JSON.stringify(dados));
 
       if (response.error === false) {
         alert('Usuário cadastrado com sucesso!');
@@ -86,8 +136,32 @@ const Register = () => {
     }
   };
 
+  const consultarCEP = async (e) => {
+    try {
+      const response = await registerService.consultaCep(dadosEndereco.cep);
+
+      if (response.error === false) {
+        const { logradouro, localidade, bairro, uf, pais, complemento, numero } = response.data;
+        setDadosEndereco(prevState => ({
+          ...prevState,
+          logradouro,
+          localidade,
+          bairro,
+          uf,
+          pais,
+          complemento,
+          numero
+        }));
+      } else {
+        alert(response.message);
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   useEffect(() => {
-    setDadosCadastro(prevState => ({
+    setDadosCadastro((prevState) => ({
       ...prevState,
       documento: ''
     }));
@@ -129,116 +203,304 @@ const Register = () => {
           Departamento
         </button>
       </div>
-      <form onSubmit={submeter} className={styles.registerForm}>
-        <div className={styles.formGroup}>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={dadosCadastro.email}
-            onChange={alterarDados}
-            required
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="senha">Senha:</label>
-          <input
-            type="password"
-            id="senha"
-            name="senha"
-            value={dadosCadastro.senha}
-            onChange={alterarDados}
-            required
-          />
-          <div className={styles.passwordTooltip}>
-            <div style={{ marginTop: '10px', marginBottom: '10px' }}>
-              <div className={styles.passwordCriteria}>Mínimo de 8 caracteres: {senhaValida.tamanho ? "✔️" : "❌"}</div>
-              <div className={styles.passwordCriteria}>Letra maiúscula: {senhaValida.hasUpperCase ? "✔️" : "❌"}</div>
-              <div className={styles.passwordCriteria}>Letra minúscula: {senhaValida.hasLowerCase ? "✔️" : "❌"}</div>
-              <div className={styles.passwordCriteria}>Número: {senhaValida.numero ? "✔️" : "❌"}</div>
-              <div className={styles.passwordCriteria}>Caractere especial: {senhaValida.special ? "✔️" : "❌"}</div>
+
+      <Paper className={styles.paper}>
+        <h2 className={styles.title}>Dados Pessoais</h2>
+        <form onSubmit={submeter} className={styles.registerForm}>
+          <div className={styles.form}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  type="text"
+                  name="nome"
+                  label={
+                    <span>
+                      Nome do usuário <span style={{ color: 'red' }}>*</span>
+                    </span>
+                  }
+                  value={dadosCadastro.nome}
+                  onChange={alterarDados}
+                  fullWidth
+                  id="nome"
+                />
+              </Grid>
+
+              {tipoCadastro === 'pessoaComum' && (
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant="outlined"
+                    type="text"
+                    name="documento"
+                    label={
+                      <span>
+                        CPF <span style={{ color: 'red' }}>*</span>
+                      </span>
+                    }
+                    value={dadosCadastro.documento}
+                    onChange={alterarDados}
+                    fullWidth
+                    id="documento"
+                  />
+                </Grid>
+              )}
+
+              {tipoCadastro === 'veterinaria' && (
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant="outlined"
+                    type="text"
+                    name="documento"
+                    label={
+                      <span>
+                        Número do Registro de Medicina Veterinária <span style={{ color: 'red' }}>*</span>
+                      </span>
+                    }
+                    value={dadosCadastro.documento}
+                    onChange={alterarDados}
+                    fullWidth
+                    id="documento"
+                  />
+                </Grid>
+              )}
+
+              {tipoCadastro === 'departamento' && (
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant="outlined"
+                    type="text"
+                    name="documento"
+                    label={
+                      <span>
+                        CNPJ <span style={{ color: 'red' }}>*</span>
+                      </span>
+                    }
+                    value={dadosCadastro.documento}
+                    onChange={alterarDados}
+                    fullWidth
+                    id="documento"
+                  />
+                </Grid>
+              )}
+
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  type="text"
+                  name="telefone"
+                  label={
+                    <span>
+                      Número do telefone com DDD <span style={{ color: 'red' }}>*</span>
+                    </span>
+                  }
+                  value={dadosCadastro.telefone}
+                  onChange={alterarDados}
+                  fullWidth
+                  id="telefone"
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  type="email"
+                  name="email"
+                  label={
+                    <span>
+                      E-mail <span style={{ color: 'red' }}>*</span>
+                    </span>
+                  }
+                  value={dadosCadastro.email}
+                  onChange={alterarDados}
+                  fullWidth
+                  id="email"
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  type="password"
+                  name="senha"
+                  label={
+                    <span>
+                      Senha <span style={{ color: 'red' }}>*</span>
+                    </span>
+                  }
+                  value={dadosCadastro.senha}
+                  onChange={alterarDados}
+                  fullWidth
+                  id="senha"
+                />
+
+                <div className={styles.passwordTooltip}>
+                  <div style={{ marginTop: '10px', marginBottom: '10px' }}>
+                    <div className={styles.passwordCriteria}>Critérios da senha:</div>
+                    <div className={styles.passwordCriteria}>Mínimo de 8 caracteres: {senhaValida.tamanho ? "✔️" : "❌"}</div>
+                    <div className={styles.passwordCriteria}>Letra maiúscula: {senhaValida.hasUpperCase ? "✔️" : "❌"}</div>
+                    <div className={styles.passwordCriteria}>Letra minúscula: {senhaValida.hasLowerCase ? "✔️" : "❌"}</div>
+                    <div className={styles.passwordCriteria}>Número: {senhaValida.numero ? "✔️" : "❌"}</div>
+                    <div className={styles.passwordCriteria}>Caractere especial: {senhaValida.special ? "✔️" : "❌"}</div>
+                  </div>
+                </div>
+              </Grid>
+            </Grid>
+          </div>
+
+          <h2 className={styles.title}>Endereço</h2>
+
+          <div className={styles.form}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  type="text"
+                  name="cep"
+                  label={
+                    <span>
+                      CEP <span style={{ color: 'red' }}>*</span>
+                    </span>
+                  }
+                  value={dadosEndereco.cep}
+                  onBlur={consultarCEP}
+                  onChange={alterarDadosEndereco}
+                  fullWidth
+                  id="cep"
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  type="text"
+                  name="cidade"
+                  label={
+                    <span>
+                      Cidade <span style={{ color: 'red' }}>*</span>
+                    </span>
+                  }
+                  value={dadosEndereco.localidade}
+                  onChange={alterarDadosEndereco}
+                  fullWidth
+                  id="cidade"
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  type="text"
+                  name="logradouro"
+                  label={
+                    <span>
+                      Logradouro <span style={{ color: 'red' }}>*</span>
+                    </span>
+                  }
+                  value={dadosEndereco.logradouro}
+                  onChange={alterarDadosEndereco}
+                  fullWidth
+                  id="logradouro"
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  type="text"
+                  name="bairro"
+                  label={
+                    <span>
+                      Bairro <span style={{ color: 'red' }}>*</span>
+                    </span>
+                  }
+                  value={dadosEndereco.bairro}
+                  onChange={alterarDadosEndereco}
+                  fullWidth
+                  id="bairro"
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  type="text"
+                  name="uf"
+                  label={
+                    <span>
+                      UF <span style={{ color: 'red' }}>*</span>
+                    </span>
+                  }
+                  value={dadosEndereco.uf}
+                  onChange={alterarDadosEndereco}
+                  fullWidth
+                  id="uf"
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  type="text"
+                  name="pais"
+                  label={
+                    <span>
+                      Pais <span style={{ color: 'red' }}>*</span>
+                    </span>
+                  }
+                  value={dadosEndereco.pais}
+                  onChange={alterarDadosEndereco}
+                  fullWidth
+                  id="pais"
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  type="text"
+                  name="complemento"
+                  label={
+                    <span>
+                      Complemento
+                    </span>
+                  }
+                  value={dadosEndereco.complemento}
+                  onChange={alterarDadosEndereco}
+                  fullWidth
+                  id="complemento"
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  type="number"
+                  name="numero"
+                  label={
+                    <span>
+                      Número <span style={{ color: 'red' }}>*</span>
+                    </span>
+                  }
+                  value={dadosEndereco.numero}
+                  onChange={alterarDadosEndereco}
+                  fullWidth
+                  id="numero"
+                />
+              </Grid>
+            </Grid>
+
+            <div className={styles.buttonContainer}>
+              <button type="submit" className={styles.submitButton}>Cadastre-se</button>
             </div>
+
           </div>
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="confirmacaoSenha">Confirmação da senha:</label>
-          <input
-            type="password"
-            id="confirmacaoSenha"
-            name="confirmacaoSenha"
-            value={confirmacaoSenha}
-            onChange={(event) => setConfirmacaoSenha(event.target.value)}
-            required
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="nome">Nome do usuário:</label>
-          <input
-            type="text"
-            id="nome"
-            name="nome"
-            value={dadosCadastro.nome}
-            onChange={alterarDados}
-            required
-          />
-        </div>
-        {tipoCadastro === 'pessoaComum' && (
-          <div className={styles.formGroup}>
-            <label htmlFor="cpf">CPF:</label>
-            <input
-              type="text"
-              id="documento"
-              name="documento"
-              value={dadosCadastro.documento}
-              onChange={alterarDados}
-              required
-            />
-          </div>
-        )}
-        {tipoCadastro === 'veterinaria' && (
-          <div className={styles.formGroup}>
-            <label htmlFor="documento">Número do Registro de Medicina Veterinária:</label>
-            <input
-              type="text"
-              id="documento"
-              name="documento"
-              value={dadosCadastro.documento}
-              onChange={alterarDados}
-              required
-            />
-          </div>
-        )}
-        {tipoCadastro === 'departamento' && (
-          <div className={styles.formGroup}>
-            <label htmlFor="cnpj">CNPJ:</label>
-            <input
-              type="text"
-              id="documento"
-              name="documento"
-              value={dadosCadastro.documento}
-              onChange={alterarDados}
-              required
-            />
-          </div>
-        )}
-        <div className={styles.formGroup}>
-          <label htmlFor="telefone">Número do telefone com DDD:</label>
-          <input
-            type="text"
-            id="telefone"
-            name="telefone"
-            value={dadosCadastro.telefone}
-            onChange={alterarDados}
-            required
-          />
-        </div>
-        <button type="submit" className={styles.submitButton}>Cadastre-se</button>
-      </form>
+        </form>
+      </Paper>
+
       <p className={styles.backToLogin}>
         Já tem uma conta? <Link to="/login">Voltar para o login</Link>
       </p>
-    </div>
+    </div >
   );
 };
 

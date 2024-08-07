@@ -146,7 +146,7 @@ const UserProfile = () => {
           </div>
         </form>
       </Paper>
-      {/* Popup de confirmação de senha */}
+      
       <Dialog open={showConfirmPopup} onClose={() => setShowConfirmPopup(false)}>
         <DialogTitle>Confirmação de Senha</DialogTitle>
         <DialogContent>
