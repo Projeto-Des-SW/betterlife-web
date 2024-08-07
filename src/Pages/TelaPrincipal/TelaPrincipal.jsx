@@ -1,6 +1,5 @@
 import React from 'react';
 import Styles from './TelaPrincipal.module.css';
-import AdminComponent from '../../Components/AdminComponent';
 import UserComponent from '../../Components/UserComponent';
 import VeterinariaComponent from '../../Components/VeterinariaComponent';
 import DepartmentoComponent from '../../Components/DepartamentoComponent';

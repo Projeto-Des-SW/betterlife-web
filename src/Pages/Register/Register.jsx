@@ -4,7 +4,7 @@ import styles from "./Register.module.css";
 import logo from "../../Assets/logo.png";
 import { cpf, cnpj } from 'cpf-cnpj-validator';
 import {
-  TextField, Grid, Paper, LinearProgress
+  TextField, Grid, Paper
 } from '@material-ui/core';
 import registerService from '../../Services/Register/Register-service';
 

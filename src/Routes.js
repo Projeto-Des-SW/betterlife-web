@@ -10,7 +10,6 @@ import RedefinirSenha from './Pages/RedefinirSenha/RedefinirSenha';
 import UserProfile from './Pages/PerfilUsuario/PerfilUsuario';
 
 const PrivateRoute = ({ element, ...rest }) => {
-    console.log(dadosUserLogadoService.getUserInfo())
     const isAuthenticated = dadosUserLogadoService.getUserInfo() !== null;
     return isAuthenticated ? element : <Navigate to="/login" replace />;
 };
@@ -19,7 +18,6 @@ const PublicRoute = ({ element, ...rest }) => {
     const isAuthenticated = dadosUserLogadoService.getUserInfo() !== null;
     return !isAuthenticated ? element : <Navigate to="/telaPrincipal" replace />;
 };
-
 
 const Routes = () => (
     <BrowserRouter>
