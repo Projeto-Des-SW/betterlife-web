@@ -44,7 +44,7 @@ const RecuperarSenha = () => {
           navigate('/telaPrincipal');
         }, 2000);
       } else {
-        alert(response.error);
+        alert("Erro na conexão, por favor tente mais tarde");
       }
 
     } catch (error) {

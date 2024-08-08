@@ -8,8 +8,8 @@ class RecuperarSenhaService {
             const response = await axios.post(`${API_URL}/sendEmailReset`, email, {
                 headers: { 'Content-Type': 'application/json' }
             });
-
-            if (response.status === 201)
+            console.log(response.status)
+            if (response.status === 200 || response.status === 201)
                 return {
                     error: false,
                     data: response.data
