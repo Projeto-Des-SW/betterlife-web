@@ -13,15 +13,20 @@ const UserProfile = () => {
   const [formData, setFormData] = useState({
     email: dadosUserLogadoService.getUserInfo().email,
     nome: dadosUserLogadoService.getUserInfo().nome,
-    documento: dadosUserLogadoService.getUserInfo().documento,
+    documento: dadosUserLogadoService.getUserInfo().documento,    
     telefone: dadosUserLogadoService.getUserInfo().telefone,
-    cep: dadosUserLogadoService.getUserInfo().cep,
-    cidade: dadosUserLogadoService.getUserInfo().cidade,
-    bairro: dadosUserLogadoService.getUserInfo().bairro,
-    uf: dadosUserLogadoService.getUserInfo().uf,
-    pais: dadosUserLogadoService.getUserInfo().pais,
-    complemento: dadosUserLogadoService.getUserInfo().complemento,
-    numero: dadosUserLogadoService.getUserInfo().numero,
+    enderecoId: dadosUserLogadoService.getUserInfo().enderecoId,
+    endereco:{
+      cep: dadosUserLogadoService.getUserInfo().cep,
+      cidade: dadosUserLogadoService.getUserInfo().cidade,
+      bairro: dadosUserLogadoService.getUserInfo().bairro,
+      uf: dadosUserLogadoService.getUserInfo().uf,
+      pais: dadosUserLogadoService.getUserInfo().pais,
+      complemento: dadosUserLogadoService.getUserInfo().complemento,
+      numero: dadosUserLogadoService.getUserInfo().numero,
+      logradouro: dadosUserLogadoService.getUserInfo().logradouro,
+    }
+    
   });
   const navigate = useNavigate();
   const [showConfirmPopup, setShowConfirmPopup] = useState(false);
@@ -35,8 +40,41 @@ const UserProfile = () => {
     });
   };
 
+  const alterarDadosEndereco = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      endereco: {
+        ...prevState.endereco,
+        [name]: value
+      }
+    }));
+  };
+
+  const verificarCamposPreenchidos = (dados) => {
+    const camposObrigatorios = [
+      'email', 'nome', 'documento', 'telefone',
+      'endereco.cep', 'endereco.cidade', 'endereco.bairro', 
+      'endereco.uf', 'endereco.pais', 'endereco.logradouro'
+    ];
+
+    for (const campo of camposObrigatorios) {
+      const valor = campo.split('.').reduce((obj, chave) => obj && obj[chave], dados);
+      if (!valor) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   const editarDados = async (e) => {
     e.preventDefault();
+
+    if (!verificarCamposPreenchidos(formData)) {
+      alert('Todos os campos obrigatórios devem ser preenchidos.');
+      return;
+    }
+
     try {
       const response = await usuarioService.updateUser(JSON.stringify(formData), dadosUserLogadoService.getUserInfo().id);
 
@@ -217,10 +255,26 @@ const UserProfile = () => {
                       CEP <span style={{ color: 'red' }}>*</span>
                     </span>
                   }
-                  value={formData.cep}
-                  onChange={alterarDados}
+                  value={formData.endereco.cep}
+                  onChange={alterarDadosEndereco}
                   fullWidth
                   id="cep"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  type="text"
+                  name="logradouro"
+                  label={
+                    <span>
+                      Logradouro <span style={{ color: 'red' }}>*</span>
+                    </span>
+                  }
+                  value={formData.endereco.logradouro}
+                  onChange={alterarDadosEndereco}
+                  fullWidth
+                  id="logradouro"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -233,8 +287,8 @@ const UserProfile = () => {
                       Bairro <span style={{ color: 'red' }}>*</span>
                     </span>
                   }
-                  value={formData.bairro}
-                  onChange={alterarDados}
+                  value={formData.endereco.bairro}
+                  onChange={alterarDadosEndereco}
                   fullWidth
                   id="bairro"
                 />
@@ -249,8 +303,8 @@ const UserProfile = () => {
                       Cidade <span style={{ color: 'red' }}>*</span>
                     </span>
                   }
-                  value={formData.cidade}
-                  onChange={alterarDados}
+                  value={formData.endereco.cidade}
+                  onChange={alterarDadosEndereco}
                   fullWidth
                   id="cidade"
                 />
@@ -265,8 +319,8 @@ const UserProfile = () => {
                       UF <span style={{ color: 'red' }}>*</span>
                     </span>
                   }
-                  value={formData.uf}
-                  onChange={alterarDados}
+                  value={formData.endereco.uf}
+                  onChange={alterarDadosEndereco}
                   fullWidth
                   id="uf"
                 />
@@ -281,8 +335,8 @@ const UserProfile = () => {
                       País <span style={{ color: 'red' }}>*</span>
                     </span>
                   }
-                  value={formData.pais}
-                  onChange={alterarDados}
+                  value={formData.endereco.pais}
+                  onChange={alterarDadosEndereco}
                   fullWidth
                   id="pais"
                 />
@@ -297,8 +351,8 @@ const UserProfile = () => {
                       Número <span style={{ color: 'red' }}>*</span>
                     </span>
                   }
-                  value={formData.numero}
-                  onChange={alterarDados}
+                  value={formData.endereco.numero}
+                  onChange={alterarDadosEndereco}
                   fullWidth
                   id="numero"
                 />
@@ -313,8 +367,8 @@ const UserProfile = () => {
                       Complemento
                     </span>
                   }
-                  value={formData.complemento}
-                  onChange={alterarDados}
+                  value={formData.endereco.complemento}
+                  onChange={alterarDadosEndereco}
                   fullWidth
                   id="complemento"
                 />
