@@ -22,13 +22,13 @@ function TelaPrincipal() {
   };
 
   return (
-    <div className={Styles.TelaPrincipalContainer}>
+    <>
       <Header />
-      <div className={Styles.mainContent}>
+      <div className={Styles.ConteudoContainer}>
         <h1>Bem Vindo</h1>
         {renderContent()}
       </div>
-    </div>
+    </>
   );
 }
 
