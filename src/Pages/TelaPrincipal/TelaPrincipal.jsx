@@ -1,8 +1,8 @@
 import React from 'react';
 import Styles from './TelaPrincipal.module.css';
-import UserComponent from '../../Components/UserComponent';
-import VeterinariaComponent from '../../Components/VeterinariaComponent';
-import DepartmentoComponent from '../../Components/DepartamentoComponent';
+import UserComponent from './Components/Usuario/UserComponent';
+import VeterinariaComponent from './Components/Veterinario/VeterinariaComponent';
+import DepartmentoComponent from './Components/Departamento/DepartamentoComponent';
 import Header from '../Header/Header';
 import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
 
@@ -22,13 +22,13 @@ function TelaPrincipal() {
   };
 
   return (
-    <div className={Styles.TelaPrincipalContainer}>
+    <>
       <Header />
-      <div className={Styles.mainContent}>
+      <div className={Styles.ConteudoContainer}>
         <h1>Bem Vindo</h1>
         {renderContent()}
       </div>
-    </div>
+    </>
   );
 }
 

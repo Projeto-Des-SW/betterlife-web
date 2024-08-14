@@ -8,6 +8,7 @@ import RecuperarSenha from './Pages/RecuperarSenha/RecuperarSenha';
 import TelaPrincipal from './Pages/TelaPrincipal/TelaPrincipal';
 import RedefinirSenha from './Pages/RedefinirSenha/RedefinirSenha';
 import UserProfile from './Pages/PerfilUsuario/PerfilUsuario';
+import Taxonomia from './Pages/Taxonomia/Taxonomia';
 
 const PrivateRoute = ({ element, ...rest }) => {
     const isAuthenticated = dadosUserLogadoService.getUserInfo() !== null;
@@ -33,6 +34,7 @@ const Routes = () => (
         {/* Rotas Privadas */}
         <Route path='/telaPrincipal' element={<PrivateRoute element={<TelaPrincipal />} />} />
         <Route path='/perfil' element={<PrivateRoute element={<UserProfile />} />} />
+        <Route path='/taxonomia' element={<PrivateRoute element={<Taxonomia />} />} />
       </RouterRoutes>
     </BrowserRouter>
 );
