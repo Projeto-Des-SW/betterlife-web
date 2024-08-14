@@ -1,8 +1,8 @@
 import React from 'react';
 import Styles from './TelaPrincipal.module.css';
-import UserComponent from '../../Components/UserComponent';
-import VeterinariaComponent from '../../Components/VeterinariaComponent';
-import DepartmentoComponent from '../../Components/DepartamentoComponent';
+import UserComponent from './Components/Usuario/UserComponent';
+import VeterinariaComponent from './Components/Veterinario/VeterinariaComponent';
+import DepartmentoComponent from './Components/Departamento/DepartamentoComponent';
 import Header from '../Header/Header';
 import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
 

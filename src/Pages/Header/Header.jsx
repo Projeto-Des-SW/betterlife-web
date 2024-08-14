@@ -19,7 +19,7 @@ const Header = () => {
 
   return (
     <div className={Styles.headerContainer}>
-      <h1 className={Styles.title}>Betterlife</h1>
+      <h1 className={Styles.title}>Betterlife | {dadosUserLogadoService.getUserInfo().tipousuario}</h1>
       <div className={Styles.iconContainer}>
         <FaUserCircle className={Styles.profileIcon} onClick={goToProfile} />
         <IoMdExit className={Styles.profileIcon} onClick={realizarLogout} />
