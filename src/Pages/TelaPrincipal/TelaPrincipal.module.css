@@ -2,6 +2,7 @@
   background-color: #1C4839;
   color: white;
   min-height: 100vh;
+  min-width: 100vh;
   padding: 30px;
   margin-top: 30px;
 }
