@@ -9,6 +9,7 @@ import TelaPrincipal from './Pages/TelaPrincipal/TelaPrincipal';
 import RedefinirSenha from './Pages/RedefinirSenha/RedefinirSenha';
 import UserProfile from './Pages/PerfilUsuario/PerfilUsuario';
 import Taxonomia from './Pages/Taxonomia/Taxonomia';
+import RegisterAnimal from './Pages/RegisterAnimal/RegisterAnimal';
 
 const PrivateRoute = ({ element, ...rest }) => {
     const isAuthenticated = dadosUserLogadoService.getUserInfo() !== null;
@@ -30,6 +31,7 @@ const Routes = () => (
         <Route path='/register' element={<PublicRoute element={<Register />} />} />
         <Route path='/recuperarSenha' element={<PublicRoute element={<RecuperarSenha />} />} />
         <Route path='/redefinirSenha' element={<PublicRoute element={<RedefinirSenha />} />} />
+        <Route path='/registerAnimal' element={<PublicRoute element={<RegisterAnimal/>} />} />
         
         {/* Rotas Privadas */}
         <Route path='/telaPrincipal' element={<PrivateRoute element={<TelaPrincipal />} />} />
