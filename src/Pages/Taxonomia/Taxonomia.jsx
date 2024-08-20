@@ -2,20 +2,30 @@ import React, { useState, useEffect } from 'react';
 import Styles from './Taxonomia.module.css';
 import Header from '../Header/Header';
 import { useNavigate } from 'react-router-dom';
-import IconButton from '@material-ui/core/IconButton';
 import {
     TextField, Grid, Paper, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@material-ui/core';
-import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import taxonomiaService from '../../Services/Taxonomia/Taxonomia-service';
 
 function Taxonomia() {
     const navigate = useNavigate();
     const [abrirModalCadastro, setAbrirModalCadastro] = useState(false);
+    const [abrirModalEdicao, setAbrirModalEdicao] = useState(false);
+    const [abrirModalDeletar, setAbrirModalDeletar] = useState(false);
     const [idTaxonomia, setIdTaxonomia] = useState('');
     const [taxonomias, setTaxonomias] = useState([]);
     const [tableKey, setTableKey] = useState(0);
-    const [formData, setFormData] = useState({
+    const [formDataCadastro, setFormDataCadastro] = useState({
+        classe: '',
+        ordem: '',
+        subordem: '',
+        filo: '',
+        reino: '',
+    });
+    const [formDataEdicao, setFormDataEdicao] = useState({
         classe: '',
         ordem: '',
         subordem: '',
@@ -23,10 +33,18 @@ function Taxonomia() {
         reino: '',
     });
 
-    const alterarDados = (e) => {
+    const alterarDadosCadastro = (e) => {
         const { id, value } = e.target;
-        setFormData({
-            ...formData,
+        setFormDataCadastro({
+            ...formDataCadastro,
+            [id]: value
+        });
+    };
+
+    const alterarDadosEdicao = (e) => {
+        const { id, value } = e.target;
+        setFormDataEdicao({
+            ...formDataEdicao,
             [id]: value
         });
     };
@@ -45,19 +63,54 @@ function Taxonomia() {
         return true;
     };
 
+    const listarTaxonomias = async () => {
+        try {
+            const response = await taxonomiaService.listarTaxonomias();
+
+            if (response.error === false) {
+                setTaxonomias(response.data);
+            } else {
+                alert(response.message);
+            }
+
+        } catch (error) {
+            alert(error.message || 'Erro ao listar taxonomias');
+        }
+    };
+
     const cadastrarTaxonomia = async () => {
-        if (!verificarCamposPreenchidos(formData)) {
+        if (!verificarCamposPreenchidos(formDataCadastro)) {
             alert('Todos os campos obrigatórios devem ser preenchidos.');
             return;
         }
 
         try {
-            const response = await taxonomiaService.criarTaxonomia(JSON.stringify(formData));
+            const response = await taxonomiaService.criarTaxonomia(JSON.stringify(formDataCadastro));
+
+            if (response.error === false) {
+                alert('Taxonomia criada com sucesso!');
+                fecharModalCadastro();
+                listarTaxonomias();
+            }
+
+        } catch (error) {
+            alert(error.message || 'Erro ao criar taxonomia');
+        }
+    };
+
+    const editarDados = async () => {
+        if (!verificarCamposPreenchidos(formDataEdicao)) {
+            alert('Todos os campos obrigatórios devem ser preenchidos.');
+            return;
+        }
+
+        try {
+            const response = await taxonomiaService.editarTaxonomia(idTaxonomia, JSON.stringify(formDataEdicao));
 
             if (response.error === false) {
                 alert('Taxonomia editada com sucesso!');
-                await localStorage.setItem('userInfo', JSON.stringify(response.data));
-                window.location.reload();
+                fecharModalEdicao();
+                listarTaxonomias();
             }
 
         } catch (error) {
@@ -65,51 +118,68 @@ function Taxonomia() {
         }
     };
 
-    // const editarDados = async () => {
-    //     if (!verificarCamposPreenchidos(formData)) {
-    //         alert('Todos os campos obrigatórios devem ser preenchidos.');
-    //         return;
-    //     }
+    const deletarTaxonomia = async () => {
+        try {
+            const response = await taxonomiaService.deletarTaxonomia(idTaxonomia);
 
-    //     try {
-    //         const response = await taxonomiaService.editarTaxonomia(JSON.stringify(formData));
-
-    //         if (response.error === false) {
-    //             alert('Taxonomia editada com sucesso!');
-    //             await localStorage.setItem('userInfo', JSON.stringify(response.data));
-    //             window.location.reload();
-    //         }
-
-    //     } catch (error) {
-    //         alert(error.message || 'Erro ao editar taxonomia');
-    //     }
-    // };
-
-    // const deletarTaxonomia = async () => {
-    //     try {
-    //         const response = await taxonomiaService.deletarTaxonomia(idTaxonomia);
-
-    //         if (response.error === false) {
-    //             alert('Taxonomia deletada com sucesso!');
-    //             dadosUserLogadoService.logOut();
-    //             navigate('/login');
-    //         } else {
-    //             alert(response.message)
-    //         }
-    //     } catch (error) {
-    //         alert(error.message || 'Erro ao deletar taxonomia');
-    //     } finally {
-    //         setShowConfirmPopup(false);
-    //         setPassword('');
-    //     }
-    // }
+            if (response.error === false) {
+                alert('Taxonomia deletada com sucesso!');
+                setAbrirModalDeletar(false);
+                listarTaxonomias();
+            } else {
+                alert(response.message);
+            }
+        } catch (error) {
+            alert(error.message || 'Erro ao deletar taxonomia');
+        }
+    }
 
     const handleBack = () => {
         navigate('/telaPrincipal');
     };
 
+    const abrirDialogEdicao = (taxonomia) => {
+        setIdTaxonomia(taxonomia.id);
+        setFormDataEdicao({
+            classe: taxonomia.classe,
+            ordem: taxonomia.ordem,
+            subordem: taxonomia.subordem,
+            filo: taxonomia.filo,
+            reino: taxonomia.reino,
+        });
+        setAbrirModalEdicao(true);
+    };
+
+    const abrirDialogDeletar = (taxonomia) => {
+        setIdTaxonomia(taxonomia.id);
+        setAbrirModalDeletar(true);
+    };
+
+    const fecharModalCadastro = () => {
+        setAbrirModalCadastro(false);
+        setFormDataCadastro({
+            classe: '',
+            ordem: '',
+            subordem: '',
+            filo: '',
+            reino: '',
+        });
+    };
+
+    const fecharModalEdicao = () => {
+        setAbrirModalEdicao(false);
+        setFormDataEdicao({
+            classe: '',
+            ordem: '',
+            subordem: '',
+            filo: '',
+            reino: '',
+        });
+    };
+
     useEffect(() => {
-        setTableKey(tableKey + 1)
+        listarTaxonomias();
+        setTableKey(tableKey + 1);
     }, []);
 
     return (
@@ -119,7 +189,7 @@ function Taxonomia() {
             <Dialog
                 aria-labelledby="customized-dialog-title"
                 open={abrirModalCadastro}
-                onClose={() => setAbrirModalCadastro(false)}
+                onClose={fecharModalCadastro}
                 style={{ marginTop: 35, marginBottom: 10 }}
                 disableBackdropClick
                 fullWidth
@@ -131,7 +201,7 @@ function Taxonomia() {
                             Criar Taxonomia
                         </Grid>
                         <Grid item xs={2} sm={1}>
-                            <IconButton onClick={() => setAbrirModalCadastro(false)}>
+                            <IconButton onClick={fecharModalCadastro}>
                                 x
                             </IconButton>
                         </Grid>
@@ -149,8 +219,8 @@ function Taxonomia() {
                                 label={<span>Classe <span style={{ color: 'red' }}> *</span></span>}
                                 type="text"
                                 placeholder='Classe'
-                                value={formData.classe}
-                                onChange={alterarDados}
+                                value={formDataCadastro.classe}
+                                onChange={alterarDadosCadastro}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -168,8 +238,8 @@ function Taxonomia() {
                                 label={<span>Ordem <span style={{ color: 'red' }}> *</span></span>}
                                 type="text"
                                 placeholder='Ordem'
-                                value={formData.ordem}
-                                onChange={alterarDados}
+                                value={formDataCadastro.ordem}
+                                onChange={alterarDadosCadastro}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -187,8 +257,8 @@ function Taxonomia() {
                                 label={<span>Subordem <span style={{ color: 'red' }}> *</span></span>}
                                 type="text"
                                 placeholder='Subordem'
-                                value={formData.subordem}
-                                onChange={alterarDados}
+                                value={formDataCadastro.subordem}
+                                onChange={alterarDadosCadastro}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -206,8 +276,8 @@ function Taxonomia() {
                                 label={<span>Filo <span style={{ color: 'red' }}> *</span></span>}
                                 type="text"
                                 placeholder='Filo'
-                                value={formData.filo}
-                                onChange={alterarDados}
+                                value={formDataCadastro.filo}
+                                onChange={alterarDadosCadastro}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -225,8 +295,8 @@ function Taxonomia() {
                                 label={<span>Reino <span style={{ color: 'red' }}> *</span></span>}
                                 type="text"
                                 placeholder='Reino'
-                                value={formData.reino}
-                                onChange={alterarDados}
+                                value={formDataCadastro.reino}
+                                onChange={alterarDadosCadastro}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -237,8 +307,166 @@ function Taxonomia() {
                     </Grid>
                 </DialogContent>
                 <DialogActions style={{ justifyContent: 'space-around' }}>
-                    <button type="button" className={Styles.CriarTaxonomiaButton} onClick={() => setAbrirModalCadastro(false)}>Cancelar</button>
-                    <button type="button" className={Styles.CriarTaxonomiaButton} onClick={() => cadastrarTaxonomia()}>Criar</button>
+                    <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="secondary" onClick={fecharModalCadastro}>Cancelar</button>
+                    <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="primary" onClick={cadastrarTaxonomia}>Criar</button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog
+                aria-labelledby="customized-dialog-title"
+                open={abrirModalEdicao}
+                onClose={fecharModalEdicao}
+                style={{ marginTop: 35, marginBottom: 10 }}
+                disableBackdropClick
+                fullWidth
+                maxWidth="sm"
+            >
+                <DialogTitle>
+                    <Grid container alignItems="center">
+                        <Grid item xs={10} sm={11}>
+                            Editar Taxonomia
+                        </Grid>
+                        <Grid item xs={2} sm={1}>
+                            <IconButton onClick={fecharModalEdicao}>
+                                x
+                            </IconButton>
+                        </Grid>
+                    </Grid>
+                </DialogTitle>
+                <DialogContent dividers>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12}>
+                            <DialogContentText>
+                                Informe a classe:
+                            </DialogContentText>
+                            <TextField
+                                id="classe"
+                                name="classe"
+                                label={<span>Classe <span style={{ color: 'red' }}> *</span></span>}
+                                type="text"
+                                placeholder='Classe'
+                                value={formDataEdicao.classe}
+                                onChange={alterarDadosEdicao}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                variant="outlined"
+                                fullWidth
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <DialogContentText>
+                                Informe a ordem:
+                            </DialogContentText>
+                            <TextField
+                                id="ordem"
+                                name="ordem"
+                                label={<span>Ordem <span style={{ color: 'red' }}> *</span></span>}
+                                type="text"
+                                placeholder='Ordem'
+                                value={formDataEdicao.ordem}
+                                onChange={alterarDadosEdicao}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                variant="outlined"
+                                fullWidth
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <DialogContentText>
+                                Informe a subordem:
+                            </DialogContentText>
+                            <TextField
+                                id="subordem"
+                                name="subordem"
+                                label={<span>Subordem <span style={{ color: 'red' }}> *</span></span>}
+                                type="text"
+                                placeholder='Subordem'
+                                value={formDataEdicao.subordem}
+                                onChange={alterarDadosEdicao}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                variant="outlined"
+                                fullWidth
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <DialogContentText>
+                                Informe o filo:
+                            </DialogContentText>
+                            <TextField
+                                id="filo"
+                                name="filo"
+                                label={<span>Filo <span style={{ color: 'red' }}> *</span></span>}
+                                type="text"
+                                placeholder='Filo'
+                                value={formDataEdicao.filo}
+                                onChange={alterarDadosEdicao}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                variant="outlined"
+                                fullWidth
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <DialogContentText>
+                                Informe o reino:
+                            </DialogContentText>
+                            <TextField
+                                id="reino"
+                                name="reino"
+                                label={<span>Reino <span style={{ color: 'red' }}> *</span></span>}
+                                type="text"
+                                placeholder='Reino'
+                                value={formDataEdicao.reino}
+                                onChange={alterarDadosEdicao}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                variant="outlined"
+                                fullWidth
+                            />
+                        </Grid>
+                    </Grid>
+                </DialogContent>
+                <DialogActions style={{ justifyContent: 'space-around' }}>
+                    <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="secondary" onClick={fecharModalEdicao}>Cancelar</button>
+                    <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="primary" onClick={editarDados}>Salvar</button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog
+                aria-labelledby="customized-dialog-title"
+                open={abrirModalDeletar}
+                onClose={() => setAbrirModalDeletar(false)}
+                style={{ marginTop: 35, marginBottom: 10 }}
+                disableBackdropClick
+                fullWidth
+                maxWidth="sm"
+            >
+                <DialogTitle>
+                    <Grid container alignItems="center">
+                        <Grid item xs={10} sm={11}>
+                            Deletar Taxonomia
+                        </Grid>
+                        <Grid item xs={2} sm={1}>
+                            <IconButton onClick={() => setAbrirModalDeletar(false)}>
+                                x
+                            </IconButton>
+                        </Grid>
+                    </Grid>
+                </DialogTitle>
+                <DialogContent dividers>
+                    <DialogContentText>
+                        Tem certeza que deseja deletar essa taxonomia?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions style={{ justifyContent: 'space-around' }}>
+                    <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="secondary" onClick={() => setAbrirModalDeletar(false)}>Cancelar</button>
+                    <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="primary" onClick={deletarTaxonomia}>Deletar</button>
                 </DialogActions>
             </Dialog>
 
@@ -258,6 +486,7 @@ function Taxonomia() {
                                         <TableCell>Subordem</TableCell>
                                         <TableCell>Filo</TableCell>
                                         <TableCell>Reino</TableCell>
+                                        <TableCell>Ações</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -268,6 +497,14 @@ function Taxonomia() {
                                             <TableCell>{taxonomia.subordem}</TableCell>
                                             <TableCell>{taxonomia.filo}</TableCell>
                                             <TableCell>{taxonomia.reino}</TableCell>
+                                            <TableCell>
+                                                <IconButton onClick={() => abrirDialogEdicao(taxonomia)}>
+                                                    <EditIcon />
+                                                </IconButton>
+                                                <IconButton onClick={() => abrirDialogDeletar(taxonomia)} color="secondary">
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -277,7 +514,7 @@ function Taxonomia() {
                 </Paper>
 
                 <div className={Styles.buttonContainerVoltar}>
-                    <button type="button" className={Styles.CriarTaxonomiaButton} onClick={handleBack}>Voltar</button>
+                    <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="default" onClick={handleBack}>Voltar</button>
                 </div>
             </div>
         </>
