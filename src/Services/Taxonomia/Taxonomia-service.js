@@ -5,11 +5,10 @@ const API_URL = 'http://localhost:4000/api';
 class TaxonomiaService {
     async listarTaxonomias() {
         try {
-            const response = await axios.get(`${API_URL}/sendEmailReset`, {
+            const response = await axios.get(`${API_URL}/getAllTaxonomia`, {
                 headers: { 'Content-Type': 'application/json' }
             });
-            console.log(response.status)
-            if (response.status === 200 || response.status === 201)
+            if (response.status === 200)
                 return {
                     error: false,
                     data: response.data
@@ -29,8 +28,7 @@ class TaxonomiaService {
             const response = await axios.post(`${API_URL}/taxonomia`, dados, {
                 headers: { 'Content-Type': 'application/json' }
             });
-            console.log(response.status)
-            if (response.status === 200 || response.status === 201)
+            if (response.status === 200)
                 return {
                     error: false,
                     data: response.data
@@ -45,13 +43,12 @@ class TaxonomiaService {
         }
     };
 
-    async editarTaxonomia(dados) {
+    async editarTaxonomia(idTaxonomia, dados) {
         try {
-            const response = await axios.put(`${API_URL}/sendEmailReset`, dados, {
+            const response = await axios.put(`${API_URL}/updateTaxonomia/${idTaxonomia}`, dados, {
                 headers: { 'Content-Type': 'application/json' }
             });
-            console.log(response.status)
-            if (response.status === 200 || response.status === 201)
+            if (response.status === 200)
                 return {
                     error: false,
                     data: response.data
@@ -68,11 +65,10 @@ class TaxonomiaService {
 
     async deletarTaxonomia(idTaxonomia) {
         try {
-            const response = await axios.put(`${API_URL}/sendEmailReset/${idTaxonomia}`, {
+            const response = await axios.put(`${API_URL}/deleteTaxonomia/${idTaxonomia}`, {
                 headers: { 'Content-Type': 'application/json' }
             });
-            console.log(response.status)
-            if (response.status === 200 || response.status === 201)
+            if (response.status === 200)
                 return {
                     error: false,
                     data: response.data
