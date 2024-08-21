@@ -9,6 +9,7 @@ import TelaPrincipal from './Pages/TelaPrincipal/TelaPrincipal';
 import RedefinirSenha from './Pages/RedefinirSenha/RedefinirSenha';
 import UserProfile from './Pages/PerfilUsuario/PerfilUsuario';
 import Taxonomia from './Pages/Taxonomia/Taxonomia';
+import RegisterAnimal from './Pages/RegisterAnimal/RegisterAnimal';
 
 const PrivateRoute = ({ element, ...rest }) => {
     const isAuthenticated = dadosUserLogadoService.getUserInfo() !== null;
@@ -35,6 +36,7 @@ const Routes = () => (
         <Route path='/telaPrincipal' element={<PrivateRoute element={<TelaPrincipal />} />} />
         <Route path='/perfil' element={<PrivateRoute element={<UserProfile />} />} />
         <Route path='/taxonomia' element={<PrivateRoute element={<Taxonomia />} />} />
+        <Route path='/registerAnimal' element={<PrivateRoute element={<RegisterAnimal/>} />} />
       </RouterRoutes>
     </BrowserRouter>
 );

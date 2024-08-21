@@ -17,7 +17,6 @@ function Taxonomia() {
     const [abrirModalDeletar, setAbrirModalDeletar] = useState(false);
     const [idTaxonomia, setIdTaxonomia] = useState('');
     const [taxonomias, setTaxonomias] = useState([]);
-    const [tableKey, setTableKey] = useState(0);
     const [formDataCadastro, setFormDataCadastro] = useState({
         classe: '',
         ordem: '',
@@ -179,7 +178,6 @@ function Taxonomia() {
 
     useEffect(() => {
         listarTaxonomias();
-        setTableKey(tableKey + 1);
     }, []);
 
     return (
@@ -476,7 +474,7 @@ function Taxonomia() {
                     <div className={Styles.buttonContaineCriar}>
                         <button type="button" className={Styles.CriarTaxonomiaButton} onClick={() => setAbrirModalCadastro(true)}>Criar Taxonomia</button>
                     </div>
-                    <div key={tableKey} style={{ marginBottom: '16px', overflowX: 'auto' }}>
+                    <div style={{ marginBottom: '16px', overflowX: 'auto' }}>
                         <TableContainer component={Paper} style={{ marginTop: '20px' }}>
                             <Table>
                                 <TableHead>

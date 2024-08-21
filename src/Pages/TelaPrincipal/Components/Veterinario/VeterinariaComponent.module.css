@@ -12,7 +12,7 @@
     margin-top: 20px;
 }
 
-.TaxonomiaButton {
+.VeterinarioButton {
     padding: 15px 30px;
     font-size: 18px;
     border-radius: 10px;
@@ -22,12 +22,12 @@
     align-items: center;
 }
 
-.TaxonomiaButton {
+.VeterinarioButton {
     background-color: #FF9113;
     color: #fff;
     border: none;
 }
 
-.TaxonomiaButton:hover {
+.VeterinarioButton:hover {
     background-color: #E68010;
 }

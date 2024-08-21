@@ -1,0 +1,176 @@
+.ConteudoContainer {
+    background-color: #1C4839;
+    color: white;
+    min-height: 100vh;
+    padding: 30px;
+    margin-top: 30px;
+}
+
+.paper {
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid #ccc;
+    border-radius: 30px !important;
+}
+
+.title {
+    text-align: center;
+    padding: 20px;
+}
+
+
+.registerHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.registerHeader .logo {
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+.registerHeader h2 {
+    margin: 10px 0;
+}
+
+@media (max-width: 600px) {
+    .registerHeader {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .registerHeader .logo {
+        margin-bottom: 5px;
+    }
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    background-color: white;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.tabs button {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    background-color: #FF9113;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 2px;
+}
+
+.tabs button.activeTab {
+    background-color: #1C4839;
+    color: white;
+}
+
+.tabs button:not(.activeTab):hover {
+    background-color: #E68010;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.formGroup label {
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.formGroup input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.userTypePrompt {
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.submitButton {
+    padding: 10px;
+    background-color: #FF9113;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.submitButton:hover {
+    background-color: #E68010;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.imageUploadContainer {
+    position: relative;
+    width: 180px;
+    height: 240px;
+    background-color: #e0e0e0;
+    border: 2px dashed #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    margin: auto;
+}
+
+.imageUploadContainer:hover {
+    background-color: #d5d5d5;
+}
+
+.imageUploadContainer::before {
+    content: "+";
+    font-size: 48px;
+    color: #999;
+}
+
+.imageUploadInput {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.VoltarButton {
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.VoltarButton {
+    background-color: #FF9113;
+    color: #fff;
+    border: none;
+}
+
+.VoltarButton:hover {
+    background-color: #E68010;
+}
