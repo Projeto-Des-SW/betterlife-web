@@ -16,11 +16,11 @@
 
 .paper {
   padding: 20px;
-  margin: 20px;
+  margin-top: 50px;
   border: 1px solid #ccc;
   border-radius: 30px !important;
   width: 100%;
-  max-width: 1000px;
+  max-width: 800px;
 }
 
 .title {
@@ -34,6 +34,7 @@
 }
 
 .buttonContainer { 
+  margin-top: 20px;
   display: flex;
   justify-content: space-evenly;
   width: 100%;
