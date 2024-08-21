@@ -31,12 +31,12 @@ const Routes = () => (
         <Route path='/register' element={<PublicRoute element={<Register />} />} />
         <Route path='/recuperarSenha' element={<PublicRoute element={<RecuperarSenha />} />} />
         <Route path='/redefinirSenha' element={<PublicRoute element={<RedefinirSenha />} />} />
-        <Route path='/registerAnimal' element={<PublicRoute element={<RegisterAnimal/>} />} />
         
         {/* Rotas Privadas */}
         <Route path='/telaPrincipal' element={<PrivateRoute element={<TelaPrincipal />} />} />
         <Route path='/perfil' element={<PrivateRoute element={<UserProfile />} />} />
         <Route path='/taxonomia' element={<PrivateRoute element={<Taxonomia />} />} />
+        <Route path='/registerAnimal' element={<PrivateRoute element={<RegisterAnimal/>} />} />
       </RouterRoutes>
     </BrowserRouter>
 );
