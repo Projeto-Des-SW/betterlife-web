@@ -7,9 +7,9 @@ import Header from '../Header/Header';
 import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
 
 function TelaPrincipal() {
-
   const renderContent = () => {
-    switch (dadosUserLogadoService.getUserInfo().tipousuario) {
+    const userType = dadosUserLogadoService.getUserInfo().tipousuario;
+    switch (userType) {
       case 'Usuário Comum':
         return <UserComponent />;
       case 'Veterinário':
@@ -17,10 +17,10 @@ function TelaPrincipal() {
       case 'Departamento':
         return <DepartmentoComponent />;
       default:
-        return <div>Tipo de usuário desconhecido</div>;
+        return <div>Bem-vindo ao sistema, estamos processando seu acesso...</div>;
     }
   };
-
+  
   return (
     <>
       <Header />
