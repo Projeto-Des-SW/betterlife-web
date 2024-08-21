@@ -13,10 +13,10 @@ const UserProfile = () => {
   const [formData, setFormData] = useState({
     email: dadosUserLogadoService.getUserInfo().email,
     nome: dadosUserLogadoService.getUserInfo().nome,
-    documento: dadosUserLogadoService.getUserInfo().documento,    
+    documento: dadosUserLogadoService.getUserInfo().documento,
     telefone: dadosUserLogadoService.getUserInfo().telefone,
     enderecoId: dadosUserLogadoService.getUserInfo().enderecoId,
-    endereco:{
+    endereco: {
       cep: dadosUserLogadoService.getUserInfo().cep,
       cidade: dadosUserLogadoService.getUserInfo().cidade,
       bairro: dadosUserLogadoService.getUserInfo().bairro,
@@ -26,7 +26,7 @@ const UserProfile = () => {
       numero: dadosUserLogadoService.getUserInfo().numero,
       logradouro: dadosUserLogadoService.getUserInfo().logradouro,
     }
-    
+
   });
   const navigate = useNavigate();
   const [showConfirmPopup, setShowConfirmPopup] = useState(false);
@@ -54,7 +54,7 @@ const UserProfile = () => {
   const verificarCamposPreenchidos = (dados) => {
     const camposObrigatorios = [
       'email', 'nome', 'documento', 'telefone',
-      'endereco.cep', 'endereco.cidade', 'endereco.bairro', 
+      'endereco.cep', 'endereco.cidade', 'endereco.bairro',
       'endereco.uf', 'endereco.pais', 'endereco.logradouro'
     ];
 
@@ -378,11 +378,12 @@ const UserProfile = () => {
           <div className={Styles.buttonContainer}>
             <button type="button" className={Styles.BackButton} onClick={() => setShowConfirmPopup(true)}>Deletar Conta</button>
             <button type="submit" className={Styles.SaveButton}>Salvar</button>
-            <button type="button" className={Styles.BackButton} onClick={handleBack}>Voltar</button>
           </div>
         </form>
       </Paper>
-
+      <div className={Styles.buttonContainer}>
+        <button type="button" className={Styles.BackButton} onClick={handleBack}>Voltar</button>
+      </div>
     </div>
   );
 }
