@@ -12,11 +12,16 @@ function VeterinariaComponent() {
     navigate('/taxonomia');
   };
 
+  const AnimalPage = () => {
+    navigate('/registerAnimal');
+  };
+
   return (
     <>
       <Paper className={Styles.paper}>
         <div className={Styles.buttonContainer}>
-          <button type="button" className={Styles.TaxonomiaButton} onClick={() => TaxonomiaPage()}>Taxonomia</button>
+          <button type="button" className={Styles.VeterinarioButton} onClick={() => TaxonomiaPage()}>Taxonomia</button>
+          <button type="button" className={Styles.VeterinarioButton} onClick={() => AnimalPage()}>Cadastrar Animal</button>
         </div>
       </Paper>
     </>
