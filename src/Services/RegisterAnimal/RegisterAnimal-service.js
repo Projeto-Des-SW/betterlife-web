@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { HiOutlineClipboardDocumentList } from 'react-icons/hi2';
 
 const API_URL = 'http://localhost:4000/api';
 
@@ -10,7 +9,7 @@ class RegisterAnimalService{
                 headers: { 'Content-Type': 'application/json' }
             });
 
-            if(response.status === 200 || response.status === 201)
+            if(response.status === 200)
                 return {
                     error: false,
                     data: response.data
