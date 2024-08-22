@@ -41,8 +41,6 @@ const RegisterAnimal = () => {
 
   const trataBaseImg = (img) => img.replace(/^data:image\/[a-z]+;base64,/, '');
 
-  const reverterBaseImg = (img) => `data:image/png;base64,${img}`;
-
   const validaImagem = (tipo) => {
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/jpe', 'image/png', 'image/bmp'];
     return allowedTypes.includes(tipo);
