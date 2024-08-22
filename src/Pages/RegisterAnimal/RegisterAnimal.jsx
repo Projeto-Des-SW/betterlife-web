@@ -8,16 +8,19 @@ import registerAnimalService from '../../Services/RegisterAnimal/RegisterAnimal-
 import Header from '../Header/Header';
 import taxonomiaService from '../../Services/Taxonomia/Taxonomia-service';
 import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
-import { useRef } from 'react';
 import imagemService from '../../Services/Imagem/Imagem-service';
+import somService from '../../Services/Som/Som-service';
 
 const RegisterAnimal = () => {
   const navigate = useNavigate();
   const [taxonomias, setTaxonomias] = useState([]);
   const [taxonomiaNome, setTaxonomiaNome] = useState([]);
-  const [som, setSom] = useState(null);
   const [fotosInput, setFotosInput] = useState({
     arquivofoto: null,
+    nomearquivo: null,
+  });
+  const [somInput, setSomInput] = useState({
+    arquivosom: null,
     nomearquivo: null,
   });
   const [dadosCadastro, setDadosCadastro] = useState({
@@ -30,10 +33,12 @@ const RegisterAnimal = () => {
     observacaodaespecie: '',
     usuarioid: dadosUserLogadoService.getUserInfo().id,
     imagemid: '',
-    somid: 1,
+    somid: '',
     taxonomiaid: '',
   });
+
   const MAX_SIZE_IMG = 1024 * 1024 * 5;
+  const MAX_SIZE_AUDIO = 1024 * 1024 * 6;
 
   const handleBack = () => {
     navigate('/telaPrincipal');
@@ -41,14 +46,48 @@ const RegisterAnimal = () => {
 
   const trataBaseImg = (img) => img.replace(/^data:image\/[a-z]+;base64,/, '');
 
+  const trataBaseSom = (som) => som.replace(/^data:audio\/[a-z]+;base64,/, '');
+
   const validaImagem = (tipo) => {
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/jpe', 'image/png', 'image/bmp'];
     return allowedTypes.includes(tipo);
   };
 
+  const validaSom = (tipo) => {
+    const allowedTypes = ['audio/mp3', 'audio/wav', 'audio/ogg', 'audio/mpeg'];
+    return allowedTypes.includes(tipo);
+  };
+
+  const adicionarSom = async (file) => {
+    if (file?.size > MAX_SIZE_AUDIO) {
+      alert('O tamanho do som não pode ser maior que 6 MB!');
+      document.getElementById('somAnimal').value = '';
+      return;
+    }
+
+    if (file && validaSom(file.type)) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        setSomInput({
+          arquivosom: trataBaseSom(reader.result),
+          nomearquivo: file.name,
+        });
+      };
+    } else {
+      alert('Formato de som inválido, anexe arquivos do tipo .mp3, .wav, .ogg ou .mpeg!');
+      document.getElementById('somAnimal').value = '';
+      setSomInput({
+        arquivosom: null,
+        nomearquivo: null,
+      });
+    }
+  };
+
   const adicionarFoto = async (file) => {
     if (file?.size > MAX_SIZE_IMG) {
       alert('O tamanho da imagem não pode ser maior que 5 MB!');
+      document.getElementById('imagemAnimal').value = '';
       return;
     }
 
@@ -63,6 +102,7 @@ const RegisterAnimal = () => {
       };
     } else {
       alert('Formato de imagem inválido, anexe imagens do tipo .jpe, .jpg, .jpeg, .png ou .bmp!');
+      document.getElementById('imagemAnimal').value = '';
       setFotosInput({
         arquivofoto: null,
         nomearquivo: null,
@@ -87,29 +127,36 @@ const RegisterAnimal = () => {
 
   const submeter = async (e) => {
     e.preventDefault();
-    if (!dadosCadastro.descricao || !dadosCadastro.nome || !dadosCadastro.nomecientifico || !dadosCadastro.sexo || !dadosCadastro.peso || !dadosCadastro.idade || !dadosCadastro.observacaodaespecie || !dadosCadastro.usuarioid || !dadosCadastro.somid || !dadosCadastro.taxonomiaid) {
+    if (!dadosCadastro.descricao || !dadosCadastro.nome || !dadosCadastro.nomecientifico || !dadosCadastro.sexo || !dadosCadastro.peso || !dadosCadastro.idade || !dadosCadastro.observacaodaespecie || !dadosCadastro.usuarioid || !dadosCadastro.taxonomiaid) {
       alert('Todos os campos de cadastro são obrigatórios.');
-      return
+      return;
     }
 
     try {
-      const dados = {
+      const dadosImagem = {
         ...fotosInput,
-      }
+      };
 
-      const responseImagem = await imagemService.criarImagemAnimal(JSON.stringify(dados));
+      const dadosSom = {
+        ...somInput,
+      };
 
-      if (responseImagem.error === false) {
+      const responseSom = await somService.criarSomAnimal(JSON.stringify(dadosSom));
+      const responseImagem = await imagemService.criarImagemAnimal(JSON.stringify(dadosImagem));
+
+      if (responseImagem.error === false && responseSom.error === false) {
         const dadosAnimal = {
           ...dadosCadastro,
-        }
+          somid: responseSom.data.id,
+          imagemid: responseImagem.data.id,
+        };
 
         const responseAnimal = await registerAnimalService.registerAnimal(JSON.stringify(dadosAnimal));
         if (responseAnimal.error === false) {
-          alert('Animal cadastrado com sucesso!')
+          alert('Animal cadastrado com sucesso!');
           setTimeout(() => {
-            navigate('/telaPrincipal')
-          }, 2000)
+            navigate('/telaPrincipal');
+          }, 2000);
         }
       }
     } catch (error) {
@@ -326,7 +373,7 @@ const RegisterAnimal = () => {
                     id="somAnimal"
                     name="somAnimal"
                     accept="audio/*"
-                    onChange={(e) => setSom(e.target.files[0])}
+                    onChange={(e) => adicionarSom(e.target.files[0])}
                     style={{
                       display: 'block',
                       maxWidth: '100%',
