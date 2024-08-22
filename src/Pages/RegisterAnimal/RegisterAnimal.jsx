@@ -87,6 +87,7 @@ const RegisterAnimal = () => {
   const adicionarFoto = async (file) => {
     if (file?.size > MAX_SIZE_IMG) {
       alert('O tamanho da imagem não pode ser maior que 5 MB!');
+      document.getElementById('imagemAnimal').value = '';
       return;
     }
 
@@ -101,6 +102,7 @@ const RegisterAnimal = () => {
       };
     } else {
       alert('Formato de imagem inválido, anexe imagens do tipo .jpe, .jpg, .jpeg, .png ou .bmp!');
+      document.getElementById('imagemAnimal').value = '';
       setFotosInput({
         arquivofoto: null,
         nomearquivo: null,
