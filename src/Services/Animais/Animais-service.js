@@ -5,7 +5,7 @@ const API_URL = 'http://localhost:4000/api';
 class AnimaisService{
     async listarAnimais() {
         try {
-            const response = await axios.get(`${API_URL}/getAllAnimais`, {
+            const response = await axios.get(`${API_URL}/getAllAnimals`, {
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.status === 200)

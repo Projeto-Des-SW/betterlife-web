@@ -7,6 +7,7 @@ import {
 import Header from '../Header/Header';
 import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
 import animaisService from '../../Services/Animais/Animais-service';
+import taxonomiaService from  '../../Services/Taxonomia/Taxonomia-service';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -16,6 +17,7 @@ const Animais = () => {
     const [abrirModalEdicao, setAbrirModalEdicao] = useState(false);
     const [abrirModalDeletar, setAbrirModalDeletar] = useState(false);
     const [animais, setAnimais] = useState([]);
+    const [taxonomias, setTaxonomias] = useState([]);
     const [idAnimal, setIdAnimal] = useState('');
     const [imagem, setImagem] = useState(null);
     const [som, setSom] = useState(null);
@@ -43,7 +45,7 @@ const Animais = () => {
     };
     const verificarCamposPreenchidos = (dados) => {
         const camposObrigatorios = [
-            'nome', 'nomecientifico', 'sexo', 'peso', 'idade', 'descricao', 'observacaodaespecie', 'imagemid', 'somid', 'taxonomiaid'
+            'nome', 'nomecientifico', 'sexo', 'peso', 'idade', 'descricao', 'observacaodaespecie', 'taxonomiaid'
         ];
 
         for (const campo of camposObrigatorios) {
@@ -70,6 +72,21 @@ const Animais = () => {
         }
     };
 
+    const listarTaxonomias = async () => {
+        try {
+          const response = await taxonomiaService.listarTaxonomias();
+    
+          if (response.error === false) {
+            setTaxonomias(response.data);
+          } else {
+            alert(response.message);
+          }
+    
+        } catch (error) {
+          alert(error.message || 'Erro ao listar taxonomias');
+        }
+      }
+
     const editarDados = async () => {
         if (!verificarCamposPreenchidos(formDataEdicao)) {
             alert('Todos os campos obrigatórios devem ser preenchidos.');
@@ -91,9 +108,11 @@ const Animais = () => {
     };
 
     const deletarAnimal = async () => {
+        console.log("Q")
         try {
+            
             const response = await animaisService.deletarAnimal(idAnimal);
-
+            
             if (response.error === false) {
                 alert('animal deletada com sucesso!');
                 setAbrirModalDeletar(false);
@@ -148,6 +167,11 @@ const Animais = () => {
             taxonomiaid: '',
         });
     };
+
+    useEffect(() => {
+        listarAnimais();
+        listarTaxonomias();
+    }, []);
 
     return (
         <>
@@ -333,26 +357,26 @@ const Animais = () => {
                         <Grid item xs={12} sm={6}>
                         <FormControl variant="outlined" fullWidth>
                             <InputLabel id="animal-label">
-                            animal <span style={{ color: 'red' }}>*</span>
+                            Taxonomia <span style={{ color: 'red' }}>*</span>
                             </InputLabel>
                             <Select
-                            labelId="animal-label"
-                            name="animal"
+                            labelId="taxonomia-label"
+                            name="Taxonomia"
                             value={taxonomiaNome}
                             onChange={(e) => {
                                 const selectedTaxonomia = e.target.value;
                                 setTaxonomiaNome(selectedTaxonomia);
                                 setFormDataEdicao({...formDataEdicao, taxonomiaid:selectedTaxonomia} )
                             }}
-                            label="animal *"
+                            label="Taxonomia *"
                             displayEmpty
                             >
                             <MenuItem value="" disabled>
-                                animal
+                            Taxonomia
                             </MenuItem>
-                            {animais.map((animal) => (
-                                <MenuItem key={animal.id} value={animal.id}>
-                                {animal.reino}
+                            {taxonomias.map((taxonomia) => (
+                                <MenuItem key={taxonomia.id} value={taxonomia.id}>
+                                {taxonomia.reino}
                                 </MenuItem>
                             ))}
                             </Select>
