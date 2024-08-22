@@ -1,0 +1,78 @@
+
+.ConteudoContainer {
+    background-color: #1C4839;
+    color: white;
+    min-height: 100vh;
+    padding: 30px;
+    margin-top: 30px;
+}
+
+.paper {
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid #ccc;
+    border-radius: 30px !important;
+}
+
+.title {
+    text-align: center;
+    padding: 20px;
+}
+
+.buttonContainerVoltar {
+    display: flex;
+    justify-content: end;
+    width: 100%;
+}
+.AnimalButton {
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.AnimalButton {
+    background-color: #FF9113;
+    color: #fff;
+    border: none;
+}
+
+.AnimalButton:hover {
+    background-color: #E68010;
+}
+
+.imageUploadContainer {
+    position: relative;
+    width: 180px;
+    height: 240px;
+    background-color: #e0e0e0;
+    border: 2px dashed #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    margin: auto;
+}
+
+.imageUploadContainer:hover {
+    background-color: #d5d5d5;
+}
+
+.imageUploadContainer::before {
+    content: "+";
+    font-size: 48px;
+    color: #999;
+}
+
+.imageUploadInput {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
