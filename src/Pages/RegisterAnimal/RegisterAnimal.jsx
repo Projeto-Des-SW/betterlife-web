@@ -8,18 +8,18 @@ import registerAnimalService from '../../Services/RegisterAnimal/RegisterAnimal-
 import Header from '../Header/Header';
 import taxonomiaService from '../../Services/Taxonomia/Taxonomia-service';
 import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
+import { useRef } from 'react';
+import imagemService from '../../Services/Imagem/Imagem-service';
 
 const RegisterAnimal = () => {
   const navigate = useNavigate();
   const [taxonomias, setTaxonomias] = useState([]);
   const [taxonomiaNome, setTaxonomiaNome] = useState([]);
-  const [imagem, setImagem] = useState(null);
   const [som, setSom] = useState(null);
-
-  const handleBack = () => {
-    navigate('/telaPrincipal');
-  };
-
+  const [fotosInput, setFotosInput] = useState({
+    arquivofoto: null,
+    nomearquivo: null,
+  });
   const [dadosCadastro, setDadosCadastro] = useState({
     nome: '',
     nomecientifico: '',
@@ -29,10 +29,48 @@ const RegisterAnimal = () => {
     descricao: '',
     observacaodaespecie: '',
     usuarioid: dadosUserLogadoService.getUserInfo().id,
-    imagemid: 1,
+    imagemid: '',
     somid: 1,
     taxonomiaid: '',
-  })
+  });
+  const MAX_SIZE_IMG = 1024 * 1024 * 5;
+
+  const handleBack = () => {
+    navigate('/telaPrincipal');
+  };
+
+  const trataBaseImg = (img) => img.replace(/^data:image\/[a-z]+;base64,/, '');
+
+  const reverterBaseImg = (img) => `data:image/png;base64,${img}`;
+
+  const validaImagem = (tipo) => {
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/jpe', 'image/png', 'image/bmp'];
+    return allowedTypes.includes(tipo);
+  };
+
+  const adicionarFoto = async (file) => {
+    if (file?.size > MAX_SIZE_IMG) {
+      alert('O tamanho da imagem não pode ser maior que 5 MB!');
+      return;
+    }
+
+    if (file && validaImagem(file.type)) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        setFotosInput({
+          arquivofoto: trataBaseImg(reader.result),
+          nomearquivo: file.name,
+        });
+      };
+    } else {
+      alert('Formato de imagem inválido, anexe imagens do tipo .jpe, .jpg, .jpeg, .png ou .bmp!');
+      setFotosInput({
+        arquivofoto: null,
+        nomearquivo: null,
+      });
+    }
+  };
 
   const listarTaxonomias = async () => {
     try {
@@ -51,21 +89,30 @@ const RegisterAnimal = () => {
 
   const submeter = async (e) => {
     e.preventDefault();
-    if (!dadosCadastro.descricao || !dadosCadastro.nome || !dadosCadastro.nomecientifico || !dadosCadastro.sexo || !dadosCadastro.peso || !dadosCadastro.idade || !dadosCadastro.observacaodaespecie || !dadosCadastro.usuarioid || !dadosCadastro.imagemid || !dadosCadastro.somid || !dadosCadastro.taxonomiaid) {
+    if (!dadosCadastro.descricao || !dadosCadastro.nome || !dadosCadastro.nomecientifico || !dadosCadastro.sexo || !dadosCadastro.peso || !dadosCadastro.idade || !dadosCadastro.observacaodaespecie || !dadosCadastro.usuarioid || !dadosCadastro.somid || !dadosCadastro.taxonomiaid) {
       alert('Todos os campos de cadastro são obrigatórios.');
       return
     }
 
     try {
       const dados = {
-        ...dadosCadastro,
+        ...fotosInput,
       }
-      const response = await registerAnimalService.registerAnimal(JSON.stringify(dados));
-      if (response.error === false) {
-        alert('Animal cadastrado com sucesso!')
-        setTimeout(() => {
-          navigate('/telaPrincipal')
-        }, 2000)
+
+      const responseImagem = await imagemService.criarImagemAnimal(JSON.stringify(dados));
+
+      if (responseImagem.error === false) {
+        const dadosAnimal = {
+          ...dadosCadastro,
+        }
+
+        const responseAnimal = await registerAnimalService.registerAnimal(JSON.stringify(dadosAnimal));
+        if (responseAnimal.error === false) {
+          alert('Animal cadastrado com sucesso!')
+          setTimeout(() => {
+            navigate('/telaPrincipal')
+          }, 2000)
+        }
       }
     } catch (error) {
       alert(error.message || 'Erro ao registrar animal');
@@ -83,21 +130,6 @@ const RegisterAnimal = () => {
         <h1>Cadastro de animal silvestre</h1>
 
         <Paper className={styles.paper}>
-          <h2 className={styles.title}>Imagem do Animal</h2>
-          <Grid item xs={12}>
-            <div className={styles.imageUploadWrapper}>
-              <div className={styles.imageUploadContainer}>
-                <input
-                  type="file"
-                  id="imagemAnimal"
-                  name="imagemAnimal"
-                  accept="image/*"
-                  className={styles.imageUploadInput}
-                  onChange={(e) => setImagem(e.target.files[0])}
-                />
-              </div>
-            </div>
-          </Grid>
           <h2 className={styles.title}>Dados do Animal</h2>
           <form onSubmit={submeter} className={styles.registerForm}>
             <div className={styles.form}>
@@ -259,6 +291,32 @@ const RegisterAnimal = () => {
                       ))}
                     </Select>
                   </FormControl>
+                </Grid>
+
+                <Grid item xs={12} sm={6} >
+                  <label htmlFor="somAnimal" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+                    Anexar Foto do Animal <span style={{ color: 'red' }}>*</span>
+                  </label>
+                  <input
+                    type="file"
+                    id="imagemAnimal"
+                    name="imagemAnimal"
+                    accept="image/*"
+                    onChange={(e) => adicionarFoto(e.target.files[0])}
+                    style={{
+                      display: 'block',
+                      maxWidth: '100%',
+                      padding: '8px',
+                      borderRadius: '4px',
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)',
+                      backgroundColor: '#f9f9f9',
+                      border: '1px solid #ccc',
+                      cursor: 'pointer',
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden',
+                      whiteSpace: 'nowrap',
+                    }}
+                  />
                 </Grid>
 
                 <Grid item xs={12} sm={6} >
