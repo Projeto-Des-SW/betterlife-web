@@ -8,8 +8,8 @@ import registerAnimalService from '../../Services/RegisterAnimal/RegisterAnimal-
 import Header from '../Header/Header';
 import taxonomiaService from '../../Services/Taxonomia/Taxonomia-service';
 import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
-import { useRef } from 'react';
 import imagemService from '../../Services/Imagem/Imagem-service';
+import somService from '../../Services/Som/Som-service';
 
 const RegisterAnimal = () => {
   const navigate = useNavigate();
