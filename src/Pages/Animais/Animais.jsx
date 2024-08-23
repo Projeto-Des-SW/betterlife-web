@@ -11,6 +11,8 @@ import taxonomiaService from '../../Services/Taxonomia/Taxonomia-service';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import somService from '../../Services/Som/Som-service';
+import imagemService from '../../Services/Imagem/Imagem-service';
 
 const Animais = () => {
     const navigate = useNavigate();
@@ -19,8 +21,24 @@ const Animais = () => {
     const [animais, setAnimais] = useState([]);
     const [taxonomias, setTaxonomias] = useState([]);
     const [idAnimal, setIdAnimal] = useState('');
-    const [imagem, setImagem] = useState(null);
-    const [som, setSom] = useState(null);
+    const [fotosInput, setFotosInput] = useState({
+        arquivofoto: null,
+        nomearquivo: null,
+    });
+    const [somInput, setSomInput] = useState({
+        arquivosom: null,
+        nomearquivo: null,
+    });
+
+    const [fotos, setFotos] = useState({
+        arquivofoto: null,
+        nomearquivo: null,
+    });
+    const [som, setSom] = useState({
+        arquivosom: null,
+        nomearquivo: null,
+    });
+
     const [taxonomiaNome, setTaxonomiaNome] = useState([]);
     const [formDataEdicao, setFormDataEdicao] = useState({
         nome: '',
@@ -31,12 +49,83 @@ const Animais = () => {
         descricao: '',
         observacaodaespecie: '',
         usuarioid: dadosUserLogadoService.getUserInfo().id,
-        imagemid: 1,
-        somid: 1,
+        imagemid: '',
+        somid: '',
         taxonomiaid: '',
     });
 
+    const MAX_SIZE_IMG = 1024 * 1024 * 5;
+    const MAX_SIZE_AUDIO = 1024 * 1024 * 6;
+
     const reverterBaseImg = (img) => `data:image/png;base64,${img}`;
+
+    const reverterBaseAudio = (img) => `data:audio/png;base64,${img}`;
+
+    const trataBaseImg = (img) => img.replace(/^data:image\/[a-z]+;base64,/, '');
+
+    const trataBaseSom = (som) => som.replace(/^data:audio\/[a-z]+;base64,/, '');
+
+    const validaImagem = (tipo) => {
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/jpe', 'image/png', 'image/bmp'];
+        return allowedTypes.includes(tipo);
+    };
+
+    const validaSom = (tipo) => {
+        const allowedTypes = ['audio/mp3', 'audio/wav', 'audio/ogg', 'audio/mpeg'];
+        return allowedTypes.includes(tipo);
+    };
+
+    const adicionarSom = async (file) => {
+        if (file?.size > MAX_SIZE_AUDIO) {
+            alert('O tamanho do som não pode ser maior que 6 MB!');
+            document.getElementById('somAnimal').value = '';
+            return;
+        }
+
+        if (file && validaSom(file.type)) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                setSomInput({
+                    arquivosom: trataBaseSom(reader.result),
+                    nomearquivo: file.name,
+                });
+            };
+        } else {
+            alert('Formato de som inválido, anexe arquivos do tipo .mp3, .wav, .ogg ou .mpeg!');
+            document.getElementById('somAnimal').value = '';
+            setSomInput({
+                arquivosom: null,
+                nomearquivo: null,
+            });
+        }
+    };
+
+    const adicionarFoto = async (file) => {
+        if (file?.size > MAX_SIZE_IMG) {
+            alert('O tamanho da imagem não pode ser maior que 5 MB!');
+            document.getElementById('imagemAnimal').value = '';
+            return;
+        }
+
+        if (file && validaImagem(file.type)) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                setFotosInput({
+                    arquivofoto: trataBaseImg(reader.result),
+                    nomearquivo: file.name,
+                });
+            };
+        } else {
+            alert('Formato de imagem inválido, anexe imagens do tipo .jpe, .jpg, .jpeg, .png ou .bmp!');
+            document.getElementById('imagemAnimal').value = '';
+            setFotosInput({
+                arquivofoto: null,
+                nomearquivo: null,
+            });
+        }
+    };
 
     const alterarDadosEdicao = (e) => {
         const { id, value } = e.target;
@@ -69,7 +158,11 @@ const Animais = () => {
                     ...animal,
                     imagem: {
                         arquivofoto: reverterBaseImg(animal.arquivofoto),
-                        nomearquivo: animal.nomearquivo
+                        nomearquivo: animal.nomearquivofoto
+                    },
+                    som: {
+                        arquivosom: reverterBaseAudio(animal.arquivosom),
+                        nomearquivo: animal.nomearquivosom
                     }
                 }));
                 setAnimais(animaisComImagem);
@@ -104,12 +197,25 @@ const Animais = () => {
         }
 
         try {
-            const response = await animaisService.editarAnimal(idAnimal, JSON.stringify(formDataEdicao));
+            const dadosImagem = {
+                ...fotosInput,
+            };
 
-            if (response.error === false) {
-                alert('Animal editada com sucesso!');
-                fecharModalEdicao();
-                listarAnimais();
+            const dadosSom = {
+                ...somInput,
+            };
+
+            const responseSom = await somService.editarSomAnimal(formDataEdicao.somid, JSON.stringify(dadosSom));
+            const responseImagem = await imagemService.editarImagemAnimal(formDataEdicao.imagemid, JSON.stringify(dadosImagem));
+
+            if (responseImagem.error === false && responseSom.error === false) {
+                const response = await animaisService.editarAnimal(idAnimal, JSON.stringify(formDataEdicao));
+
+                if (response.error === false) {
+                    alert('Animal editada com sucesso!');
+                    fecharModalEdicao();
+                    listarAnimais();
+                }
             }
 
         } catch (error) {
@@ -140,6 +246,17 @@ const Animais = () => {
 
     const abrirDialogEdicao = (animal) => {
         setIdAnimal(animal.id);
+
+        setFotos({
+            arquivosom: animal.imagem.arquivofoto,
+            nomearquivo: animal.imagem.nomearquivo,
+        });
+
+        setSom({
+            arquivosom: animal.som.arquivofoto,
+            nomearquivo: animal.som.nomearquivo,
+        });
+
         setFormDataEdicao({
             nome: animal.nome,
             nomecientifico: animal.nomecientifico,
@@ -149,9 +266,9 @@ const Animais = () => {
             descricao: animal.descricao,
             observacaodaespecie: animal.observacaodaespecie,
             usuarioid: dadosUserLogadoService.getUserInfo().id,
-            imagemid: animal.imagemid,
-            somid: animal.somid,
-            taxonomiaid: animal.taxonomiaid,
+            imagemid: animal.idfoto,
+            somid: animal.idsom,
+            taxonomiaid: animal.idtaxonomia,
         });
         setAbrirModalEdicao(true);
     };
@@ -210,20 +327,6 @@ const Animais = () => {
                 </DialogTitle>
                 <DialogContent dividers>
                     <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <div className={styles.imageUploadWrapper}>
-                                <div className={styles.imageUploadContainer}>
-                                    <input
-                                        type="file"
-                                        id="imagemAnimal"
-                                        name="imagemAnimal"
-                                        accept="image/*"
-                                        className={styles.imageUploadInput}
-                                        onChange={(e) => setImagem(e.target.files[0])}
-                                    />
-                                </div>
-                            </div>
-                        </Grid>
                         <Grid item xs={12} sm={12}>
                             <DialogContentText>
                                 Informe o Nome:
@@ -243,14 +346,15 @@ const Animais = () => {
                                 fullWidth
                             />
                         </Grid>
+
                         <Grid item xs={12} sm={12}>
                             <DialogContentText>
-                                Informe o Nome Cientifico:
+                                Informe o Nome Científico:
                             </DialogContentText>
                             <TextField
                                 id="nomecientifico"
                                 name="nomecientifico"
-                                label={<span>nome cientifico <span style={{ color: 'red' }}> *</span></span>}
+                                label={<span>Nome científico <span style={{ color: 'red' }}> *</span></span>}
                                 type="text"
                                 placeholder='nomecientifico'
                                 value={formDataEdicao.nomecientifico}
@@ -262,7 +366,11 @@ const Animais = () => {
                                 fullWidth
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
+
+                        <Grid item xs={12} sm={12}>
+                            <DialogContentText>
+                                Informe o sexo:
+                            </DialogContentText>
                             <FormControl variant="outlined" fullWidth>
                                 <InputLabel id="animal-label">
                                     Sexo <span style={{ color: 'red' }}>*</span>
@@ -288,6 +396,7 @@ const Animais = () => {
                                 </Select>
                             </FormControl>
                         </Grid>
+
                         <Grid item xs={12} sm={12}>
                             <DialogContentText>
                                 Informe o peso:
@@ -295,7 +404,7 @@ const Animais = () => {
                             <TextField
                                 id="peso"
                                 name="peso"
-                                label={<span>peso <span style={{ color: 'red' }}> *</span></span>}
+                                label={<span>Peso <span style={{ color: 'red' }}> *</span></span>}
                                 type="text"
                                 placeholder='peso'
                                 value={formDataEdicao.peso}
@@ -307,6 +416,7 @@ const Animais = () => {
                                 fullWidth
                             />
                         </Grid>
+
                         <Grid item xs={12} sm={12}>
                             <DialogContentText>
                                 Informe o idade:
@@ -314,7 +424,7 @@ const Animais = () => {
                             <TextField
                                 id="idade"
                                 name="idade"
-                                label={<span>idade <span style={{ color: 'red' }}> *</span></span>}
+                                label={<span>Idade <span style={{ color: 'red' }}> *</span></span>}
                                 type="text"
                                 placeholder='idade'
                                 value={formDataEdicao.idade}
@@ -326,14 +436,15 @@ const Animais = () => {
                                 fullWidth
                             />
                         </Grid>
+
                         <Grid item xs={12} sm={12}>
                             <DialogContentText>
-                                Informe o descricao:
+                                Informe o descrição:
                             </DialogContentText>
                             <TextField
                                 id="descricao"
                                 name="descricao"
-                                label={<span>descricao <span style={{ color: 'red' }}> *</span></span>}
+                                label={<span>Descrição <span style={{ color: 'red' }}> *</span></span>}
                                 type="text"
                                 placeholder='descricao'
                                 value={formDataEdicao.descricao}
@@ -345,14 +456,15 @@ const Animais = () => {
                                 fullWidth
                             />
                         </Grid>
+
                         <Grid item xs={12} sm={12}>
                             <DialogContentText>
-                                Informe o observação da especie:
+                                Informe o observação da espécie:
                             </DialogContentText>
                             <TextField
                                 id="observacaodaespecie"
                                 name="observacaodaespecie"
-                                label={<span>observação da especie <span style={{ color: 'red' }}> *</span></span>}
+                                label={<span>Observação da espécie <span style={{ color: 'red' }}> *</span></span>}
                                 type="text"
                                 placeholder='observacaodaespecie'
                                 value={formDataEdicao.observacaodaespecie}
@@ -364,7 +476,11 @@ const Animais = () => {
                                 fullWidth
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
+
+                        <Grid item xs={12} sm={12}>
+                            <DialogContentText>
+                                Informe a taxonomia:
+                            </DialogContentText>
                             <FormControl variant="outlined" fullWidth>
                                 <InputLabel id="animal-label">
                                     Taxonomia <span style={{ color: 'red' }}>*</span>
@@ -372,11 +488,11 @@ const Animais = () => {
                                 <Select
                                     labelId="taxonomia-label"
                                     name="Taxonomia"
-                                    value={taxonomiaNome}
+                                    value={formDataEdicao.taxonomiaid || taxonomiaNome || ''}
                                     onChange={(e) => {
                                         const selectedTaxonomia = e.target.value;
                                         setTaxonomiaNome(selectedTaxonomia);
-                                        setFormDataEdicao({ ...formDataEdicao, taxonomiaid: selectedTaxonomia })
+                                        setFormDataEdicao({ ...formDataEdicao, taxonomiaid: selectedTaxonomia });
                                     }}
                                     label="Taxonomia *"
                                     displayEmpty
@@ -392,16 +508,43 @@ const Animais = () => {
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={12} sm={6} >
-                            <label htmlFor="somAnimal" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
-                                Anexar Som do Animal <span style={{ color: 'red' }}>*</span>
-                            </label>
+
+                        <Grid item xs={12} sm={12} >
+                            <DialogContentText>
+                                Anexar som do animal:
+                            </DialogContentText>
                             <input
                                 type="file"
                                 id="somAnimal"
                                 name="somAnimal"
                                 accept="audio/*"
-                                onChange={(e) => setSom(e.target.files[0])}
+                                onChange={(e) => adicionarSom(e.target.files[0])}
+                                style={{
+                                    display: 'block',
+                                    maxWidth: '100%',
+                                    padding: '8px',
+                                    borderRadius: '4px',
+                                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)',
+                                    backgroundColor: '#f9f9f9',
+                                    border: '1px solid #ccc',
+                                    cursor: 'pointer',
+                                    textOverflow: 'ellipsis',
+                                    overflow: 'hidden',
+                                    whiteSpace: 'nowrap',
+                                }}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12} sm={12} >
+                            <DialogContentText>
+                                Anexar imagem do animal:
+                            </DialogContentText>
+                            <input
+                                type="file"
+                                id="imagemAnimal"
+                                name="imagemAnimal"
+                                accept="image/*"
+                                onChange={(e) => adicionarFoto(e.target.files[0])}
                                 style={{
                                     display: 'block',
                                     maxWidth: '100%',
