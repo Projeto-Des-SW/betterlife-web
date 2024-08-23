@@ -140,9 +140,9 @@ const RegisterAnimal = () => {
       const dadosSom = {
         ...somInput,
       };
-
-      const responseSom = await somService.criarSomAnimal(JSON.stringify(dadosSom));
+      
       const responseImagem = await imagemService.criarImagemAnimal(JSON.stringify(dadosImagem));
+      const responseSom = await somService.criarSomAnimal(JSON.stringify(dadosSom));
 
       if (responseImagem.error === false && responseSom.error === false) {
         const dadosAnimal = {
