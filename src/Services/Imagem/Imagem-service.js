@@ -25,7 +25,7 @@ class ImagemService {
 
     async editarImagemAnimal(idImagem, dados) {
         try {
-            const response = await axios.put(`${API_URL}/updateTaxonomia/${idImagem}`, dados, {
+            const response = await axios.put(`${API_URL}/updateImagem/${idImagem}`, dados, {
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.status === 200)
@@ -45,7 +45,7 @@ class ImagemService {
 
     async deletarImagemAnimal(idImagem) {
         try {
-            const response = await axios.put(`${API_URL}/deleteTaxonomia/${idImagem}`, {
+            const response = await axios.put(`${API_URL}/deleteImagem/${idImagem}`, {
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.status === 200)

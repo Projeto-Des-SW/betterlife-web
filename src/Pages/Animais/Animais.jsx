@@ -225,15 +225,18 @@ const Animais = () => {
 
     const deletarAnimal = async () => {
         try {
-
+            const responseSom = await somService.deletarSomAnimal(formDataEdicao.somid);
+            const responseImagem = await imagemService.deletarImagemAnimal(formDataEdicao.imagemid);
             const response = await animaisService.deletarAnimal(idAnimal);
 
-            if (response.error === false) {
-                alert('animal deletada com sucesso!');
-                setAbrirModalDeletar(false);
-                listarAnimais();
-            } else {
-                alert(response.message);
+            if (responseSom.error === false && responseImagem.error === false) {
+                if (response.error === false) {
+                    alert('animal deletada com sucesso!');
+                    setAbrirModalDeletar(false);
+                    listarAnimais();
+                } else {
+                    alert(response.message);
+                }
             }
         } catch (error) {
             alert(error.message || 'Erro ao deletar animal');
@@ -274,12 +277,44 @@ const Animais = () => {
     };
 
     const abrirDialogDeletar = (animal) => {
-        setIdAnimal(animal.id);
+        setIdAnimal(animal.idanimal);
+        
+        setFormDataEdicao({
+            nome: animal.nome,
+            nomecientifico: animal.nomecientifico,
+            sexo: animal.sexo,
+            peso: animal.peso,
+            idade: animal.idade,
+            descricao: animal.descricao,
+            observacaodaespecie: animal.observacaodaespecie,
+            usuarioid: dadosUserLogadoService.getUserInfo().id,
+            imagemid: animal.idfoto,
+            somid: animal.idsom,
+            taxonomiaid: animal.idtaxonomia,
+        });
+        
         setAbrirModalDeletar(true);
     };
 
     const fecharModalEdicao = () => {
         setAbrirModalEdicao(false);
+        setFormDataEdicao({
+            nome: '',
+            nomecientifico: '',
+            sexo: '',
+            peso: '',
+            idade: '',
+            descricao: '',
+            observacaodaespecie: '',
+            imagemid: '',
+            somid: '',
+            taxonomiaid: '',
+        });
+    };
+
+    const fecharModalDeletar = () => {
+        setAbrirModalDeletar(false);
+        setIdAnimal('');
         setFormDataEdicao({
             nome: '',
             nomecientifico: '',
@@ -571,7 +606,7 @@ const Animais = () => {
             <Dialog
                 aria-labelledby="customized-dialog-title"
                 open={abrirModalDeletar}
-                onClose={() => setAbrirModalDeletar(false)}
+                onClose={fecharModalDeletar}
                 style={{ marginTop: 35, marginBottom: 10 }}
                 disableBackdropClick
                 fullWidth
@@ -591,11 +626,11 @@ const Animais = () => {
                 </DialogTitle>
                 <DialogContent dividers>
                     <DialogContentText>
-                        Tem certeza que deseja deletar esse Animal?
+                        Tem certeza que deseja deletar esse animal?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions style={{ justifyContent: 'space-around' }}>
-                    <button type="button" className={styles.AnimalButton} variant="contained" color="secondary" onClick={() => setAbrirModalDeletar(false)}>Cancelar</button>
+                    <button type="button" className={styles.AnimalButton} variant="contained" color="secondary" onClick={fecharModalDeletar}>Cancelar</button>
                     <button type="button" className={styles.AnimalButton} variant="contained" color="primary" onClick={deletarAnimal}>Deletar</button>
                 </DialogActions>
             </Dialog>
