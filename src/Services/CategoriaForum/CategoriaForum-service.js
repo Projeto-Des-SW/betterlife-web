@@ -5,7 +5,7 @@ const API_URL = 'http://localhost:4000/api';
 class CategoriaForumService {
     async listarCategoriasForum() {
         try {
-            const response = await axios.get(`${API_URL}/getAllTaxonomia`, {
+            const response = await axios.get(`${API_URL}/getAllCategoriaForum`, {
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.status === 200)
