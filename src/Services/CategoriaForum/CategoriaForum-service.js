@@ -43,9 +43,9 @@ class CategoriaForumService {
         }
     };
 
-    async editarCategoriaForum(idTaxonomia, dados) {
+    async editarCategoriaForum(idCategoriaForum, dados) {
         try {
-            const response = await axios.put(`${API_URL}/updateTaxonomia/${idTaxonomia}`, dados, {
+            const response = await axios.put(`${API_URL}/updateCategoriaForum/${idCategoriaForum}`, dados, {
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.status === 200)
@@ -63,9 +63,9 @@ class CategoriaForumService {
         }
     };
 
-    async deletarCategoriaForum(idTaxonomia) {
+    async deletarCategoriaForum(idCategoriaForum) {
         try {
-            const response = await axios.put(`${API_URL}/deleteTaxonomia/${idTaxonomia}`, {
+            const response = await axios.put(`${API_URL}/deleteTaxonomia/${idCategoriaForum}`, {
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.status === 200)

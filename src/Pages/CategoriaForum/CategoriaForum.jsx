@@ -266,8 +266,8 @@ function CategoriaForum() {
                                 Informe o nome:
                             </DialogContentText>
                             <TextField
-                                id="classe"
-                                name="classe"
+                                id="nome"
+                                name="nome"
                                 label={<span>Nome <span style={{ color: 'red' }}> *</span></span>}
                                 type="text"
                                 placeholder='Nome'
