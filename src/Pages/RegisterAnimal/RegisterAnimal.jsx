@@ -140,18 +140,17 @@ const RegisterAnimal = () => {
       const dadosSom = {
         ...somInput,
       };
-      
+
       const responseImagem = await imagemService.criarImagemAnimal(JSON.stringify(dadosImagem));
       const responseSom = await somService.criarSomAnimal(JSON.stringify(dadosSom));
-
       if (responseImagem.error === false && responseSom.error === false) {
-        const dadosAnimal = {
-          ...dadosCadastro,
+        setDadosCadastro((prevDadosCadastro) => ({
+          ...prevDadosCadastro,
           somid: responseSom.data.id,
           imagemid: responseImagem.data.id,
-        };
+        }));
 
-        const responseAnimal = await registerAnimalService.registerAnimal(JSON.stringify(dadosAnimal));
+        const responseAnimal = await registerAnimalService.registerAnimal(JSON.stringify(dadosCadastro));
         if (responseAnimal.error === false) {
           alert('Animal cadastrado com sucesso!');
           setTimeout(() => {
