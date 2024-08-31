@@ -65,7 +65,7 @@ class CategoriaForumService {
 
     async deletarCategoriaForum(idCategoriaForum) {
         try {
-            const response = await axios.put(`${API_URL}/deleteTaxonomia/${idCategoriaForum}`, {
+            const response = await axios.put(`${API_URL}/deleteCategoriaForum/${idCategoriaForum}`, {
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.status === 200)
