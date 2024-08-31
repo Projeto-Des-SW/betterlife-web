@@ -16,8 +16,12 @@ function VeterinariaComponent() {
     navigate('/registerAnimal');
   };
 
-  const Animais = () => {
+  const AnimaisPage = () => {
     navigate('/animais')
+  };
+
+  const CategoriaForumPage = () => {
+    navigate('/categoriaForum')
   };
 
   return (
@@ -25,8 +29,9 @@ function VeterinariaComponent() {
       <Paper className={Styles.paper}>
         <div className={Styles.buttonContainer}>
           <button type="button" className={Styles.VeterinarioButton} onClick={() => TaxonomiaPage()}>Taxonomia</button>
-          <button type="button" className={Styles.VeterinarioButton} onClick={() => Animais()}>Animais</button>
+          <button type="button" className={Styles.VeterinarioButton} onClick={() => AnimaisPage()}>Animais</button>
           <button type="button" className={Styles.VeterinarioButton} onClick={() => AnimalPage()}>Cadastrar Animal</button>
+          <button type="button" className={Styles.VeterinarioButton} onClick={() => CategoriaForumPage()}>Cadastrar Categoria de fórum</button>
         </div>
       </Paper>
     </>
