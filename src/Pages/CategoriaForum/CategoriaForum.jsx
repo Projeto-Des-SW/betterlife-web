@@ -134,8 +134,8 @@ function CategoriaForum() {
     const abrirDialogEdicao = (categoriaForum) => {
         setIdCategoriaForum(categoriaForum.id);
         setFormDataEdicao({
-            nome: categoriaForum.classe,
-            descricao: categoriaForum.ordem,
+            nome: categoriaForum.nome,
+            descricao: categoriaForum.descricao,
         });
         setAbrirModalEdicao(true);
     };
@@ -330,7 +330,7 @@ function CategoriaForum() {
                 </DialogTitle>
                 <DialogContent dividers>
                     <DialogContentText>
-                        Tem certeza que deseja deletar essa categoriaForum?
+                        Tem certeza que deseja deletar essa categoria de fórum?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions style={{ justifyContent: 'space-around' }}>
