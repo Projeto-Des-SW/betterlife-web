@@ -1,0 +1,46 @@
+.ConteudoContainer {
+    background-color: #1C4839;
+    color: white;
+    min-height: 100vh;
+    padding: 30px;
+    margin-top: 30px;
+}
+
+.paper {
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid #ccc;
+    border-radius: 30px !important;
+}
+
+.buttonContaineCriar {
+    display: flex;
+    justify-content: end;
+    width: 100%;
+}
+
+.buttonContainerVoltar {
+    display: flex;
+    justify-content: end;
+    width: 100%;
+}
+
+.CriarCategoriaForumButton {
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.CriarCategoriaForumButton {
+    background-color: #FF9113;
+    color: #fff;
+    border: none;
+}
+
+.CriarCategoriaForumButton:hover {
+    background-color: #E68010;
+}
