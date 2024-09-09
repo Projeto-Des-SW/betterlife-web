@@ -20,6 +20,11 @@ function VeterinariaComponent() {
     navigate('/animais')
   };
 
+  const Forum = () => {
+    navigate('/RegisterPostForum')
+  };
+
+
   return (
     <>
       <Paper className={Styles.paper}>
@@ -27,6 +32,7 @@ function VeterinariaComponent() {
           <button type="button" className={Styles.VeterinarioButton} onClick={() => TaxonomiaPage()}>Taxonomia</button>
           <button type="button" className={Styles.VeterinarioButton} onClick={() => Animais()}>Animais</button>
           <button type="button" className={Styles.VeterinarioButton} onClick={() => AnimalPage()}>Cadastrar Animal</button>
+          <button type="button" className={Styles.VeterinarioButton} onClick={() => Forum()}>Criar Post</button>
         </div>
       </Paper>
     </>
