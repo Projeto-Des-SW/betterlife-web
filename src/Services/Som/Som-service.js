@@ -45,7 +45,7 @@ class SomService {
 
     async deletarSomAnimal(idSom) {
         try {
-            const response = await axios.put(`${API_URL}/deleteSom/${idSom}`, {
+            const response = await axios.delete(`${API_URL}/deleteSom/${idSom}`, {
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.status === 200)
