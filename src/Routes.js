@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes as RouterRoutes, Navigate  } from 'react-router-dom';
 import dadosUserLogadoService from './Services/DadosUserLogado/DadosUserLogado-service';
+
 //Pages
 import Login from './Pages/Login/Login';
 import Register from './Pages/Register/Register';
@@ -13,6 +14,7 @@ import RegisterAnimal from './Pages/RegisterAnimal/RegisterAnimal';
 import Animais from './Pages/Animais/Animais';
 import CategoriaForum from './Pages/CategoriaForum/CategoriaForum';
 import RegisterPostForum from './Pages/RegisterPostForum/RegisterPostForum';
+import MeusPostsForum from './Pages/MeusPostsForum/MeusPostsForum';
 
 const PrivateRoute = ({ element, ...rest }) => {
     const isAuthenticated = dadosUserLogadoService.getUserInfo() !== null;
@@ -33,8 +35,7 @@ const Routes = () => (
         <Route path='/login' element={<PublicRoute element={<Login />} />} />
         <Route path='/register' element={<PublicRoute element={<Register />} />} />
         <Route path='/recuperarSenha' element={<PublicRoute element={<RecuperarSenha />} />} />
-        <Route path='/redefinirSenha' element={<PublicRoute element={<RedefinirSenha />} />} />
-        
+        <Route path='/redefinirSenha' element={<PublicRoute element={<RedefinirSenha />} />} />        
 
         {/* Rotas Privadas */}
         <Route path='/telaPrincipal' element={<PrivateRoute element={<TelaPrincipal />} />} />
@@ -42,7 +43,9 @@ const Routes = () => (
         <Route path='/taxonomia' element={<PrivateRoute element={<Taxonomia />} />} />
         <Route path='/registerAnimal' element={<PrivateRoute element={<RegisterAnimal/>} />} />
         <Route path='/animais' element={<PrivateRoute element={<Animais />}/>}/>
-        <Route path='/categoriaForum' element={<PrivateRoute element={<CategoriaForum />}/>}/>        <Route path='/RegisterPostForum' element={<PrivateRoute element={<RegisterPostForum />} />}/>
+        <Route path='/categoriaForum' element={<PrivateRoute element={<CategoriaForum />}/>}/>        
+        <Route path='/RegisterPostForum' element={<PrivateRoute element={<RegisterPostForum />} />}/>
+        <Route path='/meusPosts' element={<PrivateRoute element={<MeusPostsForum />} />}/>
 
       </RouterRoutes>
     </BrowserRouter>
