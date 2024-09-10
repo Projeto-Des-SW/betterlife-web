@@ -12,6 +12,7 @@ import Taxonomia from './Pages/Taxonomia/Taxonomia';
 import RegisterAnimal from './Pages/RegisterAnimal/RegisterAnimal';
 import Animais from './Pages/Animais/Animais';
 import CategoriaForum from './Pages/CategoriaForum/CategoriaForum';
+import RegisterPostForum from './Pages/RegisterPostForum/RegisterPostForum';
 
 const PrivateRoute = ({ element, ...rest }) => {
     const isAuthenticated = dadosUserLogadoService.getUserInfo() !== null;
@@ -41,7 +42,8 @@ const Routes = () => (
         <Route path='/taxonomia' element={<PrivateRoute element={<Taxonomia />} />} />
         <Route path='/registerAnimal' element={<PrivateRoute element={<RegisterAnimal/>} />} />
         <Route path='/animais' element={<PrivateRoute element={<Animais />}/>}/>
-        <Route path='/categoriaForum' element={<PrivateRoute element={<CategoriaForum />}/>}/>
+        <Route path='/categoriaForum' element={<PrivateRoute element={<CategoriaForum />}/>}/>        <Route path='/RegisterPostForum' element={<PrivateRoute element={<RegisterPostForum />} />}/>
+
       </RouterRoutes>
     </BrowserRouter>
 );
