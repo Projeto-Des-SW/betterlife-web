@@ -2,10 +2,10 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:4000/api';
 
-class SomService {
-    async criarSomAnimal(dados) {
+class CategoriaForumService {
+    async listarCategoriasForum() {
         try {
-            const response = await axios.post(`${API_URL}/registerSom`, dados, {
+            const response = await axios.get(`${API_URL}/getAllCategoriaForum`, {
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.status === 200)
@@ -23,9 +23,9 @@ class SomService {
         }
     };
 
-    async editarSomAnimal(idSom, dados) {
+    async criarCategoriaForum(dados) {
         try {
-            const response = await axios.put(`${API_URL}/updateSom/${idSom}`, dados, {
+            const response = await axios.post(`${API_URL}/registerCategoryForum`, dados, {
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.status === 200)
@@ -43,9 +43,29 @@ class SomService {
         }
     };
 
-    async deletarSomAnimal(idSom) {
+    async editarCategoriaForum(idCategoriaForum, dados) {
         try {
-            const response = await axios.delete(`${API_URL}/deleteSom/${idSom}`, {
+            const response = await axios.put(`${API_URL}/updateCategoriaForum/${idCategoriaForum}`, dados, {
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (response.status === 200)
+                return {
+                    error: false,
+                    data: response.data
+                }
+
+            return {
+                error: true,
+                data: response.data
+            }
+        } catch (error) {
+            throw error.response ? error.response.data : new Error('Network Error');
+        }
+    };
+
+    async deletarCategoriaForum(idCategoriaForum) {
+        try {
+            const response = await axios.put(`${API_URL}/deleteCategoriaForum/${idCategoriaForum}`, {
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.status === 200)
@@ -64,5 +84,5 @@ class SomService {
     };
 }
 
-const somService = new SomService();
-export default somService;
+const categoriaForumService = new CategoriaForumService();
+export default categoriaForumService;

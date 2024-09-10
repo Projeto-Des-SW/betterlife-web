@@ -45,7 +45,7 @@ class ImagemService {
 
     async deletarImagemAnimal(idImagem) {
         try {
-            const response = await axios.put(`${API_URL}/deleteImagem/${idImagem}`, {
+            const response = await axios.delete(`${API_URL}/deleteImagem/${idImagem}`, {
                 headers: { 'Content-Type': 'application/json' }
             });
             if (response.status === 200)
