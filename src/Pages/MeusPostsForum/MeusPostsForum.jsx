@@ -27,8 +27,14 @@ const MeusPostsForum = () => {
         setUserId(id);
     }, []);
 
+    useEffect(() => {
+        if (userId) {
+            listarPosts();
+        }
+    }, [userId]);
+
     
-    const listarPosts = async (e) => {
+    const listarPosts = async () => {
         if(!userId){
             return
         }
@@ -89,9 +95,7 @@ const MeusPostsForum = () => {
         }
     }
 
-    useEffect(()=>{
-        listarPosts()
-    }, [])
+    
 
     const handleBack = () => {
         navigate('/telaPrincipal');
@@ -116,7 +120,7 @@ const MeusPostsForum = () => {
     const abrirDialogDeletar = (post) => {
         setPostId(post.id)        
         setAbrirModalDeletar(true);
-    };
+    };   
 
   return (
     <>
