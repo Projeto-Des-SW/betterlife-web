@@ -358,8 +358,8 @@ const Animais = () => {
                             </IconButton>
                         </Grid>
                     </Grid>
-
                 </DialogTitle>
+                
                 <DialogContent dividers>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12}>
@@ -369,7 +369,7 @@ const Animais = () => {
                             <TextField
                                 id="nome"
                                 name="nome"
-                                label={<span>nome <span style={{ color: 'red' }}> *</span></span>}
+                                label={<span>Nome <span style={{ color: 'red' }}> *</span></span>}
                                 type="text"
                                 placeholder='nome'
                                 value={formDataEdicao.nome}
