@@ -28,6 +28,9 @@ function VeterinariaComponent() {
     navigate('/RegisterPostForum')
   };
 
+  const meusPosts = () => {
+    navigate('/meusPosts')
+  };
 
   return (
     <>
@@ -38,6 +41,7 @@ function VeterinariaComponent() {
           <button type="button" className={Styles.VeterinarioButton} onClick={() => AnimalPage()}>Cadastrar Animal</button>
           <button type="button" className={Styles.VeterinarioButton} onClick={() => Forum()}>Criar Post</button>
           <button type="button" className={Styles.VeterinarioButton} onClick={() => CategoriaForumPage()}>Cadastrar Categoria de fórum</button>
+          <button type="button" className={Styles.VeterinarioButton} onClick={() => meusPosts()}>Meus Posts</button>
         </div>
       </Paper>
     </>
