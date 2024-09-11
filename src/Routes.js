@@ -15,6 +15,7 @@ import Animais from './Pages/Animais/Animais';
 import CategoriaForum from './Pages/CategoriaForum/CategoriaForum';
 import RegisterPostForum from './Pages/RegisterPostForum/RegisterPostForum';
 import MeusPostsForum from './Pages/MeusPostsForum/MeusPostsForum';
+import Forum from './Pages/Forum/Forum';
 
 const PrivateRoute = ({ element, ...rest }) => {
     const isAuthenticated = dadosUserLogadoService.getUserInfo() !== null;
@@ -46,7 +47,7 @@ const Routes = () => (
         <Route path='/categoriaForum' element={<PrivateRoute element={<CategoriaForum />}/>}/>        
         <Route path='/RegisterPostForum' element={<PrivateRoute element={<RegisterPostForum />} />}/>
         <Route path='/meusPosts' element={<PrivateRoute element={<MeusPostsForum />} />}/>
-
+        <Route path='/forum' element={<PrivateRoute element={<Forum/>} />}/>
       </RouterRoutes>
     </BrowserRouter>
 );

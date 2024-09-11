@@ -27,6 +27,13 @@
   font-size: 2em;
   cursor: pointer;
   color: #fff; 
+  margin-left: 20px; 
+}
+
+.textIcon {
+  font-size: 1em;
+  cursor: pointer;
+  color: #fff; 
   margin-left: 10px; 
 }
 
@@ -34,6 +41,9 @@
   color: #555; 
 }
 
+.textIcon:hover {
+  color: #555; 
+}
 .mainContent {
   padding-top: 60px;
 }
