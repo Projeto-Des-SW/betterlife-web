@@ -84,6 +84,26 @@ class ForumService{
         }
     };
 
+    async allPosts() {
+        try {
+            const response = await axios.get(`${API_URL}/getAllForum/`, {
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (response.status === 200 || response.status === 201)
+                return {
+                    error: false,
+                    data: response.data
+                }
+
+            return {
+                error: true,
+                data: response.data
+            }
+        } catch (error) {
+            throw error.response ? error.response.data : new Error('Network Error');
+        }
+    };
+
 }
 
 const forumService = new ForumService();
