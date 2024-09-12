@@ -28,8 +28,6 @@ const RegisterPostForum = () => {
         }
     }
 
-    const [categoriaForumId, setCategoriaForumId] = useState('1');
-
     const handleBack = () => {
         navigate('/telaPrincipal');
       };
@@ -103,6 +101,9 @@ const RegisterPostForum = () => {
                     </select>
 
                 </div>
+                <button type="submit" className={Styles.PostButton}>Publicar</button>
+            </form>
+            
             </div>
         </>
     )
