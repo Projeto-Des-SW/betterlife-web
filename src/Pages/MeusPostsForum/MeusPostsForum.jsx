@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
+import categoriaForumService from '../../Services/CategoriaForum/CategoriaForum-service';
 
 const MeusPostsForum = () => {
     const navigate = useNavigate();
@@ -22,9 +23,13 @@ const MeusPostsForum = () => {
         pergunta: '',
         categoria: '',
     });
+    const [categorias, setCategorias]= useState([]);
+    const [categoriaForumId, setCategoriaForumId] = useState('');
+
     useEffect(() => {
         const id = dadosUserLogadoService.getUserInfo().id;
         setUserId(id);
+        listarCategorias();
     }, []);
 
     useEffect(() => {
@@ -33,7 +38,20 @@ const MeusPostsForum = () => {
         }
     }, [userId]);
 
-    
+    const listarCategorias = async () => {
+        try {
+            const response = await categoriaForumService.listarCategoriasForum();
+
+            if (response.error === false) {
+                setCategorias(response.data);
+            } else {
+                alert(response.message);
+            }
+        } catch (error) {
+            alert(error.message || 'Erro ao listar taxonomias');
+        }
+    }
+
     const listarPosts = async () => {
         if(!userId){
             return
@@ -93,22 +111,22 @@ const MeusPostsForum = () => {
         } catch (error) {
             alert(error.message || 'Erro ao deletar post');
         }
-    }
-
-    
+    }    
 
     const handleBack = () => {
         navigate('/telaPrincipal');
     };
 
     const abrirDialogEdicao = (post) => {
-        setPostId(post.id)
+        setPostId(post.id);
         setFormDataEdicao({
-            pergunta: '',
-            categoria: '',
+            pergunta: post.pergunta,
+            categoria: post.categoriaforumid, 
         });
+        setCategoriaForumId(post.categoriaforumid); 
         setAbrirModalEdicao(true);
     };
+
     const fecharModalEdicao = () => {
         setAbrirModalEdicao(false);
         setFormDataEdicao({
@@ -121,6 +139,11 @@ const MeusPostsForum = () => {
         setPostId(post.id)        
         setAbrirModalDeletar(true);
     };   
+
+    const getCategoriaNome = (id) => {
+        const categoria = categorias.find((cat) => cat.id === id);        
+        return categoria ? categoria.nome : 'Categoria não encontrada';
+    };
 
   return (
     <>
@@ -172,20 +195,18 @@ const MeusPostsForum = () => {
                             <DialogContentText>
                                 Informe a categoria:
                             </DialogContentText>
-                            <TextField
-                                id="categoria"
-                                name="categoria"
-                                label={<span>categoria <span style={{ color: 'red' }}> *</span></span>}
-                                type="text"
-                                placeholder='categoria'
-                                value={formDataEdicao.categoria}
-                                onChange={alterarDadosEdicao}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                variant="outlined"
-                                fullWidth
-                            />
+                            <select
+                                id="categoriaForumId"
+                                value={categoriaForumId}
+                                onChange={(e) => setCategoriaForumId(e.target.value)}
+                                required
+                            >
+                                {categorias.map(categoria => (
+                                    <option key={categoria.id} value={categoria.id}>
+                                        {categoria.nome}
+                                    </option>
+                                ))}
+                            </select>
                         </Grid>
                     </Grid>
                 </DialogContent>
@@ -241,7 +262,7 @@ const MeusPostsForum = () => {
                                     {meusPosts.map((post, index) => (
                                         <TableRow key={index}>
                                             <TableCell>{post.pergunta}</TableCell>
-                                            <TableCell>{post.categoriaforumid}</TableCell>
+                                            <TableCell>{getCategoriaNome(post.categoriaforumid)}</TableCell>
                                             <TableCell>
                                                 <IconButton onClick={() => abrirDialogEdicao(post)}>
                                                     <EditIcon />
