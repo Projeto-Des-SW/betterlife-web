@@ -4,16 +4,33 @@ import Header from '../Header/Header';
 import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
 import forumService from '../../Services/Forum/Forum-service';
 import { useNavigate } from 'react-router-dom';
+import categoriaForumService from '../../Services/CategoriaForum/CategoriaForum-service';
 
 const RegisterPostForum = () => {
     const navigate = useNavigate();
     const [usuarioIdPergunta, setUsuarioIdPergunta] = useState('');
     const [pergunta, setPergunta] = useState('');
     const [categoriaForumId, setCategoriaForumId] = useState('1'); // Valor inicial pode ser o ID de uma categoria padrão
+    const [categorias, setCategorias]= useState([]);
+
+    const listarCategorias = async () => {
+        try {
+            const response = await categoriaForumService.listarCategoriasForum();
+
+            if (response.error === false) {
+                setCategorias(response.data);
+            } else {
+                alert(response.message);
+            }
+        } catch (error) {
+            alert(error.message || 'Erro ao listar taxonomias');
+        }
+    }
 
     useEffect(() => {
         const userId = dadosUserLogadoService.getUserInfo().id;
         setUsuarioIdPergunta(userId);
+        listarCategorias();
     }, []);
 
     const submeter = async (e) => {
@@ -68,10 +85,12 @@ const RegisterPostForum = () => {
                         value={categoriaForumId} 
                         onChange={(e) => setCategoriaForumId(e.target.value)} 
                         required
-                    >
-                        <option value="1">Discussão</option>
-                        <option value="2">Dúvida</option>
-                        <option value="3">Compartilhamento</option>
+                    >   
+                          {categorias.map(categoria => (
+                              <option key={categoria.id} value={categoria.id}>
+                                  {categoria.nome}
+                              </option>
+                          ))}
                     </select>
                 </div>
                 <button type="submit" className={Styles.PostButton}>Publicar</button>
