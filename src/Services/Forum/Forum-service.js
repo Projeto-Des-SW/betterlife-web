@@ -104,6 +104,46 @@ class ForumService{
         }
     };
 
+    async listarRespostasPostsUsuario(id) {
+        try {
+            const response = await axios.get(`${API_URL}/getAllRespondForum/${id}`, {
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (response.status === 200 || response.status === 201)
+                return {
+                    error: false,
+                    data: response.data
+                }
+
+            return {
+                error: true,
+                data: response.data
+            }
+        } catch (error) {
+            throw error.response ? error.response.data : new Error('Network Error');
+        }
+    };
+
+    async listarDadosPostPorID(id) {
+        try {
+            const response = await axios.get(`${API_URL}/getAllForumByPostId/${id}`, {
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (response.status === 200 || response.status === 201)
+                return {
+                    error: false,
+                    data: response.data
+                }
+
+            return {
+                error: true,
+                data: response.data
+            }
+        } catch (error) {
+            throw error.response ? error.response.data : new Error('Network Error');
+        }
+    };
+
 }
 
 const forumService = new ForumService();

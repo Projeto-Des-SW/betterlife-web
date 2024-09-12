@@ -4,13 +4,18 @@ import Header from '../Header/Header';
 import Styles from './MeusPostsForum.module.css'
 import forumService from '../../Services/Forum/Forum-service';
 import {
-    TextField, Grid, Paper, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+    TextField, Grid, Paper, Dialog, DialogActions,
+    DialogContent, DialogTitle, DialogContentText,
+    Table, TableBody, TableCell, TableContainer, TableHead,
+    TableRow
 } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 import categoriaForumService from '../../Services/CategoriaForum/CategoriaForum-service';
+import Visibility from '@mui/icons-material/Visibility';
+
 
 const MeusPostsForum = () => {
     const navigate = useNavigate();
@@ -38,6 +43,7 @@ const MeusPostsForum = () => {
         }
     }, [userId]);
 
+
     const listarCategorias = async () => {
         try {
             const response = await categoriaForumService.listarCategoriasForum();
@@ -52,21 +58,22 @@ const MeusPostsForum = () => {
         }
     }
 
+
     const listarPosts = async () => {
-        if(!userId){
+        if (!userId) {
             return
         }
         try {
             const response = await forumService.allPostsById(userId)
-            if(response.error === false)                
-                setMeusPosts(response.data)                          
+            if (response.error === false)
+                setMeusPosts(response.data)
             else {
                 alert(response.message);
             }
         } catch (error) {
             alert(error.message || 'Não foi encontrado nenhum post');
         }
-        
+
     }
 
     const alterarDadosEdicao = (e) => {
@@ -111,10 +118,17 @@ const MeusPostsForum = () => {
         } catch (error) {
             alert(error.message || 'Erro ao deletar post');
         }
+
     }    
+
 
     const handleBack = () => {
         navigate('/telaPrincipal');
+    };
+
+    const Post = (id) => {
+        console.log(id)
+        navigate(`/post/${id}`);
     };
 
     const abrirDialogEdicao = (post) => {
@@ -136,9 +150,10 @@ const MeusPostsForum = () => {
     };
 
     const abrirDialogDeletar = (post) => {
-        setPostId(post.id)        
+        setPostId(post.id)
         setAbrirModalDeletar(true);
-    };   
+    };
+
 
     const getCategoriaNome = (id) => {
         const categoria = categorias.find((cat) => cat.id === id);        
@@ -149,7 +164,8 @@ const MeusPostsForum = () => {
     <>
     <Header />
 
-    <Dialog
+
+            <Dialog
                 aria-labelledby="customized-dialog-title"
                 open={abrirModalEdicao}
                 onClose={fecharModalEdicao}
@@ -179,9 +195,9 @@ const MeusPostsForum = () => {
                             <TextField
                                 id="pergunta"
                                 name="pergunta"
-                                label={<span>pergunta <span style={{ color: 'red' }}> *</span></span>}
+                                label={<span>Pergunta <span style={{ color: 'red' }}> *</span></span>}
                                 type="text"
-                                placeholder='pergunta'
+                                placeholder='Pergunta'
                                 value={formDataEdicao.pergunta}
                                 onChange={alterarDadosEdicao}
                                 InputLabelProps={{
@@ -215,6 +231,7 @@ const MeusPostsForum = () => {
                     <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="primary" onClick={editarDados}>Salvar</button>
                 </DialogActions>
             </Dialog>
+
             <Dialog
                 aria-labelledby="customized-dialog-title"
                 open={abrirModalDeletar}
@@ -238,7 +255,7 @@ const MeusPostsForum = () => {
                 </DialogTitle>
                 <DialogContent dividers>
                     <DialogContentText>
-                        Tem certeza que deseja deletar essa post?
+                        Tem certeza que deseja deletar esse post?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions style={{ justifyContent: 'space-around' }}>
@@ -246,9 +263,10 @@ const MeusPostsForum = () => {
                     <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="primary" onClick={deletarPost}>Deletar</button>
                 </DialogActions>
             </Dialog>
-    <div className={Styles.ConteudoContainer}>
+
+            <div className={Styles.ConteudoContainer}>
                 <h1>Meus Posts</h1>
-                <Paper className={Styles.paper}>                    
+                <Paper className={Styles.paper}>
                     <div style={{ marginBottom: '16px', overflowX: 'auto' }}>
                         <TableContainer component={Paper} style={{ marginTop: '20px' }}>
                             <Table>
@@ -256,6 +274,7 @@ const MeusPostsForum = () => {
                                     <TableRow>
                                         <TableCell>Pergunta</TableCell>
                                         <TableCell>Categoria</TableCell>
+                                        <TableCell>Ações</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -264,6 +283,9 @@ const MeusPostsForum = () => {
                                             <TableCell>{post.pergunta}</TableCell>
                                             <TableCell>{getCategoriaNome(post.categoriaforumid)}</TableCell>
                                             <TableCell>
+                                                <IconButton onClick={() => Post(post.id)} color="primary">
+                                                    <Visibility />
+                                                </IconButton>
                                                 <IconButton onClick={() => abrirDialogEdicao(post)}>
                                                     <EditIcon />
                                                 </IconButton>
@@ -283,9 +305,9 @@ const MeusPostsForum = () => {
                     <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="default" onClick={handleBack}>Voltar</button>
                 </div>
             </div>
-        
-    </>
-  )
+
+        </>
+    )
 }
 
 export default MeusPostsForum

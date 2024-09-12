@@ -73,3 +73,20 @@ textarea {
 textarea {
     resize: vertical;
 }
+
+.VoltarButton {
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FF9113;
+    color: #fff;
+    border: none;
+}
+
+.VoltarButton:hover {
+    background-color: #E68010;
+}

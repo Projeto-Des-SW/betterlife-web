@@ -10,6 +10,7 @@ const RegisterPostForum = () => {
     const navigate = useNavigate();
     const [usuarioIdPergunta, setUsuarioIdPergunta] = useState('');
     const [pergunta, setPergunta] = useState('');
+
     const [categoriaForumId, setCategoriaForumId] = useState('1'); // Valor inicial pode ser o ID de uma categoria padrão
     const [categorias, setCategorias]= useState([]);
 
@@ -27,6 +28,13 @@ const RegisterPostForum = () => {
         }
     }
 
+    const [categoriaForumId, setCategoriaForumId] = useState('1');
+
+    const handleBack = () => {
+        navigate('/telaPrincipal');
+      };
+
+
     useEffect(() => {
         const userId = dadosUserLogadoService.getUserInfo().id;
         setUsuarioIdPergunta(userId);
@@ -35,30 +43,31 @@ const RegisterPostForum = () => {
 
     const submeter = async (e) => {
         e.preventDefault();
-        if(!pergunta || !categoriaForumId){
+        if (!pergunta || !categoriaForumId) {
             alert('Todos os campos do post são obrigatórios.');
             return;
         }
-        try{            
-            const post = { 
+        try {
+            const post = {
                 usuarioidpergunta: usuarioIdPergunta,
                 pergunta: pergunta,
-                categoriaforumid: categoriaForumId };
+                categoriaforumid: categoriaForumId
+            };
             const response = await forumService.registerPost(JSON.stringify(post));
             console.log(response.error)
             if (response.error === false) {
                 alert('Post enviado');
                 setTimeout(() => {
-                    navigate('/telaPrincipal'); //Mudar a rota para a rota do post que acabou de ser enviado
-                }, 2000); 
+                    navigate('/telaPrincipal');
+                }, 2000);
                 setUsuarioIdPergunta('');
                 setPergunta('');
-                setCategoriaForumId('1'); 
+                setCategoriaForumId('1');
             }
 
         } catch (error) {
             alert(error.message || 'Erro ao realizar post no forum');
-        }    
+        }
     };
 
   return (
@@ -92,12 +101,11 @@ const RegisterPostForum = () => {
                               </option>
                           ))}
                     </select>
+
                 </div>
-                <button type="submit" className={Styles.PostButton}>Publicar</button>
-            </form>
-        </div>
-    </>
-  )
+            </div>
+        </>
+    )
 }
 
 export default RegisterPostForum
