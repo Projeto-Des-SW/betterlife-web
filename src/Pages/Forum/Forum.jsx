@@ -6,16 +6,32 @@ import Header from '../Header/Header';
 import Styles from './Forum.module.css'
 import forumService from '../../Services/Forum/Forum-service';
 import { useNavigate } from 'react-router-dom';
+import categoriaForumService from '../../Services/CategoriaForum/CategoriaForum-service';
 
 const Forum = () => {
     const navigate = useNavigate();
     const [meusPosts, setMeusPosts] = useState([]);
+    const [categorias, setCategorias]= useState([]);
     
     useEffect(() => {        
-        listarPosts();        
-    }, []);
+        listarPosts();
+        listarCategorias();        
+    }, []);    
 
-    
+    const listarCategorias = async () => {
+        try {
+            const response = await categoriaForumService.listarCategoriasForum();
+
+            if (response.error === false) {
+                setCategorias(response.data);
+            } else {
+                alert(response.message);
+            }
+        } catch (error) {
+            alert(error.message || 'Erro ao listar taxonomias');
+        }
+    }
+
     const listarPosts = async () => {                
         try {
             const response = await forumService.allPosts()
@@ -31,6 +47,11 @@ const Forum = () => {
     }
     const handleBack = () => {
         navigate('/telaPrincipal');
+    };
+
+    const getCategoriaNome = (id) => {
+        const categoria = categorias.find((cat) => cat.id === id);
+        return categoria ? categoria.nome : 'Categoria não encontrada';
     };
 
   return (
@@ -52,7 +73,7 @@ const Forum = () => {
                                     {meusPosts.map((post, index) => (
                                         <TableRow key={index}>
                                             <TableCell>{post.pergunta}</TableCell>
-                                            <TableCell>{post.categoriaforumid}</TableCell>                                            
+                                            <TableCell>{getCategoriaNome(post.categoriaforumid)}</TableCell>                                            
                                         </TableRow>
                                     ))}
                                 </TableBody>
