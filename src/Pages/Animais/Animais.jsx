@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import styles from './Animais.module.css';
 import { useNavigate } from 'react-router-dom';
 import {
-    TextField, Grid, Select, Paper, MenuItem, Dialog, FormControl, InputLabel, DialogActions, DialogContent, DialogTitle, DialogContentText, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+    TextField, Grid, Select, Paper, MenuItem, Dialog, 
+    FormControl, InputLabel, DialogActions, DialogContent, 
+    DialogTitle, DialogContentText, Table, TableBody, TableCell, 
+    TableContainer, TableHead, TableRow
 } from '@material-ui/core';
 import Header from '../Header/Header';
 import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
@@ -13,6 +16,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import somService from '../../Services/Som/Som-service';
 import imagemService from '../../Services/Imagem/Imagem-service';
+import AudiotrackIcon from '@mui/icons-material/Audiotrack';
+import ImageIcon from '@mui/icons-material/Image';
 
 const Animais = () => {
     const navigate = useNavigate();
@@ -278,7 +283,7 @@ const Animais = () => {
 
     const abrirDialogDeletar = (animal) => {
         setIdAnimal(animal.idanimal);
-        
+
         setFormDataEdicao({
             nome: animal.nome,
             nomecientifico: animal.nomecientifico,
@@ -292,7 +297,7 @@ const Animais = () => {
             somid: animal.idsom,
             taxonomiaid: animal.idtaxonomia,
         });
-        
+
         setAbrirModalDeletar(true);
     };
 
@@ -329,6 +334,20 @@ const Animais = () => {
         });
     };
 
+    const baixarSom = async (animal) => {
+        const link = document.createElement('a');
+        link.href = animal.som.arquivosom;
+        link.download = animal.som.nomearquivo;
+        link.click();
+    }
+
+    const baixarImagem = async (animal) => {
+        const link = document.createElement('a');
+        link.href = animal.imagem.arquivofoto;
+        link.download = animal.imagem.nomearquivo;
+        link.click();
+    }
+
     useEffect(() => {
         listarAnimais();
         listarTaxonomias();
@@ -359,7 +378,7 @@ const Animais = () => {
                         </Grid>
                     </Grid>
                 </DialogTitle>
-                
+
                 <DialogContent dividers>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12}>
@@ -655,23 +674,29 @@ const Animais = () => {
                                 </TableHead>
                                 <TableBody>
                                     {animais.map((animal, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell>{animal.nome}</TableCell>
-                                            <TableCell>{animal.nomecientifico}</TableCell>
-                                            <TableCell>{animal.sexo}</TableCell>
-                                            <TableCell>{animal.peso}</TableCell>
-                                            <TableCell>{animal.idade}</TableCell>
-                                            <TableCell>{animal.descricao}</TableCell>
-                                            <TableCell>{animal.observacaodaespecie}</TableCell>
-                                            <TableCell>
-                                                <IconButton onClick={() => abrirDialogEdicao(animal)}>
-                                                    <EditIcon />
-                                                </IconButton>
-                                                <IconButton onClick={() => abrirDialogDeletar(animal)} color="secondary">
-                                                    <DeleteIcon />
-                                                </IconButton>
-                                            </TableCell>
-                                        </TableRow>
+                                       <TableRow key={index}>
+                                       <TableCell>{animal.nome}</TableCell>
+                                       <TableCell>{animal.nomecientifico}</TableCell>
+                                       <TableCell>{animal.sexo}</TableCell>
+                                       <TableCell>{animal.peso}</TableCell>
+                                       <TableCell>{animal.idade}</TableCell>
+                                       <TableCell>{animal.descricao}</TableCell>
+                                       <TableCell>{animal.observacaodaespecie}</TableCell>
+                                       <TableCell>
+                                           <IconButton onClick={() => baixarSom(animal)}>
+                                               <AudiotrackIcon /> 
+                                           </IconButton>
+                                           <IconButton onClick={() => baixarImagem(animal)}>
+                                               <ImageIcon /> 
+                                           </IconButton>
+                                           <IconButton onClick={() => abrirDialogEdicao(animal)}>
+                                               <EditIcon />
+                                           </IconButton>
+                                           <IconButton onClick={() => abrirDialogDeletar(animal)} color="secondary">
+                                               <DeleteIcon />
+                                           </IconButton>
+                                       </TableCell>
+                                   </TableRow>
                                     ))}
                                 </TableBody>
                             </Table>
