@@ -66,11 +66,6 @@
     background-color: #E68010;
   }
   
-  .forgotPasswordPrompt {
-    margin-top: 10px;
-    color: #333;
-  }
-  
   .registerPrompt {
     margin-top: 20px;
     color: white;
@@ -92,4 +87,8 @@
   
   .forgotPasswordPrompt a:hover {
     color: #E68010;
+  }
+
+  .googleLoginContainer {
+    margin-top: 20px;
   }

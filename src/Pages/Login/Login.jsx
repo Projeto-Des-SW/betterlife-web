@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';  // Corrected import
 import styles from "./Login.module.css";
 import logo from "../../Assets/logo.png";
 import { loginUser } from '../../Services/Login/Login-service';
@@ -35,43 +37,80 @@ const Login = () => {
     }
   };
 
+  const loginGoogle = async (credentialResponse) => {
+    if (!credentialResponse || !credentialResponse.credential) {
+      return;
+    }
+
+    const decoded = jwtDecode(credentialResponse.credential);
+
+    const googleLoginData = {
+      email: decoded.email,
+      nome: decoded.name,
+      googleId: decoded.sub,
+    };
+
+    const response = await loginUser(JSON.stringify(googleLoginData));
+
+    if (response.error === false) {
+      await localStorage.setItem('userInfo', JSON.stringify(response.data));
+      navigate('/telaPrincipal');
+    } else {
+      alert('Erro ao fazer login com Google');
+    }
+  };
 
   return (
-    <div className={styles.loginContainer}>
-      <img src={logo} alt="Logo" className={styles.logo} />
-      <h2>Login</h2>
-      <form onSubmit={realizarLogin} className={styles.loginForm}>
-        <div className={styles.formGroup}>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={dadosLogin.email}
-            onChange={handleChange}
-            required
+    <GoogleOAuthProvider clientId="383573379881-dkuvqs4fmjegc811qem20ruus8uil8u4.apps.googleusercontent.com">
+      <div className={styles.loginContainer}>
+        <img src={logo} alt="Logo" className={styles.logo} />
+        <h2>Login</h2>
+        <form onSubmit={realizarLogin} className={styles.loginForm}>
+          <div className={styles.formGroup}>
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={dadosLogin.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="senha">Senha:</label>
+            <input
+              type="password"
+              id="senha"
+              name="senha"
+              value={dadosLogin.senha}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <button type="submit" className={styles.submitButton}>Entrar</button>
+        </form>
+
+        <div className={styles.googleLoginContainer}>
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              loginGoogle(credentialResponse);
+            }}
+            onError={(error) => {
+              alert('Erro ao autenticar com Google');
+            }}
+            useOneTap
           />
         </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="senha">Senha:</label>
-          <input
-            type="password"
-            id="senha"
-            name="senha"
-            value={dadosLogin.senha}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit" className={styles.submitButton}>Entrar</button>
-        <p className={styles.forgotPasswordPrompt}>
+
+        <p>
           Esqueceu sua senha? <Link to="/recuperarSenha">Recuperar senha</Link>
         </p>
-      </form>
-      <p className={styles.registerPrompt}>
-        Não tem uma conta? <Link to="/register">Cadastre-se</Link>
-      </p>
-    </div>
+        <p className={styles.registerPrompt}>
+          Não tem uma conta? <Link to="/register">Cadastre-se</Link>
+        </p>
+      </div>
+    </GoogleOAuthProvider>
   );
 };
 
