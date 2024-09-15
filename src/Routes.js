@@ -17,6 +17,8 @@ import RegisterPostForum from './Pages/RegisterPostForum/RegisterPostForum';
 import MeusPostsForum from './Pages/MeusPostsForum/MeusPostsForum';
 import Forum from './Pages/Forum/Forum';
 import Post from './Pages/Forum/Post';
+import MinhasComunidades from './Pages/MinhasComunidades/MinhasComunidades';
+import Comunidades from './Pages/Comunidades/Comunidades';
 
 const PrivateRoute = ({ element, ...rest }) => {
     const isAuthenticated = dadosUserLogadoService.getUserInfo() !== null;
@@ -50,6 +52,8 @@ const Routes = () => (
         <Route path='/meusPosts' element={<PrivateRoute element={<MeusPostsForum />} />}/>
         <Route path='/forum' element={<PrivateRoute element={<Forum/>} />}/>
         <Route path="/post/:id" element={<PrivateRoute element={<Post/>} />}/>
+        <Route path='/minhasComunidades' element={<PrivateRoute element={<MinhasComunidades />} />} />
+        <Route path='/comunidades' element={<PrivateRoute element={<Comunidades />} />} />
       </RouterRoutes>
     </BrowserRouter>
 );
