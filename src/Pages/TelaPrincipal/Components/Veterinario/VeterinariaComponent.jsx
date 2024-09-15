@@ -32,6 +32,14 @@ function VeterinariaComponent() {
     navigate('/meusPosts')
   };
 
+  const minhasComunidade = () => {
+    navigate('/minhasComunidades')
+  };
+
+  const Comunidades = () => {
+    navigate('/comunidades')
+  };
+  
   return (
     <>
       <Paper className={Styles.paper}>
@@ -42,6 +50,8 @@ function VeterinariaComponent() {
           <button type="button" className={Styles.VeterinarioButton} onClick={() => Forum()}>Criar Post</button>
           <button type="button" className={Styles.VeterinarioButton} onClick={() => CategoriaForumPage()}>Cadastrar Categoria de fórum</button>
           <button type="button" className={Styles.VeterinarioButton} onClick={() => meusPosts()}>Meus Posts</button>
+          <button type="button" className={Styles.VeterinarioButton} onClick={() => minhasComunidade()}>Minhas Comunidades</button>
+          <button type="button" className={Styles.VeterinarioButton} onClick={() => Comunidades()}>Comunidades</button>
         </div>
       </Paper>
     </>
