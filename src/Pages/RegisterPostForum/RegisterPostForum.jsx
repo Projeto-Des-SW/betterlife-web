@@ -5,6 +5,7 @@ import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLoga
 import forumService from '../../Services/Forum/Forum-service';
 import { useNavigate } from 'react-router-dom';
 import categoriaForumService from '../../Services/CategoriaForum/CategoriaForum-service';
+import Footer from '../Footer/Footer';
 
 const RegisterPostForum = () => {
     const navigate = useNavigate();
@@ -105,6 +106,7 @@ const RegisterPostForum = () => {
             </form>
             
             </div>
+            <Footer />
         </>
     )
 }

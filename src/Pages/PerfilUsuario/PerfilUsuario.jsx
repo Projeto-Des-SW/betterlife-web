@@ -8,6 +8,7 @@ import {
 import usuarioService from '../../Services/Usuario/Usuario-service';
 import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
 import IconButton from '@material-ui/core/IconButton';
+import Footer from '../Footer/Footer';
 
 const UserProfile = () => {
   const [formData, setFormData] = useState({
@@ -384,6 +385,7 @@ const UserProfile = () => {
       <div className={Styles.buttonContainer}>
         <button type="button" className={Styles.BackButton} onClick={handleBack}>Voltar</button>
       </div>
+      <Footer />
     </div>
   );
 }

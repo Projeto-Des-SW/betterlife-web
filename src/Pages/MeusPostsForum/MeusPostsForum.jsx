@@ -15,7 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 import categoriaForumService from '../../Services/CategoriaForum/CategoriaForum-service';
 import Visibility from '@mui/icons-material/Visibility';
-
+import Footer from '../Footer/Footer';
 
 const MeusPostsForum = () => {
     const navigate = useNavigate();
@@ -305,7 +305,7 @@ const MeusPostsForum = () => {
                     <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="default" onClick={handleBack}>Voltar</button>
                 </div>
             </div>
-
+            <Footer />
         </>
     )
 }

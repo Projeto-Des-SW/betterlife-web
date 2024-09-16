@@ -6,6 +6,7 @@ import Header from '../Header/Header';
 import Styles from './Forum.module.css';
 import forumService from '../../Services/Forum/Forum-service';
 import { useNavigate, useParams } from 'react-router-dom';
+import Footer from '../Footer/Footer';
 
 const Post = () => {
     const navigate = useNavigate();
@@ -75,6 +76,7 @@ const Post = () => {
                     </button>
                 </div>
             </div>
+            <Footer />
         </>
     );
 };

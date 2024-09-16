@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import comunidadeService from '../../Services/Comunidade/Comunidade-service';
 import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
+import Footer from '../Footer/Footer';
 
 function Comunidades() {
     const navigate = useNavigate();
@@ -87,6 +88,7 @@ function Comunidades() {
                     <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="default" onClick={handleBack}>Voltar</button>
                 </div>
             </div>
+            <Footer />
         </>
     );
 }

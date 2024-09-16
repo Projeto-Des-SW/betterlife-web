@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import categoriaForumService from '../../Services/CategoriaForum/CategoriaForum-service';
+import Footer from '../Footer/Footer';
 
 function CategoriaForum() {
     const navigate = useNavigate();
@@ -379,6 +380,7 @@ function CategoriaForum() {
                     <button type="button" className={Styles.CriarCategoriaForumButton} variant="contained" color="default" onClick={handleBack}>Voltar</button>
                 </div>
             </div>
+            <Footer />
         </>
     );
 }
