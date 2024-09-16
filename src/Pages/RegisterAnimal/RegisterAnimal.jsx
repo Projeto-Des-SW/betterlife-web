@@ -10,6 +10,7 @@ import taxonomiaService from '../../Services/Taxonomia/Taxonomia-service';
 import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
 import imagemService from '../../Services/Imagem/Imagem-service';
 import somService from '../../Services/Som/Som-service';
+import Footer from '../Footer/Footer';
 
 const RegisterAnimal = () => {
   const navigate = useNavigate();
@@ -399,6 +400,7 @@ const RegisterAnimal = () => {
           <button type="button" className={styles.VoltarButton} variant="contained" color="default" onClick={handleBack}>Voltar</button>
         </div>
       </div >
+      <Footer />
     </>
   );
 };

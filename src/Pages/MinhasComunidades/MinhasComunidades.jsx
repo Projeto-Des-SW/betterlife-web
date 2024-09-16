@@ -11,6 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import comunidadeService from '../../Services/Comunidade/Comunidade-service';
 import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
 import enderecoService from '../../Services/Endereco/Endereco-service';
+import Footer from '../Footer/Footer';
 
 function MinhasComunidades() {
     const navigate = useNavigate();
@@ -1079,6 +1080,7 @@ function MinhasComunidades() {
                     <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="default" onClick={handleBack}>Voltar</button>
                 </div>
             </div>
+            <Footer />
         </>
     );
 }

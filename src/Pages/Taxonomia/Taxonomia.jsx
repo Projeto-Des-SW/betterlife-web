@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import taxonomiaService from '../../Services/Taxonomia/Taxonomia-service';
+import Footer from '../Footer/Footer';
 
 function Taxonomia() {
     const navigate = useNavigate();
@@ -515,6 +516,7 @@ function Taxonomia() {
                     <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="default" onClick={handleBack}>Voltar</button>
                 </div>
             </div>
+            <Footer />
         </>
     );
 }

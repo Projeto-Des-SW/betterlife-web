@@ -18,6 +18,7 @@ import somService from '../../Services/Som/Som-service';
 import imagemService from '../../Services/Imagem/Imagem-service';
 import AudiotrackIcon from '@mui/icons-material/Audiotrack';
 import ImageIcon from '@mui/icons-material/Image';
+import Footer from '../Footer/Footer';
 
 const Animais = () => {
     const navigate = useNavigate();
@@ -707,7 +708,7 @@ const Animais = () => {
                     <button type="button" className={styles.AnimalButton} variant="contained" color="default" onClick={handleBack}>Voltar</button>
                 </div>
             </div>
-
+            <Footer />
         </>
     )
 }

@@ -7,6 +7,7 @@ import Styles from './Forum.module.css'
 import forumService from '../../Services/Forum/Forum-service';
 import { useNavigate } from 'react-router-dom';
 import categoriaForumService from '../../Services/CategoriaForum/CategoriaForum-service';
+import Footer from '../Footer/Footer';
 
 const Forum = () => {
     const navigate = useNavigate();
@@ -86,6 +87,7 @@ const Forum = () => {
                     <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="default" onClick={handleBack}>Voltar</button>
                 </div>
             </div>
+    <Footer />
     </>
   )
 }
