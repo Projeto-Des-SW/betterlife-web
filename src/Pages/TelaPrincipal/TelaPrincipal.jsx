@@ -2,7 +2,7 @@ import React from 'react';
 import Styles from './TelaPrincipal.module.css';
 import UserComponent from './Components/Usuario/UserComponent';
 import VeterinariaComponent from './Components/Veterinario/VeterinariaComponent';
-import DepartmentoComponent from './Components/Departamento/DepartamentoComponent';
+import DepartamentoComponent from './Components/Departamento/DepartamentoComponent';
 import Header from '../Header/Header';
 import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
 
@@ -15,7 +15,7 @@ function TelaPrincipal() {
       case 'Veterinário':
         return <VeterinariaComponent />;
       case 'Departamento':
-        return <DepartmentoComponent />;
+        return <DepartamentoComponent />;
       default:
         return <div>Bem-vindo ao sistema, estamos processando seu acesso...</div>;
     }

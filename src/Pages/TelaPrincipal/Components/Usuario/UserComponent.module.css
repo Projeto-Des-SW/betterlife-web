@@ -1,0 +1,33 @@
+.paper {
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid #ccc;
+    border-radius: 30px !important;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.UserButton {
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.UserButton {
+    background-color: #FF9113;
+    color: #fff;
+    border: none;
+}
+
+.UserButton:hover {
+    background-color: #E68010;
+}

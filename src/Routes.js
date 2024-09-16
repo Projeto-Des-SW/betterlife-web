@@ -20,9 +20,20 @@ import Post from './Pages/Forum/Post';
 import MinhasComunidades from './Pages/MinhasComunidades/MinhasComunidades';
 import Comunidades from './Pages/Comunidades/Comunidades';
 
-const PrivateRoute = ({ element, ...rest }) => {
-    const isAuthenticated = dadosUserLogadoService.getUserInfo() !== null;
-    return isAuthenticated ? element : <Navigate to="/login" replace />;
+const PrivateRoute = ({ element, requiredRoles, ...rest }) => {
+  const userInfo = dadosUserLogadoService.getUserInfo();
+  const isAuthenticated = userInfo !== null;
+  
+  if (!isAuthenticated) {
+      return <Navigate to="/login" replace />;
+  }
+
+  // Verifica se o usuário tem permissão para acessar a rota
+  if (requiredRoles && !requiredRoles.includes(userInfo.tipousuario)) {
+      return <Navigate to="/telaPrincipal" replace />;
+  }
+
+  return element;
 };
 
 const PublicRoute = ({ element, ...rest }) => {
@@ -42,18 +53,18 @@ const Routes = () => (
         <Route path='/redefinirSenha' element={<PublicRoute element={<RedefinirSenha />} />} />        
 
         {/* Rotas Privadas */}
-        <Route path='/telaPrincipal' element={<PrivateRoute element={<TelaPrincipal />} />} />
-        <Route path='/perfil' element={<PrivateRoute element={<UserProfile />} />} />
-        <Route path='/taxonomia' element={<PrivateRoute element={<Taxonomia />} />} />
-        <Route path='/registerAnimal' element={<PrivateRoute element={<RegisterAnimal/>} />} />
-        <Route path='/animais' element={<PrivateRoute element={<Animais />}/>}/>
-        <Route path='/categoriaForum' element={<PrivateRoute element={<CategoriaForum />}/>}/>        
-        <Route path='/RegisterPostForum' element={<PrivateRoute element={<RegisterPostForum />} />}/>
-        <Route path='/meusPosts' element={<PrivateRoute element={<MeusPostsForum />} />}/>
-        <Route path='/forum' element={<PrivateRoute element={<Forum/>} />}/>
-        <Route path="/post/:id" element={<PrivateRoute element={<Post/>} />}/>
-        <Route path='/minhasComunidades' element={<PrivateRoute element={<MinhasComunidades />} />} />
-        <Route path='/comunidades' element={<PrivateRoute element={<Comunidades />} />} />
+        <Route path='/telaPrincipal' element={<PrivateRoute element={<TelaPrincipal />} requiredRoles={['Usuário Comum', 'Veterinário', 'Departamento']} />} />
+        <Route path='/perfil' element={<PrivateRoute element={<UserProfile />} requiredRoles={['Usuário Comum', 'Veterinário', 'Departamento']} />} />
+        <Route path='/taxonomia' element={<PrivateRoute element={<Taxonomia />} requiredRoles={['Veterinário', 'Departamento']} />}  />
+        <Route path='/registerAnimal' element={<PrivateRoute element={<RegisterAnimal />} requiredRoles={['Veterinário', 'Departamento']} />} />
+        <Route path='/animais' element={<PrivateRoute element={<Animais />} requiredRoles={['Usuário Comum', 'Veterinário', 'Departamento']} />}/>
+        <Route path='/categoriaForum' element={<PrivateRoute element={<CategoriaForum />} requiredRoles={['Departamento']} />}/>        
+        <Route path='/RegisterPostForum' element={<PrivateRoute element={<RegisterPostForum />} requiredRoles={['Usuário Comum', 'Veterinário', 'Departamento']} />}/>
+        <Route path='/meusPosts' element={<PrivateRoute element={<MeusPostsForum />} requiredRoles={['Usuário Comum', 'Veterinário', 'Departamento']} />}/>
+        <Route path='/forum' element={<PrivateRoute element={<Forum/>} requiredRoles={['Usuário Comum', 'Veterinário', 'Departamento']} />}/>
+        <Route path="/post/:id" element={<PrivateRoute element={<Post/>} requiredRoles={['Usuário Comum', 'Veterinário', 'Departamento']} />}/>
+        <Route path='/minhasComunidades' element={<PrivateRoute element={<MinhasComunidades />} requiredRoles={['Departamento']} />} />
+        <Route path='/comunidades' element={<PrivateRoute element={<Comunidades />} requiredRoles={['Usuário Comum', 'Veterinário', 'Departamento']} />} />
       </RouterRoutes>
     </BrowserRouter>
 );

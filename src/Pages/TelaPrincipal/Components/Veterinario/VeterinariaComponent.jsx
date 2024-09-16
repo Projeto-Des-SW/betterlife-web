@@ -47,10 +47,8 @@ function VeterinariaComponent() {
           <button type="button" className={Styles.VeterinarioButton} onClick={() => TaxonomiaPage()}>Taxonomia</button>
           <button type="button" className={Styles.VeterinarioButton} onClick={() => AnimaisPage()}>Animais</button>
           <button type="button" className={Styles.VeterinarioButton} onClick={() => AnimalPage()}>Cadastrar Animal</button>
-          <button type="button" className={Styles.VeterinarioButton} onClick={() => Forum()}>Criar Post</button>
-          <button type="button" className={Styles.VeterinarioButton} onClick={() => CategoriaForumPage()}>Cadastrar Categoria de fórum</button>
-          <button type="button" className={Styles.VeterinarioButton} onClick={() => meusPosts()}>Meus Posts</button>
-          <button type="button" className={Styles.VeterinarioButton} onClick={() => minhasComunidade()}>Minhas Comunidades</button>
+          <button type="button" className={Styles.VeterinarioButton} onClick={() => Forum()}>Criar Post</button>          
+          <button type="button" className={Styles.VeterinarioButton} onClick={() => meusPosts()}>Meus Posts</button>          
           <button type="button" className={Styles.VeterinarioButton} onClick={() => Comunidades()}>Comunidades</button>
         </div>
       </Paper>
