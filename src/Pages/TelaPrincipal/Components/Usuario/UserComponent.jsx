@@ -7,10 +7,6 @@ import {
 function UserComponent() {
   const navigate = useNavigate();
 
-  const AnimalPage = () => {
-    navigate('/registerAnimal');
-  };
-
   const AnimaisPage = () => {
     navigate('/animais')
   };
@@ -32,7 +28,6 @@ function UserComponent() {
       <Paper className={Styles.paper}>
         <div className={Styles.buttonContainer}>          
           <button type="button" className={Styles.UserButton} onClick={() => AnimaisPage()}>Animais</button>
-          <button type="button" className={Styles.UserButton} onClick={() => AnimalPage()}>Cadastrar Animal</button>
           <button type="button" className={Styles.UserButton} onClick={() => Forum()}>Criar Post</button>          
           <button type="button" className={Styles.UserButton} onClick={() => meusPosts()}>Meus Posts</button>          
           <button type="button" className={Styles.UserButton} onClick={() => Comunidades()}>Comunidades</button>
