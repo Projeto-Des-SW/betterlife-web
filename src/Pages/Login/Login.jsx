@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from "./Login.module.css";
-import logo from "../../Assets/logo.png";
+import logo from "../../Assets/logo2.png"; // Atualize para o caminho correto do seu logo
+import GoogleIcon from '@mui/icons-material/Google';
 import { loginUser } from '../../Services/Login/Login-service';
 
 const Login = () => {
@@ -35,42 +36,52 @@ const Login = () => {
     }
   };
 
-
   return (
     <div className={styles.loginContainer}>
-      <img src={logo} alt="Logo" className={styles.logo} />
-      <h2>Login</h2>
-      <form onSubmit={realizarLogin} className={styles.loginForm}>
-        <div className={styles.formGroup}>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={dadosLogin.email}
-            onChange={handleChange}
-            required
-          />
+      <div className={styles.loginContent}>
+        <div className={styles.logoSection}>
+          <img src={logo} alt="Logo" className={styles.logo} />
+          <h2 className={styles.loginTitle}>Fazer login</h2>
+          <p className={styles.subTitle}>Ir para o Betterlife</p>
         </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="senha">Senha:</label>
-          <input
-            type="password"
-            id="senha"
-            name="senha"
-            value={dadosLogin.senha}
-            onChange={handleChange}
-            required
-          />
+        <div className={styles.formSection}>
+          <form onSubmit={realizarLogin} className={styles.loginForm}>
+            <div className={styles.formGroup}>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="E-mail"
+                value={dadosLogin.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <input
+                type="password"
+                id="senha"
+                name="senha"
+                placeholder="Senha"
+                value={dadosLogin.senha}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className={styles.forgotPassword}>
+              <Link to="/recuperarSenha">Esqueci minha senha</Link>
+            </div>
+            <button type="button" className={styles.googleButton}>
+              <GoogleIcon className={styles.googleIcon} />
+              Entre com o Google
+            </button>
+            <div className={styles.actionButtons}>
+              <Link to="/register" className={styles.registerButton}>Criar conta</Link>
+              <button type="submit" className={styles.submitButton}>Entrar</button>
+            </div>
+          </form>
         </div>
-        <button type="submit" className={styles.submitButton}>Entrar</button>
-        <p className={styles.forgotPasswordPrompt}>
-          Esqueceu sua senha? <Link to="/recuperarSenha">Recuperar senha</Link>
-        </p>
-      </form>
-      <p className={styles.registerPrompt}>
-        Não tem uma conta? <Link to="/register">Cadastre-se</Link>
-      </p>
+      </div>
     </div>
   );
 };
