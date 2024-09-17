@@ -1,95 +1,147 @@
 .loginContainer {
-    background-color: #1C4839;
-    color: white;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
-  
-  .logo {
-    width: 250px;
-    margin-bottom: 20px;
-  }
-  
-  h2 {
-    margin: 10px 0 20px;
-  }
-  
-  .loginForm {
-    background-color: #f9f9f9;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .formGroup {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-    width: 100%;
-  }
-  
-  .formGroup label {
-    margin-bottom: 5px;
-    color: #333;
-  }
-  
-  .formGroup input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  .submitButton {
-    padding: 10px 15px;
-    background-color: #FF9113;
-    color: #fff;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-  }
-  
-  .submitButton:hover {
-    background-color: #E68010;
-  }
-  
-  .forgotPasswordPrompt {
-    margin-top: 10px;
-    color: #333;
-  }
-  
-  .registerPrompt {
-    margin-top: 20px;
-    color: white;
-  }
-  
-  .registerPrompt a {
-    color: #FF9113;
-    text-decoration: none;
-  }
-  
-  .registerPrompt a:hover {
-    color: #E68010;
-  }
-  
-  .forgotPasswordPrompt a {
-    color: #FF9113;
-    text-decoration: none;
-  }
-  
-  .forgotPasswordPrompt a:hover {
-    color: #E68010;
-  }
+  background-color: #f2efec;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginContent {
+  display: flex;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  width: 100%;
+  padding: 40px;
+  align-items: center;
+}
+
+.logoSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Alinhar no início para subir */
+  align-items: flex-start;
+  padding-right: 40px;
+  margin-top: -30px; /* Margem negativa para subir tudo */
+}
+
+.logo {
+  width: 100px;
+  margin-bottom: 10px;
+  margin-top: -100px; /* Subir a logo especificamente */
+}
+
+.loginTitle {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  margin-top: -15px; /* Subir o texto "Fazer login" */
+}
+
+.subTitle {
+  font-size: 14px;
+  color: #666;
+  margin-top: -1px; /* Subir o texto "Ir para o Betterlife" */
+}
+
+.formSection {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginForm {
+  width: 100%;
+}
+
+.formGroup {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.formGroup input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #fff;
+}
+
+.forgotPassword {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.forgotPassword a {
+  color: #666;
+  text-decoration: none;
+}
+
+.forgotPassword a:hover {
+  text-decoration: underline;
+}
+
+.googleButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  width: 100%;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.googleButton:hover {
+  background-color: #f0f0f0;
+}
+
+.googleIcon {
+  width: 20px;
+  margin-right: 8px;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.registerButton {
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  width: 45%;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.registerButton:hover {
+  background-color: #f0f0f0;
+}
+
+.submitButton {
+  background-color: #1C4839;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  width: 45%;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.submitButton:hover {
+  background-color: #1b4234;
+}
