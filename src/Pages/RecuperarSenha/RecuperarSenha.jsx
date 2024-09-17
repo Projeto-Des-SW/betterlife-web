@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import styles from "./RecuperarSenha.module.css";
-import logo from "../../Assets/logo.png";
+import logo from "../../Assets/logo2.png";
 import RecuperarSenhaService from '../../Services/RecuperarSenha/RecuperarSenha-service';
 
 const RecuperarSenha = () => {
-  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
 
@@ -32,48 +30,43 @@ const RecuperarSenha = () => {
       return;
     }
     
-    const dados = {
-      email: email
-    }
+    const dados = { email };
 
     try {
       const response = await RecuperarSenhaService.sendEmailReset(JSON.stringify(dados));
-
       if (response.error === false) {
-        setTimeout(() => {
-          navigate('/telaPrincipal');
-        }, 2000);
+        alert("Email de recuperação enviado!");
       } else {
         alert("Erro na conexão, por favor tente mais tarde");
       }
-
     } catch (error) {
-      alert(error.error);
+      alert("Erro inesperado, tente novamente.");
     }
   };
 
   return (
-    <div className={styles.forgotPasswordContainer}>
-      <img src={logo} alt="Logo" className={styles.logo} />
-      <h2>Recuperar Senha</h2>
-      <form onSubmit={enviarSolicitacao} className={styles.forgotPasswordForm}>
-        <div className={styles.formGroup}>
-          <label htmlFor="email">Email:</label>
+    <div className={styles.container}>
+      <div className={styles.formContainer}>
+        <div className={styles.logoTitleSection}>
+          <img src={logo} alt="Logo" className={styles.logo} />
+          <div>
+            <h2 className={styles.title}>Esqueceu a senha?</h2>
+            <p className={styles.subTitle}>Digite seu e-mail para recuperar sua conta</p>
+          </div>
+        </div>
+        <form onSubmit={enviarSolicitacao} className={styles.form}>
           <input
             type="email"
-            id="email"
-            name="email"
+            placeholder="E-mail"
             value={email}
             onChange={preencherDados}
+            className={styles.inputField}
             required
           />
           {emailError && <span className={styles.error}>{emailError}</span>}
-        </div>
-        <button type="submit" className={styles.submitButton}>Enviar</button>
-      </form>
-      <p className={styles.backToLogin}>
-        Lembrou sua senha? <Link to="/login">Voltar para o login</Link>
-      </p>
+          <button type="submit" className={styles.submitButton}>Avançar</button>
+        </form>
+      </div>
     </div>
   );
 };
