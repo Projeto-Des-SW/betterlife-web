@@ -249,7 +249,7 @@ const UserProfile = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   variant="outlined"
-                  type="text"
+                  type="cep"
                   name="cep"
                   label={
                     <span>
@@ -265,7 +265,7 @@ const UserProfile = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   variant="outlined"
-                  type="text"
+                  type="logradouro"
                   name="logradouro"
                   label={
                     <span>
@@ -281,7 +281,7 @@ const UserProfile = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   variant="outlined"
-                  type="text"
+                  type="bairro"
                   name="bairro"
                   label={
                     <span>
@@ -297,7 +297,7 @@ const UserProfile = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   variant="outlined"
-                  type="text"
+                  type="cidade"
                   name="cidade"
                   label={
                     <span>
@@ -313,7 +313,7 @@ const UserProfile = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   variant="outlined"
-                  type="text"
+                  type="uf"
                   name="uf"
                   label={
                     <span>
@@ -329,7 +329,7 @@ const UserProfile = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   variant="outlined"
-                  type="text"
+                  type="pais"
                   name="pais"
                   label={
                     <span>
@@ -345,7 +345,7 @@ const UserProfile = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   variant="outlined"
-                  type="text"
+                  type="numero"
                   name="numero"
                   label={
                     <span>
@@ -361,7 +361,7 @@ const UserProfile = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   variant="outlined"
-                  type="text"
+                  type="complemento"
                   name="complemento"
                   label={
                     <span>
