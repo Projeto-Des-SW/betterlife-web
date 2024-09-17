@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from "./RecuperarSenha.module.css";
 import logo from "../../Assets/logo2.png";
 import RecuperarSenhaService from '../../Services/RecuperarSenha/RecuperarSenha-service';
@@ -50,7 +51,7 @@ const RecuperarSenha = () => {
         <div className={styles.logoTitleSection}>
           <img src={logo} alt="Logo" className={styles.logo} />
           <div>
-            <h2 className={styles.title}>Esqueceu a senha?</h2>
+            <h2 className={styles.title}>Esqueceu a senha</h2>
             <p className={styles.subTitle}>Digite seu e-mail para recuperar sua conta</p>
           </div>
         </div>
@@ -66,6 +67,9 @@ const RecuperarSenha = () => {
           {emailError && <span className={styles.error}>{emailError}</span>}
           <button type="submit" className={styles.submitButton}>Avançar</button>
         </form>
+        <p className={styles.backToLogin}>
+          Lembrou da senha? <Link to="/login">Voltar para o login</Link>
+        </p>
       </div>
     </div>
   );
