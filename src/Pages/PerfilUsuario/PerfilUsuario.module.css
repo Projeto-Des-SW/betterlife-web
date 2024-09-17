@@ -1,71 +1,70 @@
+/* Container principal */
 .UserProfileContainer {
-  background-color: #1C4839;
-  color: white;
-  min-height: 100vh;
+  background-color: #f2efec;
   display: flex;
+  min-height: 100vh;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding: 20px;
-}
-
-.UserProfileContainer h2 {
-  margin-bottom: 30px;
-  text-align: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 0px;
 }
 
 .paper {
-  padding: 20px;
-  margin-top: 50px;
-  border: 1px solid #ccc;
-  border-radius: 30px !important;
   width: 100%;
-  max-width: 800px;
+  max-width: 900px;
+  padding: 40px;
+  margin-top: 20px;
+  background-color: #f2efec;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .title {
   text-align: center;
+  color: #2e574f;
+  margin-bottom: 20px;
 }
 
 .form {
-  width: 100%;
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 
-.buttonContainer { 
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
   margin-top: 20px;
-  display: flex;
-  justify-content: space-evenly;
-  width: 100%;
-}
-
-.SaveButton, .BackButton { 
-  padding: 15px 30px;
-  font-size: 18px; 
-  border-radius: 10px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.SaveButton {
-  background-color: #FF9113;
-  color: #fff;
-  border: none;
-}
-
-.SaveButton:hover {
-  background-color: #E68010;
 }
 
 .BackButton {
-  background-color: #FF9113;
-  color: #fff;
+  background-color: #f44336;
+  color: white;
   border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
-.BackButton:hover {
-  background-color: #E68010;
+.SaveButton {
+  background-color: #2e574f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.BackButton:hover, .SaveButton:hover {
+  opacity: 0.9;
+}
+
+/* Classe para centralizar o botão Voltar abaixo do contêiner */
+.centeredBackButton {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Distância do contêiner */
 }
