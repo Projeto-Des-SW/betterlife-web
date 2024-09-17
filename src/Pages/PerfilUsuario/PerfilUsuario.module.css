@@ -1,11 +1,13 @@
 /* Container principal */
 .UserProfileContainer {
+  background-color: #f2efec;
   display: flex;
+  min-height: 100vh;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  padding: 250px;
+  padding: 0px;
 }
 
 .paper {
@@ -13,7 +15,7 @@
   max-width: 900px;
   padding: 40px;
   margin-top: 20px;
-  background-color: white;
+  background-color: #f2efec;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
