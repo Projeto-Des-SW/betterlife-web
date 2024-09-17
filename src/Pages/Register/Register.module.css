@@ -1,152 +1,88 @@
 .registerContainer {
-  background-color: #1C4839;
-  color: white;
+  background-color: #f2efec;
   min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.registerContent {
+  display: flex;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  width: 100%;
+  padding: 40px;
+}
+
+.logoSection {
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  padding-right: 40px;
 }
 
-.title {
-  text-align: center;
-  padding: 20px;
+.logo {
+  width: 250px;
+  margin-bottom: 10px;
+}
+
+.registerTitle {
+  font-size: 50px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  margin-top: -50px;
+}
+
+.subTitle {
+  font-size: 14px;
+  color: #666;
+  margin-top: -2px;
+}
+
+.formSection {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .paper {
-  padding: 20px;
-  margin: 20px;
-  border: 1px solid #ccc;
-  border-radius: 30px !important;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 15px;
+}
+
+.registerForm {
   width: 100%;
-  max-width: 1000px;
-}
- 
-.passwordCriteria {
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.registerHeader {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.registerHeader .logo {
-  width: 200px;
-  margin-bottom: 10px;
-}
-
-.registerHeader h2 {
-  margin: 10px 0;
-}
-
-@media (max-width: 600px) {
-  .registerHeader {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .registerHeader .logo {
-    margin-bottom: 5px;
-  }
-}
-
-.tabs {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  background-color: white;
-  padding: 5px;
-  border-radius: 8px;
-}
-
-.tabs button {
-  flex: 1;
-  padding: 8px;
-  border: none;
-  background-color: #FF9113;
-  color: white;
-  cursor: pointer;
-  border-radius: 4px;
-  margin: 2px;
-}
-
-.tabs button.activeTab {
-  background-color: #1C4839;
-  color: white;
-}
-
-.tabs button:not(.activeTab):hover {
-  background-color: #E68010;
-}
-
-.formGroup {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-}
-
-.formGroup label {
-  margin-bottom: 5px;
-  color: #333;
-}
-
-.formGroup input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.userTypePrompt {
-  margin-bottom: 10px;
-  text-align: center;
-  font-weight: bold;
-}
-
-.submitButton {
-  padding: 10px;
-  background-color: #FF9113;
-  color: #fff;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  width: 100%;
-  margin-top: 20px;
-}
-
-.submitButton:hover {
-  background-color: #E68010;
-}
-
-.backToLogin {
-  margin-top: 10px;
-  text-align: center;
-  color: white;
-}
-
-.backToLogin a {
-  color: #FF9113; 
-  text-decoration: none;
-}
-
-.backToLogin a:hover {
-  color: #E68010; 
 }
 
 .passwordTooltip {
-  color: black;
+  margin-top: 10px;
 }
 
-.buttonContainer { 
+.passwordCriteria {
+  margin-bottom: 5px;
+}
+
+.buttonContainer {
   display: flex;
-  justify-content: space-evenly;
-  width: 100%;
+  justify-content: center;
   margin-top: 20px;
 }
 
+.submitButton {
+  background-color: #1C4839;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background-color: #14432D;
+}
