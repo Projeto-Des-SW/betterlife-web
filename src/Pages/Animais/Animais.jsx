@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styles from './Animais.module.css';
 import { useNavigate } from 'react-router-dom';
 import {
-    TextField, Grid, Select, Paper, MenuItem, Dialog, 
-    FormControl, InputLabel, DialogActions, DialogContent, 
-    DialogTitle, DialogContentText, Table, TableBody, TableCell, 
+    TextField, Grid, Select, Paper, MenuItem, Dialog,
+    FormControl, InputLabel, DialogActions, DialogContent,
+    DialogTitle, DialogContentText, Table, TableBody, TableCell,
     TableContainer, TableHead, TableRow
 } from '@material-ui/core';
 import Header from '../Header/Header';
@@ -19,9 +19,11 @@ import imagemService from '../../Services/Imagem/Imagem-service';
 import AudiotrackIcon from '@mui/icons-material/Audiotrack';
 import ImageIcon from '@mui/icons-material/Image';
 import Footer from '../Footer/Footer';
+import { CircularProgress } from '@material-ui/core';
 
 const Animais = () => {
     const navigate = useNavigate();
+    const [carregando, setCarregando] = useState(false);
     const [abrirModalEdicao, setAbrirModalEdicao] = useState(false);
     const [abrirModalDeletar, setAbrirModalDeletar] = useState(false);
     const [animais, setAnimais] = useState([]);
@@ -156,28 +158,35 @@ const Animais = () => {
     };
 
     const listarAnimais = async () => {
+        setCarregando(true); // Ativa o estado de carregamento
         try {
             const response = await animaisService.listarAnimais();
 
-            if (response.error === false) {
-                const animaisComImagem = response.data.map(animal => ({
-                    ...animal,
-                    imagem: {
-                        arquivofoto: reverterBaseImg(animal.arquivofoto),
-                        nomearquivo: animal.nomearquivofoto
-                    },
-                    som: {
-                        arquivosom: reverterBaseAudio(animal.arquivosom),
-                        nomearquivo: animal.nomearquivosom
-                    }
-                }));
-                setAnimais(animaisComImagem);
-            } else {
-                alert(response.message);
-            }
+            // Simular um atraso de 2 segundos
+            setTimeout(() => {
+                if (response.error === false) {
+                    const animaisComImagem = response.data.map(animal => ({
+                        ...animal,
+                        imagem: {
+                            arquivofoto: reverterBaseImg(animal.arquivofoto),
+                            nomearquivo: animal.nomearquivofoto
+                        },
+                        som: {
+                            arquivosom: reverterBaseAudio(animal.arquivosom),
+                            nomearquivo: animal.nomearquivosom
+                        }
+                    }));
+                    setAnimais(animaisComImagem);
+                } else {
+                    alert(response.message);
+                }
+
+                setCarregando(false); // Desativa o estado de carregamento após o delay
+            }, 2000); // Atraso de 2000 milissegundos (2 segundos)
 
         } catch (error) {
             alert(error.message || 'Erro ao listar Animais');
+            setCarregando(false);  // Desativa o estado de carregamento no erro
         }
     };
 
@@ -658,56 +667,65 @@ const Animais = () => {
             <div className={styles.ConteudoContainer}>
                 <h1>Animais</h1>
                 <Paper className={styles.paper}>
-                    <div style={{ marginBottom: '16px', overflowX: 'auto' }}>
-                        <TableContainer component={Paper} style={{ marginTop: '20px' }}>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Nome</TableCell>
-                                        <TableCell>Nome Cientifico</TableCell>
-                                        <TableCell>Sexo</TableCell>
-                                        <TableCell>Peso</TableCell>
-                                        <TableCell>Idade</TableCell>
-                                        <TableCell>Descrição</TableCell>
-                                        <TableCell>Obs. da especie</TableCell>
-                                        <TableCell>Ações</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {animais.map((animal, index) => (
-                                       <TableRow key={index}>
-                                       <TableCell>{animal.nome}</TableCell>
-                                       <TableCell>{animal.nomecientifico}</TableCell>
-                                       <TableCell>{animal.sexo}</TableCell>
-                                       <TableCell>{animal.peso}</TableCell>
-                                       <TableCell>{animal.idade}</TableCell>
-                                       <TableCell>{animal.descricao}</TableCell>
-                                       <TableCell>{animal.observacaodaespecie}</TableCell>
-                                       <TableCell>
-                                           <IconButton onClick={() => baixarSom(animal)}>
-                                               <AudiotrackIcon /> 
-                                           </IconButton>
-                                           <IconButton onClick={() => baixarImagem(animal)}>
-                                               <ImageIcon /> 
-                                           </IconButton>
-                                           <IconButton onClick={() => abrirDialogEdicao(animal)}>
-                                               <EditIcon />
-                                           </IconButton>
-                                           <IconButton onClick={() => abrirDialogDeletar(animal)} color="secondary">
-                                               <DeleteIcon />
-                                           </IconButton>
-                                       </TableCell>
-                                   </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </div>
+                    {carregando ? (
+                        // Indicador de carregamento no lugar da tabela
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+                            <CircularProgress />
+                        </div>
+                    ) : (
+                        // Tabela de animais, renderizada apenas quando o carregamento termina
+                        <div style={{ marginBottom: '16px', overflowX: 'auto' }}>
+                            <TableContainer component={Paper} style={{ marginTop: '20px' }}>
+                                <Table>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>Nome</TableCell>
+                                            <TableCell>Nome Cientifico</TableCell>
+                                            <TableCell>Sexo</TableCell>
+                                            <TableCell>Peso</TableCell>
+                                            <TableCell>Idade</TableCell>
+                                            <TableCell>Descrição</TableCell>
+                                            <TableCell>Obs. da espécie</TableCell>
+                                            <TableCell>Ações</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {animais.map((animal, index) => (
+                                            <TableRow key={index}>
+                                                <TableCell>{animal.nome}</TableCell>
+                                                <TableCell>{animal.nomecientifico}</TableCell>
+                                                <TableCell>{animal.sexo}</TableCell>
+                                                <TableCell>{animal.peso}</TableCell>
+                                                <TableCell>{animal.idade}</TableCell>
+                                                <TableCell>{animal.descricao}</TableCell>
+                                                <TableCell>{animal.observacaodaespecie}</TableCell>
+                                                <TableCell>
+                                                    <IconButton onClick={() => baixarSom(animal)}>
+                                                        <AudiotrackIcon />
+                                                    </IconButton>
+                                                    <IconButton onClick={() => baixarImagem(animal)}>
+                                                        <ImageIcon />
+                                                    </IconButton>
+                                                    <IconButton onClick={() => abrirDialogEdicao(animal)}>
+                                                        <EditIcon />
+                                                    </IconButton>
+                                                    <IconButton onClick={() => abrirDialogDeletar(animal)} color="secondary">
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </div>
+                    )}
                 </Paper>
                 <div className={styles.buttonContainer}>
                     <button type="button" className={styles.AnimalButton} variant="contained" color="default" onClick={handleBack}>Voltar</button>
                 </div>
             </div>
+
             <Footer />
         </>
     )
