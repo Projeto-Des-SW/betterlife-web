@@ -1,76 +1,94 @@
-.forgotPasswordContainer {
-    background-color: #1C4839;
-    color: white;
-    min-height: 100vh;
+/* Estilos Globais */
+.container {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
-}
-
-.logo {
-    width: 250px;
-    margin-bottom: 20px;
-}
-
-h2 {
-    margin: 10px 0 20px;
-}
-
-.forgotPasswordForm {
-    background-color: #f9f9f9;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 100vh;
+    background-color: #f5f1eb; /* Fundo suave */
+  }
+  
+  .formContainer {
+    background-color: white;
+    padding: 40px;
+    border-radius: 15px; /* Borda arredondada */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    max-width: 700px;
     width: 100%;
-    max-width: 400px;
-    box-sizing: border-box;
-}
-
-.formGroup {
+  }
+  
+  .logoTitleSection {
+    display: flex;
+    align-items: center; /* Centraliza verticalmente o logo e o texto */
+    margin-bottom: 30px;
+  }
+  
+  .logo {
+    width: 80px;
+    margin-right: 20px; /* Espaço entre logo e o texto */
+  }
+  
+  .title {
+    font-size: 28px;
+    color: #2e574f;
+    margin: 0; /* Remove margens para centralização adequada */
+  }
+  
+  .subTitle {
+    font-size: 16px;
+    color: #666;
+    margin: 5px 0 0 0; /* Margem abaixo do título */
+  }
+  
+  /* Formulário */
+  .form {
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px;
-}
-
-.formGroup label {
-    margin-bottom: 5px;
-    color: #333;
-}
-
-.formGroup input {
-    padding: 10px;
+    gap: 20px;
+  }
+  
+  .inputField {
+    width: 100%;
+    padding: 15px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.submitButton {
-    padding: 10px 15px;
-    background-color: #FF9113;
-    color: #fff;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    width: 100%;
-}
-
-.submitButton:hover {
-    background-color: #E68010;
-}
-
-.backToLogin {
-    margin-top: 20px;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .error {
+    color: red;
+    font-size: 14px;
+    margin-top: -10px;
+  }
+  
+  /* Botão de Avançar */
+  .submitButton {
+    background-color: #2e574f;
     color: white;
-}
-
-.backToLogin a {
-    color: #FF9113;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px; /* Botão arredondado */
+    cursor: pointer;
+    font-size: 16px;
+    align-self: flex-end; /* Alinha o botão à direita */
+  }
+  
+  .submitButton:hover {
+    background-color: #234c43;
+  }
+  
+  /* Texto "Voltar para o login" */
+  .backToLogin {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  .backToLogin a {
+    color: #2e574f;
     text-decoration: none;
-}
-
-.backToLogin a:hover {
-    color: #E68010;
-}
+  }
+  
+  .backToLogin a:hover {
+    text-decoration: underline;
+  }
+  
