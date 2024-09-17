@@ -4,7 +4,7 @@ import styles from "./Register.module.css";
 import logo from "../../Assets/logo2.png";
 import { cpf, cnpj } from 'cpf-cnpj-validator';
 import {
-  TextField, Grid, Paper
+  TextField, Grid, Paper, Radio, RadioGroup, FormControlLabel, FormLabel
 } from '@material-ui/core';
 import registerService from '../../Services/Register/Register-service';
 
@@ -268,6 +268,20 @@ const Register = () => {
                     <div className={styles.passwordCriteria}>Caractere especial: {senhaValida.special ? "✔️" : "❌"}</div>
                   </div>
                 </Grid>
+
+                <Grid item xs={12} sm={6}>
+                  <FormLabel component="legend">Tipo de cadastro:</FormLabel>
+                  <RadioGroup
+                    aria-label="tipoCadastro"
+                    name="tipoCadastro"
+                    value={tipoCadastro}
+                    onChange={(e) => setTipoCadastro(e.target.value)}
+                  >
+                    <FormControlLabel value="pessoaComum" control={<Radio />} label="Usuário comum" />
+                    <FormControlLabel value="veterinaria" control={<Radio />} label="Veterinário" />
+                    <FormControlLabel value="departamento" control={<Radio />} label="Departamento" />
+                  </RadioGroup>
+                </Grid>
               </Grid>
 
               <h2 className={styles.title}>Endereço</h2>
@@ -402,6 +416,12 @@ const Register = () => {
 
               <div className={styles.buttonContainer}>
                 <button type="submit" className={styles.submitButton}>Cadastre-se</button>
+              </div>
+
+              <div className={styles.buttonContainer}>
+                <Link to="/login" className={styles.backToLogin}>
+                  Voltar para o login
+                </Link>
               </div>
             </form>
           </Paper>
