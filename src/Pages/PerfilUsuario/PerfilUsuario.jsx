@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import Styles from '../PerfilUsuario/PerfilUsuario.module.css';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 import {
   TextField, Grid, Paper, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText
 } from '@material-ui/core';
 import usuarioService from '../../Services/Usuario/Usuario-service';
 import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
 import IconButton from '@material-ui/core/IconButton';
-import Footer from '../Footer/Footer';
 
 const UserProfile = () => {
   const [formData, setFormData] = useState({
@@ -27,8 +27,8 @@ const UserProfile = () => {
       numero: dadosUserLogadoService.getUserInfo().numero,
       logradouro: dadosUserLogadoService.getUserInfo().logradouro,
     }
-
   });
+
   const navigate = useNavigate();
   const [showConfirmPopup, setShowConfirmPopup] = useState(false);
   const [password, setPassword] = useState('');
@@ -382,7 +382,7 @@ const UserProfile = () => {
           </div>
         </form>
       </Paper>
-      <div className={Styles.buttonContainer}>
+      <div className={Styles.centeredBackButton}>
         <button type="button" className={Styles.BackButton} onClick={handleBack}>Voltar</button>
       </div>
       <Footer />
@@ -391,3 +391,4 @@ const UserProfile = () => {
 }
 
 export default UserProfile;
+
