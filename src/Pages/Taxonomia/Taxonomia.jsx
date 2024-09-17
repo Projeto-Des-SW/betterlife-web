@@ -10,9 +10,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import taxonomiaService from '../../Services/Taxonomia/Taxonomia-service';
 import Footer from '../Footer/Footer';
+import { CircularProgress } from '@material-ui/core';
 
 function Taxonomia() {
     const navigate = useNavigate();
+    const [carregando, setCarregando] = useState(false);
     const [abrirModalCadastro, setAbrirModalCadastro] = useState(false);
     const [abrirModalEdicao, setAbrirModalEdicao] = useState(false);
     const [abrirModalDeletar, setAbrirModalDeletar] = useState(false);
@@ -64,17 +66,23 @@ function Taxonomia() {
     };
 
     const listarTaxonomias = async () => {
+        setCarregando(true);  // Ativa o estado de carregamento
         try {
             const response = await taxonomiaService.listarTaxonomias();
 
-            if (response.error === false) {
-                setTaxonomias(response.data);
-            } else {
-                alert(response.message);
-            }
+            // Simular um atraso de 2 segundos - Requisição com retorno muito rápido, não estava mostrando o efeito
+            setTimeout(() => {
+                if (response.error === false) {
+                    setTaxonomias(response.data);
+                } else {
+                    alert(response.message);
+                }
+                setCarregando(false);  // Desativa o estado de carregamento após o delay
+            }, 2000); // Atraso de 2000 milissegundos (2 segundos)
 
         } catch (error) {
             alert(error.message || 'Erro ao listar taxonomias');
+            setCarregando(false);  // Desativa o estado de carregamento no erro
         }
     };
 
@@ -489,23 +497,31 @@ function Taxonomia() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {taxonomias.map((taxonomia, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell>{taxonomia.classe}</TableCell>
-                                            <TableCell>{taxonomia.ordem}</TableCell>
-                                            <TableCell>{taxonomia.subordem}</TableCell>
-                                            <TableCell>{taxonomia.filo}</TableCell>
-                                            <TableCell>{taxonomia.reino}</TableCell>
-                                            <TableCell>
-                                                <IconButton onClick={() => abrirDialogEdicao(taxonomia)}>
-                                                    <EditIcon />
-                                                </IconButton>
-                                                <IconButton onClick={() => abrirDialogDeletar(taxonomia)} color="secondary">
-                                                    <DeleteIcon />
-                                                </IconButton>
+                                    {carregando ? (
+                                        <TableRow>
+                                            <TableCell colSpan={6} align="center">
+                                                <CircularProgress />
                                             </TableCell>
                                         </TableRow>
-                                    ))}
+                                    ) : (
+                                        taxonomias.map((taxonomia, index) => (
+                                            <TableRow key={index}>
+                                                <TableCell>{taxonomia.classe}</TableCell>
+                                                <TableCell>{taxonomia.ordem}</TableCell>
+                                                <TableCell>{taxonomia.subordem}</TableCell>
+                                                <TableCell>{taxonomia.filo}</TableCell>
+                                                <TableCell>{taxonomia.reino}</TableCell>
+                                                <TableCell>
+                                                    <IconButton onClick={() => abrirDialogEdicao(taxonomia)}>
+                                                        <EditIcon />
+                                                    </IconButton>
+                                                    <IconButton onClick={() => abrirDialogDeletar(taxonomia)} color="secondary">
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))
+                                    )}
                                 </TableBody>
                             </Table>
                         </TableContainer>
