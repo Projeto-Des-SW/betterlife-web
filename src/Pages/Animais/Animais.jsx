@@ -667,30 +667,33 @@ const Animais = () => {
             <div className={styles.ConteudoContainer}>
                 <h1>Animais</h1>
                 <Paper className={styles.paper}>
-                    {carregando ? (
-                        // Indicador de carregamento no lugar da tabela
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
-                            <CircularProgress />
-                        </div>
-                    ) : (
-                        // Tabela de animais, renderizada apenas quando o carregamento termina
-                        <div style={{ marginBottom: '16px', overflowX: 'auto' }}>
-                            <TableContainer component={Paper} style={{ marginTop: '20px' }}>
-                                <Table>
-                                    <TableHead>
+
+                    <div style={{ marginBottom: '16px', overflowX: 'auto' }}>
+                        <TableContainer component={Paper} style={{ marginTop: '20px' }}>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Nome</TableCell>
+                                        <TableCell>Nome Cientifico</TableCell>
+                                        <TableCell>Sexo</TableCell>
+                                        <TableCell>Peso</TableCell>
+                                        <TableCell>Idade</TableCell>
+                                        <TableCell>Descrição</TableCell>
+                                        <TableCell>Obs. da espécie</TableCell>
+                                        <TableCell>Ações</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {carregando ? (
+                                        // Indicador de carregamento no lugar da tabela
                                         <TableRow>
-                                            <TableCell>Nome</TableCell>
-                                            <TableCell>Nome Cientifico</TableCell>
-                                            <TableCell>Sexo</TableCell>
-                                            <TableCell>Peso</TableCell>
-                                            <TableCell>Idade</TableCell>
-                                            <TableCell>Descrição</TableCell>
-                                            <TableCell>Obs. da espécie</TableCell>
-                                            <TableCell>Ações</TableCell>
+                                            <TableCell colSpan={8} align="center">
+                                                <CircularProgress />
+                                            </TableCell>
                                         </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {animais.map((animal, index) => (
+                                    ) : (
+                                        // Tabela de animais, renderizada apenas quando o carregamento termina
+                                        animais.map((animal, index) => (
                                             <TableRow key={index}>
                                                 <TableCell>{animal.nome}</TableCell>
                                                 <TableCell>{animal.nomecientifico}</TableCell>
@@ -714,12 +717,13 @@ const Animais = () => {
                                                     </IconButton>
                                                 </TableCell>
                                             </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </div>
-                    )}
+                                        ))
+                                    )}
+
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
                 </Paper>
                 <div className={styles.buttonContainer}>
                     <button type="button" className={styles.AnimalButton} variant="contained" color="default" onClick={handleBack}>Voltar</button>
