@@ -23,6 +23,7 @@ import { CircularProgress } from '@material-ui/core';
 
 const Animais = () => {
     const navigate = useNavigate();
+    const [urlsImagens, setUrlsImagens] = useState({});
     const [carregando, setCarregando] = useState(false);
     const [abrirModalEdicao, setAbrirModalEdicao] = useState(false);
     const [abrirModalDeletar, setAbrirModalDeletar] = useState(false);
@@ -82,6 +83,33 @@ const Animais = () => {
         const allowedTypes = ['audio/mp3', 'audio/wav', 'audio/ogg', 'audio/mpeg'];
         return allowedTypes.includes(tipo);
     };
+    // Falta fazer mostrar a imagem na tela apos carregar
+    const carregarImagem = async (animal) => {
+        try {
+            const response = await fetch(`/api/imagens/${animal.id}`); // API que retorna a imagem do animal
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob); // Cria uma URL temporária para exibir a imagem
+            return url;
+        } catch (error) {
+            console.error('Erro ao carregar a imagem:', error);
+            return '/placeholder.jpg'; // Retorna um placeholder em caso de erro
+        }
+    };
+
+    // Carregar todas as imagens quando o componente for montado
+    useEffect(() => {
+        const carregarImagensAnimais = async () => {
+            const novasUrls = {};
+            for (const animal of animais) {
+                const url = await carregarImagem(animal);
+                novasUrls[animal.id] = url;
+            }
+            setUrlsImagens(novasUrls);
+            setCarregando(false); // Após carregar todas as imagens, desativa o loading
+        };
+
+        carregarImagensAnimais();
+    }, [animais]);
 
     const adicionarSom = async (file) => {
         if (file?.size > MAX_SIZE_AUDIO) {
@@ -665,70 +693,54 @@ const Animais = () => {
             </Dialog>
 
             <div className={styles.ConteudoContainer}>
-                <h1>Animais</h1>
-                <Paper className={styles.paper}>
-
-                    <div style={{ marginBottom: '16px', overflowX: 'auto' }}>
-                        <TableContainer component={Paper} style={{ marginTop: '20px' }}>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Nome</TableCell>
-                                        <TableCell>Nome Cientifico</TableCell>
-                                        <TableCell>Sexo</TableCell>
-                                        <TableCell>Peso</TableCell>
-                                        <TableCell>Idade</TableCell>
-                                        <TableCell>Descrição</TableCell>
-                                        <TableCell>Obs. da espécie</TableCell>
-                                        <TableCell>Ações</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {carregando ? (
-                                        // Indicador de carregamento no lugar da tabela
-                                        <TableRow>
-                                            <TableCell colSpan={8} align="center">
-                                                <CircularProgress />
-                                            </TableCell>
-                                        </TableRow>
-                                    ) : (
-                                        // Tabela de animais, renderizada apenas quando o carregamento termina
-                                        animais.map((animal, index) => (
-                                            <TableRow key={index}>
-                                                <TableCell>{animal.nome}</TableCell>
-                                                <TableCell>{animal.nomecientifico}</TableCell>
-                                                <TableCell>{animal.sexo}</TableCell>
-                                                <TableCell>{animal.peso}</TableCell>
-                                                <TableCell>{animal.idade}</TableCell>
-                                                <TableCell>{animal.descricao}</TableCell>
-                                                <TableCell>{animal.observacaodaespecie}</TableCell>
-                                                <TableCell>
-                                                    <IconButton onClick={() => baixarSom(animal)}>
-                                                        <AudiotrackIcon />
-                                                    </IconButton>
-                                                    <IconButton onClick={() => baixarImagem(animal)}>
-                                                        <ImageIcon />
-                                                    </IconButton>
-                                                    <IconButton onClick={() => abrirDialogEdicao(animal)}>
-                                                        <EditIcon />
-                                                    </IconButton>
-                                                    <IconButton onClick={() => abrirDialogDeletar(animal)} color="secondary">
-                                                        <DeleteIcon />
-                                                    </IconButton>
-                                                </TableCell>
-                                            </TableRow>
-                                        ))
-                                    )}
-
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </div>
-                </Paper>
-                <div className={styles.buttonContainer}>
-                    <button type="button" className={styles.AnimalButton} variant="contained" color="default" onClick={handleBack}>Voltar</button>
+            <h1>Animais</h1>
+            <Paper className={styles.paper} elevation={3} style={{ padding: '16px' }}>
+                <div className={styles.gridContainer}>
+                    {carregando ? (
+                        <div className={styles.loader}>
+                            <CircularProgress />
+                        </div>
+                    ) : (
+                        animais.map((animal, index) => (
+                            <div key={index} className={styles.animalCard}>
+                                {/* <img
+                                    src={urlsImagens[animal.id] || ''}
+                                    alt={animal.nome}
+                                    className={styles.animalImage}
+                                /> */}
+                                <div className={styles.animalDetails}>
+                                    <h3>{animal.nome}</h3>
+                                    <p><strong>Nome Científico:</strong> {animal.nomecientifico}</p>
+                                    <p><strong>Sexo:</strong> {animal.sexo}</p>
+                                    <p><strong>Peso:</strong> {animal.peso}</p>
+                                    <p><strong>Idade:</strong> {animal.idade}</p>
+                                    <p><strong>Descrição:</strong> {animal.descricao}</p>
+                                    <p><strong>Obs. da Espécie:</strong> {animal.observacaodaespecie}</p>
+                                    <div className={styles.actions}>
+                                        <IconButton onClick={() => baixarSom(animal)} title="Baixar Som">
+                                            <AudiotrackIcon />
+                                        </IconButton>
+                                        <IconButton onClick={() => baixarImagem(animal)} title="Baixar Imagem">
+                                            <ImageIcon />
+                                        </IconButton>
+                                        <IconButton onClick={() => abrirDialogEdicao(animal)} title="Editar">
+                                            <EditIcon />
+                                        </IconButton>
+                                        <IconButton onClick={() => abrirDialogDeletar(animal)} color="secondary" title="Deletar">
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
+            </Paper>
+            <div className={styles.buttonContainer}>
+                <button type="button" className={styles.AnimalButton} onClick={handleBack}>Voltar</button>
             </div>
+        </div>
+
 
             <Footer />
         </>
