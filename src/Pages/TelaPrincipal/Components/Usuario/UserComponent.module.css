@@ -1,7 +1,7 @@
 .paper {
     padding: 20px;
     margin: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #cccccc4f;
     border-radius: 30px !important;
 }
 
@@ -23,11 +23,12 @@
 }
 
 .UserButton {
-    background-color: #FF9113;
-    color: #fff;
+    background-color: #06ff2fe5;
+    color: #3A745F;
+
     border: none;
 }
 
 .UserButton:hover {
-    background-color: #E68010;
+    background-color: #3ccf3c;
 }
