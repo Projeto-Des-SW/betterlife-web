@@ -9,10 +9,8 @@ function VeterinariaComponent() {
   const TaxonomiaPage = () => navigate('/taxonomia');
   const AnimalPage = () => navigate('/registerAnimal');
   const AnimaisPage = () => navigate('/animais');
-  const CategoriaForumPage = () => navigate('/categoriaForum');
   const Forum = () => navigate('/RegisterPostForum');
   const meusPosts = () => navigate('/meusPosts');
-  const minhasComunidade = () => navigate('/minhasComunidades');
   const Comunidades = () => navigate('/comunidades');
 
   return (
@@ -26,11 +24,9 @@ function VeterinariaComponent() {
           </div>
           <div className={Styles.buttonGroup}>
             <button type="button" className={Styles.VeterinarioButton} onClick={Forum}>Criar Post</button>
-            <button type="button" className={Styles.VeterinarioButton} onClick={CategoriaForumPage}>Cadastrar Categoria de fórum</button>
           </div>
           <div className={Styles.buttonGroup}>
             <button type="button" className={Styles.VeterinarioButton} onClick={meusPosts}>Meus Posts</button>
-            <button type="button" className={Styles.VeterinarioButton} onClick={minhasComunidade}>Minhas Comunidades</button>
             <button type="button" className={Styles.VeterinarioButton} onClick={Comunidades}>Comunidades</button>
           </div>
         </div>
