@@ -191,7 +191,7 @@ const Register = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     variant="outlined"
-                    type="text"
+                    type="nome"
                     name="nome"
                     label="Nome do usuário *"
                     value={dadosCadastro.nome}
@@ -207,7 +207,7 @@ const Register = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     variant="outlined"
-                    type="text"
+                    type="documento"
                     name="documento"
                     label={tipoCadastro === 'pessoaComum' ? 'CPF *' : tipoCadastro === 'veterinaria' ? 'Número do Registro de Medicina Veterinária *' : 'CNPJ *'}
                     value={dadosCadastro.documento}
@@ -223,7 +223,7 @@ const Register = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     variant="outlined"
-                    type="text"
+                    type="telefone"
                     name="telefone"
                     label="Número do telefone com DDD *"
                     value={dadosCadastro.telefone}
@@ -290,7 +290,7 @@ const Register = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     variant="outlined"
-                    type="text"
+                    type="cep"
                     name="cep"
                     label="CEP *"
                     value={dadosEndereco.cep}
@@ -307,7 +307,7 @@ const Register = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     variant="outlined"
-                    type="text"
+                    type="local"
                     name="localidade"
                     label="Cidade *"
                     value={dadosEndereco.localidade}
@@ -323,7 +323,7 @@ const Register = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     variant="outlined"
-                    type="text"
+                    type="logradouro"
                     name="logradouro"
                     label="Logradouro *"
                     value={dadosEndereco.logradouro}
@@ -339,7 +339,7 @@ const Register = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     variant="outlined"
-                    type="text"
+                    type="bairro"
                     name="bairro"
                     label="Bairro *"
                     value={dadosEndereco.bairro}
@@ -355,7 +355,7 @@ const Register = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     variant="outlined"
-                    type="text"
+                    type="uf"
                     name="uf"
                     label="UF *"
                     value={dadosEndereco.uf}
@@ -371,7 +371,7 @@ const Register = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     variant="outlined"
-                    type="text"
+                    type="pais"
                     name="pais"
                     label="País *"
                     value={dadosEndereco.pais}
@@ -387,7 +387,7 @@ const Register = () => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     variant="outlined"
-                    type="text"
+                    type="complemento"
                     name="complemento"
                     label="Complemento"
                     value={dadosEndereco.complemento}
