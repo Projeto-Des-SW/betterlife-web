@@ -83,20 +83,19 @@ const Animais = () => {
         const allowedTypes = ['audio/mp3', 'audio/wav', 'audio/ogg', 'audio/mpeg'];
         return allowedTypes.includes(tipo);
     };
-    // Falta fazer mostrar a imagem na tela apos carregar
+
     const carregarImagem = async (animal) => {
         try {
-            const response = await fetch(`/api/imagens/${animal.id}`); // API que retorna a imagem do animal
+            const response = await fetch(`/api/imagens/${animal.id}`);
             const blob = await response.blob();
-            const url = URL.createObjectURL(blob); // Cria uma URL temporária para exibir a imagem
+            const url = URL.createObjectURL(blob);
             return url;
         } catch (error) {
             console.error('Erro ao carregar a imagem:', error);
-            return '/placeholder.jpg'; // Retorna um placeholder em caso de erro
+            return '/placeholder.jpg'; 
         }
     };
 
-    // Carregar todas as imagens quando o componente for montado
     useEffect(() => {
         const carregarImagensAnimais = async () => {
             const novasUrls = {};
@@ -105,7 +104,7 @@ const Animais = () => {
                 novasUrls[animal.id] = url;
             }
             setUrlsImagens(novasUrls);
-            setCarregando(false); // Após carregar todas as imagens, desativa o loading
+            setCarregando(false); 
         };
 
         carregarImagensAnimais();
@@ -186,11 +185,10 @@ const Animais = () => {
     };
 
     const listarAnimais = async () => {
-        setCarregando(true); // Ativa o estado de carregamento
+        setCarregando(true);
         try {
             const response = await animaisService.listarAnimais();
 
-            // Simular um atraso de 2 segundos
             setTimeout(() => {
                 if (response.error === false) {
                     const animaisComImagem = response.data.map(animal => ({
@@ -209,12 +207,12 @@ const Animais = () => {
                     alert(response.message);
                 }
 
-                setCarregando(false); // Desativa o estado de carregamento após o delay
-            }, 2000); // Atraso de 2000 milissegundos (2 segundos)
+                setCarregando(false);
+            }, 2000); 
 
         } catch (error) {
             alert(error.message || 'Erro ao listar Animais');
-            setCarregando(false);  // Desativa o estado de carregamento no erro
+            setCarregando(false);  
         }
     };
 
@@ -594,7 +592,7 @@ const Animais = () => {
                                     </MenuItem>
                                     {taxonomias.map((taxonomia) => (
                                         <MenuItem key={taxonomia.id} value={taxonomia.id}>
-                                            {taxonomia.reino}
+                                            {taxonomia.especie}
                                         </MenuItem>
                                     ))}
                                 </Select>

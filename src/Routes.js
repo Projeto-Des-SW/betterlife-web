@@ -28,7 +28,6 @@ const PrivateRoute = ({ element, requiredRoles, ...rest }) => {
       return <Navigate to="/login" replace />;
   }
 
-  // Verifica se o usuário tem permissão para acessar a rota
   if (requiredRoles && !requiredRoles.includes(userInfo.tipousuario)) {
       return <Navigate to="/telaPrincipal" replace />;
   }

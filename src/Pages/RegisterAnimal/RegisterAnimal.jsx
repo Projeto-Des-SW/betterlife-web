@@ -333,7 +333,7 @@ const RegisterAnimal = () => {
                       </MenuItem>
                       {taxonomias.map((taxonomia) => (
                         <MenuItem key={taxonomia.id} value={taxonomia.id}>
-                          {taxonomia.reino}
+                          {taxonomia.especie}
                         </MenuItem>
                       ))}
                     </Select>

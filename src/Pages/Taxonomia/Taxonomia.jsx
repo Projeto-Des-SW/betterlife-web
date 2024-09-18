@@ -3,7 +3,12 @@ import Styles from './Taxonomia.module.css';
 import Header from '../Header/Header';
 import { useNavigate } from 'react-router-dom';
 import {
-    TextField, Grid, Paper, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+    TextField, Grid, Paper, 
+    Dialog, DialogActions, 
+    DialogContent, DialogTitle, 
+    DialogContentText, Table, 
+    TableBody, TableCell, 
+    TableContainer, TableHead, TableRow
 } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
@@ -26,6 +31,7 @@ function Taxonomia() {
         subordem: '',
         filo: '',
         reino: '',
+        especie: ''
     });
     const [formDataEdicao, setFormDataEdicao] = useState({
         classe: '',
@@ -33,6 +39,7 @@ function Taxonomia() {
         subordem: '',
         filo: '',
         reino: '',
+        especie: ''
     });
 
     const alterarDadosCadastro = (e) => {
@@ -53,7 +60,7 @@ function Taxonomia() {
 
     const verificarCamposPreenchidos = (dados) => {
         const camposObrigatorios = [
-            'classe', 'ordem', 'subordem', 'filo', 'reino'
+            'classe', 'ordem', 'subordem', 'filo', 'reino', 'especie'
         ];
 
         for (const campo of camposObrigatorios) {
@@ -66,23 +73,22 @@ function Taxonomia() {
     };
 
     const listarTaxonomias = async () => {
-        setCarregando(true);  // Ativa o estado de carregamento
+        setCarregando(true); 
         try {
             const response = await taxonomiaService.listarTaxonomias();
 
-            // Simular um atraso de 2 segundos - Requisição com retorno muito rápido, não estava mostrando o efeito
             setTimeout(() => {
                 if (response.error === false) {
                     setTaxonomias(response.data);
                 } else {
                     alert(response.message);
                 }
-                setCarregando(false);  // Desativa o estado de carregamento após o delay
-            }, 2000); // Atraso de 2000 milissegundos (2 segundos)
+                setCarregando(false);
+            }, 2000); 
 
         } catch (error) {
             alert(error.message || 'Erro ao listar taxonomias');
-            setCarregando(false);  // Desativa o estado de carregamento no erro
+            setCarregando(false); 
         }
     };
 
@@ -154,6 +160,7 @@ function Taxonomia() {
             subordem: taxonomia.subordem,
             filo: taxonomia.filo,
             reino: taxonomia.reino,
+            especie: taxonomia.especie
         });
         setAbrirModalEdicao(true);
     };
@@ -171,6 +178,7 @@ function Taxonomia() {
             subordem: '',
             filo: '',
             reino: '',
+            especie: ''
         });
     };
 
@@ -182,6 +190,7 @@ function Taxonomia() {
             subordem: '',
             filo: '',
             reino: '',
+            especie: ''
         });
     };
 
@@ -303,6 +312,25 @@ function Taxonomia() {
                                 type="text"
                                 placeholder='Reino'
                                 value={formDataCadastro.reino}
+                                onChange={alterarDadosCadastro}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                variant="outlined"
+                                fullWidth
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <DialogContentText>
+                                Informe a espécie:
+                            </DialogContentText>
+                            <TextField
+                                id="especie"
+                                name="especie"
+                                label={<span>Espécie <span style={{ color: 'red' }}> *</span></span>}
+                                type="text"
+                                placeholder='Espécie'
+                                value={formDataCadastro.especie}
                                 onChange={alterarDadosCadastro}
                                 InputLabelProps={{
                                     shrink: true,
@@ -437,6 +465,25 @@ function Taxonomia() {
                                 fullWidth
                             />
                         </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <DialogContentText>
+                                Informe a espécie:
+                            </DialogContentText>
+                            <TextField
+                                id="especie"
+                                name="especie"
+                                label={<span>Espécie <span style={{ color: 'red' }}> *</span></span>}
+                                type="text"
+                                placeholder='Espécie'
+                                value={formDataEdicao.especie}
+                                onChange={alterarDadosEdicao}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                variant="outlined"
+                                fullWidth
+                            />
+                        </Grid>
                     </Grid>
                 </DialogContent>
                 <DialogActions style={{ justifyContent: 'space-around' }}>
@@ -493,6 +540,7 @@ function Taxonomia() {
                                         <TableCell>Subordem</TableCell>
                                         <TableCell>Filo</TableCell>
                                         <TableCell>Reino</TableCell>
+                                        <TableCell>Espécie</TableCell>
                                         <TableCell>Ações</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -511,6 +559,7 @@ function Taxonomia() {
                                                 <TableCell>{taxonomia.subordem}</TableCell>
                                                 <TableCell>{taxonomia.filo}</TableCell>
                                                 <TableCell>{taxonomia.reino}</TableCell>
+                                                <TableCell>{taxonomia.especie}</TableCell>
                                                 <TableCell>
                                                     <IconButton onClick={() => abrirDialogEdicao(taxonomia)}>
                                                         <EditIcon />
