@@ -5,7 +5,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #FF9113;
+  background-color:  #1A4032;
   color: #fff; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000;
@@ -13,6 +13,7 @@
 }
 
 .title {
+  color: #fff;
   font-size: 1.3em;
   margin-left: 10px;
 }
