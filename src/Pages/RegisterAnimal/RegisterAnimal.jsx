@@ -132,26 +132,27 @@ const RegisterAnimal = () => {
       alert('Todos os campos de cadastro são obrigatórios.');
       return;
     }
-
+  
     try {
       const dadosImagem = {
         ...fotosInput,
       };
-
+  
       const dadosSom = {
         ...somInput,
       };
-
+  
       const responseImagem = await imagemService.criarImagemAnimal(JSON.stringify(dadosImagem));
       const responseSom = await somService.criarSomAnimal(JSON.stringify(dadosSom));
+  
       if (responseImagem.error === false && responseSom.error === false) {
-        setDadosCadastro((prevDadosCadastro) => ({
-          ...prevDadosCadastro,
+        const updatedDadosCadastro = {
+          ...dadosCadastro,
           somid: responseSom.data.id,
           imagemid: responseImagem.data.id,
-        }));
-
-        const responseAnimal = await registerAnimalService.registerAnimal(JSON.stringify(dadosCadastro));
+        };
+  
+        const responseAnimal = await registerAnimalService.registerAnimal(JSON.stringify(updatedDadosCadastro));
         if (responseAnimal.error === false) {
           alert('Animal cadastrado com sucesso!');
           setTimeout(() => {
@@ -163,6 +164,7 @@ const RegisterAnimal = () => {
       alert(error.message || 'Erro ao registrar animal');
     }
   };
+  
 
   useEffect(() => {
     listarTaxonomias();
