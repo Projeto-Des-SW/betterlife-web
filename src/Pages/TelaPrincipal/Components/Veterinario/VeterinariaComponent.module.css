@@ -1,33 +1,56 @@
-.paper {
+:root {
+    --button-bg: #3A745F;
+    --button-text: #ffffff;
+    --button-hover-bg: #2d5749;
+    --button-border-radius: 5px;
+    --spacing: 15px;
+  }
+  
+  .paper {
     padding: 20px;
-    margin: 20px;
-    border: 1px solid #cccccc4f;
-    border-radius: 30px !important;
-}
-
-.buttonContainer {
+    background-color: #f9f9f9;
+    margin: 20px auto;
+    max-width: 800px;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  }
+  
+  .buttonContainer {
     display: flex;
-    justify-content: space-evenly;
-    width: 100%;
-    margin-top: 20px;
-}
-
-.VeterinarioButton {
-    padding: 15px 30px;
-    font-size: 18px;
-    border-radius: 10px;
-    cursor: pointer;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .buttonGroup {
     display: flex;
     justify-content: center;
-    align-items: center;
-}
-
-.VeterinarioButton {
-    background-color: #00e626e5;
-    color: #3A745F;
+    gap: var(--spacing);
+    margin-bottom: var(--spacing);
+  }
+  
+  .VeterinarioButton {
+    background-color: var(--button-bg);
+    color: var(--button-text);
     border: none;
-}
-
-.VeterinarioButton:hover {
-    background-color: #3ccf3c;
-}
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: var(--button-border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .VeterinarioButton:hover {
+    background-color: var(--button-hover-bg);
+  }
+  
+  @media (max-width: 768px) {
+    .buttonGroup {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .VeterinarioButton {
+      width: 100%;
+    }
+  }
+  
