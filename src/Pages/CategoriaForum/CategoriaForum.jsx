@@ -10,9 +10,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import categoriaForumService from '../../Services/CategoriaForum/CategoriaForum-service';
 import Footer from '../Footer/Footer';
+import { CircularProgress } from '@material-ui/core';
 
 function CategoriaForum() {
     const navigate = useNavigate();
+    const [carregando, setCarregando] = useState(false);
     const [abrirModalCadastro, setAbrirModalCadastro] = useState(false);
     const [abrirModalEdicao, setAbrirModalEdicao] = useState(false);
     const [abrirModalDeletar, setAbrirModalDeletar] = useState(false);
@@ -58,14 +60,18 @@ function CategoriaForum() {
     };
 
     const listarCategorias = async () => {
+        setCarregando(true);
         try {
             const response = await categoriaForumService.listarCategoriasForum();
 
-            if (response.error === false) {
-                setCategoriasForum(response.data);
-            } else {
-                alert(response.message);
-            }
+            setTimeout(() => {
+                if (response.error === false) {
+                    setCategoriasForum(response.data);
+                } else {
+                    alert(response.message);
+                }
+                setCarregando(false);
+            }, 2000);
 
         } catch (error) {
             alert(error.message || 'Erro ao listar categorias de fórum');
@@ -262,7 +268,7 @@ function CategoriaForum() {
                 </DialogTitle>
                 <DialogContent dividers>
                     <Grid container spacing={2}>
-                    <Grid item xs={12} sm={12}>
+                        <Grid item xs={12} sm={12}>
                             <DialogContentText>
                                 Informe o nome:
                             </DialogContentText>
@@ -353,23 +359,32 @@ function CategoriaForum() {
                                     <TableRow>
                                         <TableCell>Nome</TableCell>
                                         <TableCell>Descriçao</TableCell>
+                                        <TableCell>Ação</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {categoriasForum.map((categoriaForum, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell>{categoriaForum.nome}</TableCell>
-                                            <TableCell>{categoriaForum.descricao}</TableCell>
-                                            <TableCell>
-                                                <IconButton onClick={() => abrirDialogEdicao(categoriaForum)}>
-                                                    <EditIcon />
-                                                </IconButton>
-                                                <IconButton onClick={() => abrirDialogDeletar(categoriaForum)} color="secondary">
-                                                    <DeleteIcon />
-                                                </IconButton>
+                                    {carregando ? (
+                                        <TableRow>
+                                            <TableCell colSpan={7} align="center">
+                                                <CircularProgress />
                                             </TableCell>
                                         </TableRow>
-                                    ))}
+                                    ) : (
+                                        categoriasForum.map((categoriaForum, index) => (
+                                            <TableRow key={index}>
+                                                <TableCell>{categoriaForum.nome}</TableCell>
+                                                <TableCell>{categoriaForum.descricao}</TableCell>
+                                                <TableCell>
+                                                    <IconButton onClick={() => abrirDialogEdicao(categoriaForum)}>
+                                                        <EditIcon />
+                                                    </IconButton>
+                                                    <IconButton onClick={() => abrirDialogDeletar(categoriaForum)} color="secondary">
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))
+                                    )}
                                 </TableBody>
                             </Table>
                         </TableContainer>
