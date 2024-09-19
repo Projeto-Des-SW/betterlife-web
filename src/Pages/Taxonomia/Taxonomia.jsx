@@ -547,7 +547,7 @@ function Taxonomia() {
                                 <TableBody>
                                     {carregando ? (
                                         <TableRow>
-                                            <TableCell colSpan={6} align="center">
+                                            <TableCell colSpan={7} align="center">
                                                 <CircularProgress />
                                             </TableCell>
                                         </TableRow>
