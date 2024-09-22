@@ -90,3 +90,9 @@ textarea {
 .VoltarButton:hover {
     background-color: #E68010;
 }
+
+.buttonContainerVoltar {
+    display: flex;
+    justify-content: end;
+    width: 100%;
+}

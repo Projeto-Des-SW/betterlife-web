@@ -20,7 +20,7 @@ const Post = () => {
     const listarDadosPost = async () => {                
         try {
             const response = await forumService.listarDadosPostPorID(id);
-            if (!response.error) {  // error === false
+            if (!response.error) {
                 setPost(response.data);
             } else {
                 alert(response.message);
