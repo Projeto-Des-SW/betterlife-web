@@ -163,8 +163,6 @@ const MeusPostsForum = () => {
   return (
     <>
     <Header />
-
-
             <Dialog
                 aria-labelledby="customized-dialog-title"
                 open={abrirModalEdicao}

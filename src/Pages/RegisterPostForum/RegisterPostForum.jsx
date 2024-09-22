@@ -13,7 +13,7 @@ const RegisterPostForum = () => {
     const [pergunta, setPergunta] = useState('');
 
     const [categoriaForumId, setCategoriaForumId] = useState('1'); // Valor inicial pode ser o ID de uma categoria padrão
-    const [categorias, setCategorias]= useState([]);
+    const [categorias, setCategorias] = useState([]);
 
     const listarCategorias = async () => {
         try {
@@ -31,7 +31,7 @@ const RegisterPostForum = () => {
 
     const handleBack = () => {
         navigate('/telaPrincipal');
-      };
+    };
 
 
     useEffect(() => {
@@ -69,42 +69,46 @@ const RegisterPostForum = () => {
         }
     };
 
-  return (
-    <>
-    <Header />
-    <div className={Styles.ConteudoContainer}>
-            <h1>Criar Post</h1>
-            <form onSubmit={submeter}>                
-                <div className={Styles.formGroup}>
-                    <label htmlFor="pergunta">Pergunta:</label>
-                    <textarea 
-                        id="pergunta" 
-                        rows="5" 
-                        value={pergunta} 
-                        onChange={(e) => setPergunta(e.target.value)} 
-                        required 
-                    />
-                </div>
-                
-                <div className={Styles.formGroup}>
-                    <label htmlFor="categoriaForumId">Categoria:</label>
-                    <select 
-                        id="categoriaForumId" 
-                        value={categoriaForumId} 
-                        onChange={(e) => setCategoriaForumId(e.target.value)} 
-                        required
-                    >   
-                          {categorias.map(categoria => (
-                              <option key={categoria.id} value={categoria.id}>
-                                  {categoria.nome}
-                              </option>
-                          ))}
-                    </select>
+    return (
+        <>
+            <Header />
+            <div className={Styles.ConteudoContainer}>
+                <h1>Criar Post</h1>
+                <form onSubmit={submeter}>
+                    <div className={Styles.formGroup}>
+                        <label htmlFor="pergunta">Pergunta:</label>
+                        <textarea
+                            id="pergunta"
+                            rows="5"
+                            value={pergunta}
+                            onChange={(e) => setPergunta(e.target.value)}
+                            required
+                        />
+                    </div>
 
-                </div>
-                <button type="submit" className={Styles.PostButton}>Publicar</button>
-            </form>
-            
+                    <div className={Styles.formGroup}>
+                        <label htmlFor="categoriaForumId">Categoria:</label>
+                        <select
+                            id="categoriaForumId"
+                            value={categoriaForumId}
+                            onChange={(e) => setCategoriaForumId(e.target.value)}
+                            required
+                        >
+                            {categorias.map(categoria => (
+                                <option key={categoria.id} value={categoria.id}>
+                                    {categoria.nome}
+                                </option>
+                            ))}
+                        </select>
+
+                    </div>
+                    <button type="submit" className={Styles.PostButton}>Publicar</button>
+                </form>
+                <div className={Styles.buttonContainerVoltar}>
+                    <button type="button" className={Styles.VoltarButton} onClick={handleBack}>
+                        Voltar
+                    </button>
+                </div >
             </div>
             <Footer />
         </>
