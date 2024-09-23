@@ -53,11 +53,10 @@ const RegisterPostForum = () => {
                 categoriaforumid: categoriaForumId
             };
             const response = await forumService.registerPost(JSON.stringify(post));
-            console.log(response.error)
             if (response.error === false) {
                 alert('Post enviado');
                 setTimeout(() => {
-                    navigate('/telaPrincipal');
+                    navigate('/meusPosts');
                 }, 2000);
                 setUsuarioIdPergunta('');
                 setPergunta('');
