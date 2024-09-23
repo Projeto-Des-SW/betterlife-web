@@ -20,7 +20,7 @@ const Post = () => {
     const listarDadosPost = async () => {                
         try {
             const response = await forumService.listarDadosPostPorID(id);
-            if (!response.error) {
+            if (!response.error) {  
                 setPost(response.data);
             } else {
                 alert(response.message);
@@ -55,7 +55,7 @@ const Post = () => {
                                         <TableRow>
                                             <TableCell>{post.pergunta}</TableCell>
                                             <TableCell>{post.resposta}</TableCell>
-                                            <TableCell>{post.categoriaforumid}</TableCell>                                            
+                                            <TableCell>{post.nomecategoria}</TableCell>                                            
                                         </TableRow>
                                     ) : (
                                         <TableRow>
