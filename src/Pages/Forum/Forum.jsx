@@ -74,7 +74,7 @@ const Forum = () => {
                                     {meusPosts.map((post, index) => (
                                         <TableRow key={index}>
                                             <TableCell>{post.pergunta}</TableCell>
-                                            <TableCell>{getCategoriaNome(post.categoriaforumid)}</TableCell>                                            
+                                            <TableCell>{post.nomecategoria}</TableCell>                                            
                                         </TableRow>
                                     ))}
                                 </TableBody>
