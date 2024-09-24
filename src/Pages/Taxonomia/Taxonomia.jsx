@@ -578,7 +578,7 @@ function Taxonomia() {
                 </Paper>
 
                 <div className={Styles.buttonContainerVoltar}>
-                    <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="default" onClick={handleBack}>Voltar</button>
+                    <button type="button" className={Styles.BackButton} variant="contained" color="default" onClick={handleBack}>Voltar</button>
                 </div>
             </div>
             <Footer />
