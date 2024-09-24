@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {
-     Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+     Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button
 } from '@material-ui/core';
 import Header from '../Header/Header';
-import Styles from './Forum.module.css'
+import Styles from './Forum.module.css';
 import forumService from '../../Services/Forum/Forum-service';
 import { useNavigate } from 'react-router-dom';
 import categoriaForumService from '../../Services/CategoriaForum/CategoriaForum-service';
@@ -12,55 +12,53 @@ import Footer from '../Footer/Footer';
 const Forum = () => {
     const navigate = useNavigate();
     const [meusPosts, setMeusPosts] = useState([]);
-    const [categorias, setCategorias]= useState([]);
-    
-    useEffect(() => {        
+    const [categorias, setCategorias] = useState([]);
+
+    useEffect(() => {
         listarPosts();
-        listarCategorias();        
-    }, []);    
+        listarCategorias();
+    }, []);
 
     const listarCategorias = async () => {
         try {
             const response = await categoriaForumService.listarCategoriasForum();
-
-            if (response.error === false) {
+            if (!response.error) {
                 setCategorias(response.data);
             } else {
                 alert(response.message);
             }
         } catch (error) {
-            alert(error.message || 'Erro ao listar taxonomias');
+            alert(error.message || 'Erro ao listar categorias');
         }
-    }
+    };
 
-    const listarPosts = async () => {                
+    const listarPosts = async () => {
         try {
-            const response = await forumService.allPosts()
-            if(response.error === false)                
-                setMeusPosts(response.data)                          
-            else {
+            const response = await forumService.allPosts();
+            if (!response.error) {
+                setMeusPosts(response.data);
+            } else {
                 alert(response.message);
             }
         } catch (error) {
             alert(error.message || 'Não foi encontrado nenhum post');
         }
-        
-    }
+    };
+
+    const handleVerPost = (postId) => {
+        navigate(`/post/${postId}`);
+    };
+
     const handleBack = () => {
         navigate('/telaPrincipal');
     };
 
-    const getCategoriaNome = (id) => {
-        const categoria = categorias.find((cat) => cat.id === id);
-        return categoria ? categoria.nome : 'Categoria não encontrada';
-    };
-
-  return (
-    <>
-    <Header />
-    <div className={Styles.ConteudoContainer}>
-                <h1>Fórum</h1>
-                <Paper className={Styles.paper}>                    
+    return (
+        <>
+            <Header />
+            <div className={Styles.ConteudoContainer}>
+                <h1>Fórum de Discussão</h1>
+                <Paper className={Styles.paper}>
                     <div style={{ marginBottom: '16px', overflowX: 'auto' }}>
                         <TableContainer component={Paper} style={{ marginTop: '20px' }}>
                             <Table>
@@ -68,15 +66,33 @@ const Forum = () => {
                                     <TableRow>
                                         <TableCell>Pergunta</TableCell>
                                         <TableCell>Categoria</TableCell>
+                                        <TableCell>Ação</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {meusPosts.map((post, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell>{post.pergunta}</TableCell>
-                                            <TableCell>{post.nomecategoria}</TableCell>                                            
+                                    {meusPosts.length > 0 ? (
+                                        meusPosts.map((post, index) => (
+                                            <TableRow key={index}>
+                                                <TableCell>{post.pergunta}</TableCell>
+                                                <TableCell>{post.nomecategoria}</TableCell>
+                                                <TableCell>
+                                                    <Button
+                                                        variant="contained"
+                                                        color="primary"
+                                                        onClick={() => handleVerPost(post.id)}
+                                                    >
+                                                        Ver Post
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))
+                                    ) : (
+                                        <TableRow>
+                                            <TableCell colSpan={3} style={{ textAlign: 'center' }}>
+                                                Nenhum post encontrado
+                                            </TableCell>
                                         </TableRow>
-                                    ))}
+                                    )}
                                 </TableBody>
                             </Table>
                         </TableContainer>
@@ -84,12 +100,14 @@ const Forum = () => {
                 </Paper>
 
                 <div className={Styles.buttonContainerVoltar}>
-                    <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="default" onClick={handleBack}>Voltar</button>
+                    <button type="button" className={Styles.CriarTaxonomiaButton} onClick={handleBack}>
+                        Voltar
+                    </button>
                 </div>
             </div>
-    <Footer />
-    </>
-  )
-}
+            <Footer />
+        </>
+    );
+};
 
-export default Forum
+export default Forum;
