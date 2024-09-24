@@ -30,8 +30,8 @@ const Post = () => {
         }
     };
 
-    const handleBack = () => {
-        navigate('/telaPrincipal');
+    const handleBackToForum = () => {
+        navigate('/forum');  // Navega de volta para a tela do fórum
     };
 
     return (
@@ -71,8 +71,8 @@ const Post = () => {
                 </Paper>
 
                 <div className={Styles.buttonContainerVoltar}>
-                    <button type="button" className={Styles.CriarTaxonomiaButton} onClick={handleBack}>
-                        Voltar
+                    <button type="button" className={Styles.CriarTaxonomiaButton} onClick={handleBackToForum}>
+                        Voltar para o Fórum
                     </button>
                 </div>
             </div>
