@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import {
-     Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+    Paper, Typography, Button, Divider
 } from '@material-ui/core';
 import Header from '../Header/Header';
-import Styles from './Forum.module.css';
+import Styles from './Post.module.css';  // Atualizando para um novo arquivo CSS
 import forumService from '../../Services/Forum/Forum-service';
 import { useNavigate, useParams } from 'react-router-dom';
 import Footer from '../Footer/Footer';
 
 const Post = () => {
     const navigate = useNavigate();
-    const { id } = useParams(); 
+    const { id } = useParams();
     const [post, setPost] = useState(null);
 
-    useEffect(() => {        
-        listarDadosPost();        
+    useEffect(() => {
+        listarDadosPost();
     }, [id]);
 
-    const listarDadosPost = async () => {                
+    const listarDadosPost = async () => {
         try {
             const response = await forumService.listarDadosPostPorID(id);
-            if (!response.error) {  
+            if (!response.error) {
                 setPost(response.data);
             } else {
                 alert(response.message);
@@ -31,50 +31,39 @@ const Post = () => {
     };
 
     const handleBackToForum = () => {
-        navigate('/forum');  // Navega de volta para a tela do fórum
+        navigate('/forum');
     };
 
     return (
         <>
             <Header />
-            <div className={Styles.ConteudoContainer}>
-                <h1>Post</h1>
-                <Paper className={Styles.paper}>
-                    <div style={{ marginBottom: '16px', overflowX: 'auto' }}>
-                        <TableContainer component={Paper} style={{ marginTop: '20px' }}>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Pergunta</TableCell>
-                                        <TableCell>Resposta</TableCell>
-                                        <TableCell>Categoria</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {post ? ( 
-                                        <TableRow>
-                                            <TableCell>{post.pergunta}</TableCell>
-                                            <TableCell>{post.resposta}</TableCell>
-                                            <TableCell>{post.nomecategoria}</TableCell>                                            
-                                        </TableRow>
-                                    ) : (
-                                        <TableRow>
-                                            <TableCell colSpan={3} style={{ textAlign: 'center' }}>
-                                                Carregando post...
-                                            </TableCell>
-                                        </TableRow>
-                                    )}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </div>
-                </Paper>
+            <div className={Styles.conteudoContainer}>
+                {post ? (
+                    <>
+                        <Paper className={Styles.postContainer}>
+                            <Typography variant="h4" className={Styles.postTitle}>
+                                {post.pergunta}
+                            </Typography>
+                            <Divider className={Styles.divider} />
+                            <Typography variant="body1" className={Styles.postResposta}>
+                                {post.resposta}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" className={Styles.postCategoria}>
+                                Categoria: {post.nomecategoria}
+                            </Typography>
+                        </Paper>
 
-                <div className={Styles.buttonContainerVoltar}>
-                    <button type="button" className={Styles.CriarTaxonomiaButton} onClick={handleBackToForum}>
-                        Voltar para o Fórum
-                    </button>
-                </div>
+                        <div className={Styles.buttonContainer}>
+                            <Button variant="contained" color="primary" onClick={handleBackToForum}>
+                                Voltar para o Fórum
+                            </Button>
+                        </div>
+                    </>
+                ) : (
+                    <Typography variant="h6" className={Styles.loadingMessage}>
+                        Carregando post...
+                    </Typography>
+                )}
             </div>
             <Footer />
         </>
