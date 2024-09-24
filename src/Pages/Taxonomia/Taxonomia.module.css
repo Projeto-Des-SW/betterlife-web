@@ -36,11 +36,24 @@
 }
 
 .CriarTaxonomiaButton {
-    background-color: #FF9113;
+    background-color: #3A745F;
     color: #fff;
     border: none;
 }
 
 .CriarTaxonomiaButton:hover {
-    background-color: #E68010;
+    background-color: #3A745F;
+}
+
+.BackButton {
+    background-color: #3A745F;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
