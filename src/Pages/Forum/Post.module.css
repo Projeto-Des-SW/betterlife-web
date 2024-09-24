@@ -1,0 +1,42 @@
+.conteudoContainer {
+    width: 80%;
+    margin: 0 auto;
+    padding: 100px;
+}
+
+.postContainer {
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.postTitle {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.divider {
+    margin: 10px 0;
+}
+
+.postResposta {
+    margin: 20px 0;
+    line-height: 1.6;
+}
+
+.postCategoria {
+    margin-top: 10px;
+    font-style: italic;
+    color: #666;
+}
+
+.buttonContainer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.loadingMessage {
+    text-align: center;
+    margin-top: 50px;
+}
