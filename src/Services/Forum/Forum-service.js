@@ -145,21 +145,60 @@ class ForumService {
     }
 
     // Novo método para adicionar uma resposta
-    async addResposta(postId, respostaData) {
+    addResposta = async (postId, respostaData) => {
         try {
-            const response = await axios.put(`${API_URL}/updateForum/${postId}`, respostaData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('token')}`, // Adiciona o token se necessário
-                },
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error('Token JWT não encontrado no localStorage');
+                throw new Error('Usuário não autenticado');
+            }
+
+            console.log("Token JWT enviado na requisição:", token); // Log do token
+
+            const response = await axios.post(
+                `${API_URL}/posts/${postId}/respostas`,
+                respostaData,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` // Enviando o token corretamente
+                    }
+                }
+            );
+
+            if (response.status === 200 || response.status === 201) {
+                return {
+                    error: false,
+                    data: response.data
+                };
+            }
+
+            return {
+                error: true,
+                data: response.data
+            };
+        } catch (error) {
+            console.error('Erro ao adicionar resposta:', error.message); // Log de erro
+            return {
+                error: true,
+                message: error.response ? error.response.data.message : 'Erro ao adicionar resposta'
+            };
+        }
+    };
+
+
+
+    async listarRespostas(postId) {
+        try {
+            const response = await axios.get(`${API_URL}/posts/${postId}/respostas`, {
+                headers: { 'Content-Type': 'application/json' }
             });
-    
             if (response.status === 200 || response.status === 201)
                 return {
                     error: false,
                     data: response.data
                 };
-    
+
             return {
                 error: true,
                 data: response.data
@@ -167,11 +206,11 @@ class ForumService {
         } catch (error) {
             return {
                 error: true,
-                message: error.response ? error.response.data.message : 'Erro ao adicionar resposta'
+                message: error.response ? error.response.data.message : 'Erro ao listar respostas'
             };
         }
     }
-    
+
 }
 
 const forumService = new ForumService();

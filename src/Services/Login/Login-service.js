@@ -1,3 +1,4 @@
+// login-service.js
 import axios from 'axios';
 
 const API_URL = 'http://localhost:4000/api';
@@ -9,11 +10,13 @@ const loginUser = async (userData) => {
         });
 
         if (response.status === 200) {
+            localStorage.setItem('token', response.data.token); // Salvar o token JWT
             return {
                 error: false,
                 data: response.data
             };
         }
+
         return {
             error: true,
             data: response.data.error
