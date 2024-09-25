@@ -1,7 +1,7 @@
 import React from 'react';
 import Styles from './VeterinariaComponent.module.css';
 import { useNavigate } from 'react-router-dom';
-import { Paper } from '@material-ui/core';
+import { Paper, Grid, Button, Typography } from '@material-ui/core';
 
 function VeterinariaComponent() {
   const navigate = useNavigate();
@@ -9,31 +9,46 @@ function VeterinariaComponent() {
   const TaxonomiaPage = () => navigate('/taxonomia');
   const AnimalPage = () => navigate('/registerAnimal');
   const AnimaisPage = () => navigate('/animais');
-  const CategoriaForumPage = () => navigate('/categoriaForum');
   const Forum = () => navigate('/RegisterPostForum');
   const meusPosts = () => navigate('/meusPosts');
-  const minhasComunidade = () => navigate('/minhasComunidades');
   const Comunidades = () => navigate('/comunidades');
 
   return (
     <>
       <Paper className={Styles.paper}>
-        <div className={Styles.buttonContainer}>
-          <div className={Styles.buttonGroup}>
-            <button type="button" className={Styles.VeterinarioButton} onClick={TaxonomiaPage}>Taxonomia</button>
-            <button type="button" className={Styles.VeterinarioButton} onClick={AnimaisPage}>Animais</button>
-            <button type="button" className={Styles.VeterinarioButton} onClick={AnimalPage}>Cadastrar Animal</button>
-          </div>
-          <div className={Styles.buttonGroup}>
-            <button type="button" className={Styles.VeterinarioButton} onClick={Forum}>Criar Post</button>
-            <button type="button" className={Styles.VeterinarioButton} onClick={CategoriaForumPage}>Cadastrar Categoria de fórum</button>
-          </div>
-          <div className={Styles.buttonGroup}>
-            <button type="button" className={Styles.VeterinarioButton} onClick={meusPosts}>Meus Posts</button>
-            <button type="button" className={Styles.VeterinarioButton} onClick={minhasComunidade}>Minhas Comunidades</button>
-            <button type="button" className={Styles.VeterinarioButton} onClick={Comunidades}>Comunidades</button>
-          </div>
-        </div>
+        <Typography variant="h4" className={Styles.title}>Painel Veterinário</Typography>
+        <Grid container spacing={3} className={Styles.gridContainer}>
+          <Grid item xs={12} md={4}>
+            <Button className={Styles.vetButton} onClick={TaxonomiaPage}>
+              Taxonomia
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Button className={Styles.vetButton} onClick={AnimaisPage}>
+              Animais
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Button className={Styles.vetButton} onClick={AnimalPage}>
+              Cadastrar Animal
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Button className={Styles.vetButton} onClick={Forum}>
+              Criar Post
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Button className={Styles.vetButton} onClick={meusPosts}>
+              Meus Posts
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Button className={Styles.vetButton} onClick={Comunidades}>
+              Comunidades
+            </Button>
+          </Grid>
+        </Grid>
       </Paper>
     </>
   );
