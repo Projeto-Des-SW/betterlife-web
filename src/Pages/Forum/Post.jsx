@@ -7,14 +7,14 @@ import Styles from './Post.module.css';
 import forumService from '../../Services/Forum/Forum-service';
 import { useNavigate, useParams } from 'react-router-dom';
 import Footer from '../Footer/Footer';
-import { jwtDecode } from 'jwt-decode'; // Importação correta
+import dadosUserLogadoService from '../../Services/DadosUserLogado/DadosUserLogado-service';
 
 const Post = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [post, setPost] = useState(null);
     const [respostas, setRespostas] = useState([]);
-    const [resposta, setResposta] = useState(''); // Estado para a nova resposta
+    const [resposta, setResposta] = useState('');
 
     useEffect(() => {
         listarDadosPost();
@@ -47,25 +47,9 @@ const Post = () => {
         }
     };
 
-    // Função para pegar o ID do usuário logado
-    const getLoggedUserId = () => {
-        const token = localStorage.getItem('token'); // Obtendo o token do localStorage
-        console.log("Token JWT:", token); // Verificar se o token está presente
-        if (token) {
-            const decoded = jwtDecode(token); // Decodificando o token
-            console.log("Usuário logado:", decoded._id); // Verificar se o ID está sendo obtido
-            return decoded._id; // Supondo que o ID do usuário está no payload do token
-        }
-        return null; // Retornar null se não houver token
-    };
-
-
     const handleAddResposta = async () => {
         try {
-            const usuarioidresposta = getLoggedUserId(); // Pegando o ID do usuário logado
-    
-            // Adicione um console.log para verificar os dados
-            console.log("Dados sendo enviados:", { usuarioidresposta, resposta });
+            const usuarioidresposta = dadosUserLogadoService.getUserInfo().id;
     
             if (!usuarioidresposta) {
                 alert('Usuário não autenticado!');
@@ -75,8 +59,8 @@ const Post = () => {
             const response = await forumService.addResposta(id, { usuarioidresposta, resposta });
             if (!response.error) {
                 alert('Resposta adicionada com sucesso');
-                setResposta(''); // Limpar o campo de resposta após sucesso
-                listarRespostas(); // Atualizar as respostas listadas
+                setResposta(''); 
+                listarRespostas(); 
             } else {
                 alert(response.message || 'Erro ao adicionar resposta');
             }
@@ -108,7 +92,6 @@ const Post = () => {
                             </Typography>
                         </Paper>
 
-                        {/* Formulário para adicionar resposta */}
                         <div className={Styles.respostaContainer}>
                             <TextField
                                 label="Adicione sua resposta"
@@ -136,7 +119,7 @@ const Post = () => {
                                     <Paper key={resposta.id} className={Styles.respostaItem}>
                                         <Typography variant="body1">{resposta.resposta}</Typography>
                                         <Typography variant="body2" color="textSecondary">
-                                            Respondido por: {resposta.nomeUsuario} em {new Date(resposta.dataresposta).toLocaleString()}
+                                            Respondido por: {resposta.nomeusuario} em {new Date(resposta.dataresposta).toLocaleString()}
                                         </Typography>
                                     </Paper>
                                 ))
