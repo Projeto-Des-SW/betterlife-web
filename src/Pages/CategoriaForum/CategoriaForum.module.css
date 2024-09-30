@@ -36,11 +36,11 @@
 }
 
 .CriarCategoriaForumButton {
-    background-color: #FF9113;
+    background-color: #3A745F;
     color: #fff;
     border: none;
 }
 
 .CriarCategoriaForumButton:hover {
-    background-color: #E68010;
+    background-color: #3A745F;
 }
