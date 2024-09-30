@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Paper, Typography, Button, Divider, TextField
+    Paper, Typography, Divider, TextField
 } from '@material-ui/core';
 import Header from '../Header/Header';
 import Styles from './Post.module.css';
@@ -50,17 +50,17 @@ const Post = () => {
     const handleAddResposta = async () => {
         try {
             const usuarioidresposta = dadosUserLogadoService.getUserInfo().id;
-    
+
             if (!usuarioidresposta) {
                 alert('Usuário não autenticado!');
                 return;
             }
-    
+
             const response = await forumService.addResposta(id, { usuarioidresposta, resposta });
             if (!response.error) {
                 alert('Resposta adicionada com sucesso');
-                setResposta(''); 
-                listarRespostas(); 
+                setResposta('');
+                listarRespostas();
             } else {
                 alert(response.message || 'Erro ao adicionar resposta');
             }
@@ -92,26 +92,6 @@ const Post = () => {
                             </Typography>
                         </Paper>
 
-                        <div className={Styles.respostaContainer}>
-                            <TextField
-                                label="Adicione sua resposta"
-                                multiline
-                                rows={4}
-                                value={resposta}
-                                onChange={(e) => setResposta(e.target.value)}
-                                variant="outlined"
-                                fullWidth
-                            />
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleAddResposta}
-                                style={{ marginTop: '16px' }}
-                            >
-                                Enviar Resposta
-                            </Button>
-                        </div>
-
                         <div className={Styles.respostasContainer}>
                             <Typography variant="h6">Respostas</Typography>
                             {respostas.length > 0 ? (
@@ -128,10 +108,32 @@ const Post = () => {
                             )}
                         </div>
 
+                        <div className={Styles.respostaContainer}>
+                            <TextField
+                                label="Adicione sua resposta"
+                                multiline
+                                rows={4}
+                                value={resposta}
+                                onChange={(e) => setResposta(e.target.value)}
+                                variant="outlined"
+                                fullWidth
+                            />
+                            <div className={Styles.buttonRight}>
+                                <button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={handleAddResposta}
+                                    className={Styles.Button}
+                                >
+                                    Enviar Resposta
+                                </button>
+                            </div>
+                        </div>
+
                         <div className={Styles.buttonContainer}>
-                            <Button variant="contained" color="primary" onClick={handleBackToForum}>
+                            <button variant="contained" className={Styles.Button} color="primary" onClick={handleBackToForum}>
                                 Voltar ao Fórum
-                            </Button>
+                            </button>
                         </div>
                     </>
                 ) : (
