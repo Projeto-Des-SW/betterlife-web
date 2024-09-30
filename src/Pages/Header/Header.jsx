@@ -21,10 +21,13 @@ const Header = () => {
     navigate('/forum');
   };
 
+  const Comunidades = () => navigate('/comunidades');
+
   return (
     <div className={Styles.headerContainer}>
       <h1 className={Styles.title}>Betterlife | {dadosUserLogadoService.getUserInfo().tipousuario}</h1>
       <div className={Styles.iconContainer}>
+        <div  className={Styles.textIcon} onClick={Comunidades}>Comunidades</div>
         <div  className={Styles.textIcon} onClick={forum}>Fórum</div>
         <FaUserCircle className={Styles.profileIcon} onClick={goToProfile} />
         <IoMdExit className={Styles.profileIcon} onClick={realizarLogout} />
