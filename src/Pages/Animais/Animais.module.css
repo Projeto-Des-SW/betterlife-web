@@ -108,7 +108,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #FF9113;
+    background-color: #3A745F;
     color: #fff;
     border: none;
     transition: background-color 0.3s ease;
@@ -116,7 +116,7 @@
 }
 
 .AnimalButton:hover {
-    background-color: #E68010;
+    background-color: #3A745F;
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
 }
 
