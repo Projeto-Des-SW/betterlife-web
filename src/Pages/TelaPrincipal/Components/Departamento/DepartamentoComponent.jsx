@@ -1,7 +1,7 @@
 import React from 'react';
 import Styles from './DepartamentoComponent.module.css';
 import { useNavigate } from 'react-router-dom';
-import { Paper } from '@material-ui/core';
+import { Paper, Grid, Button, Typography } from '@material-ui/core';
 
 function DepartamentoComponent() {
   const navigate = useNavigate();
@@ -13,29 +13,50 @@ function DepartamentoComponent() {
   const Forum = () => navigate('/RegisterPostForum');
   const meusPosts = () => navigate('/meusPosts');
   const minhasComunidade = () => navigate('/minhasComunidades');
-  const Comunidades = () => navigate('/comunidades');
 
   return (
     <>
       <Paper className={Styles.paper}>
-        <div className={Styles.buttonContainer}>
-          <div className={Styles.buttonGroup}>
-            <button type="button" className={Styles.DepartamentoButton} onClick={TaxonomiaPage}>Taxonomia</button>
-            <button type="button" className={Styles.DepartamentoButton} onClick={AnimaisPage}>Animais</button>
-            <button type="button" className={Styles.DepartamentoButton} onClick={AnimalPage}>Cadastrar Animal</button>
-          </div>
-          <div className={Styles.buttonGroup}>
-            <button type="button" className={Styles.DepartamentoButton} onClick={Forum}>Criar Post</button>
-            <button type="button" className={Styles.DepartamentoButton} onClick={CategoriaForumPage}>Cadastrar Categoria de fórum</button>
-          </div>
-          <div className={Styles.buttonGroup}>
-            <button type="button" className={Styles.DepartamentoButton} onClick={meusPosts}>Meus Posts</button>
-            <button type="button" className={Styles.DepartamentoButton} onClick={minhasComunidade}>Minhas Comunidades</button>
-            <button type="button" className={Styles.DepartamentoButton} onClick={Comunidades}>Comunidades</button>
-          </div>
-        </div>
+        <Typography variant="h4" className={Styles.title}>Painel Veterinário</Typography>
+        <Grid container spacing={3} className={Styles.gridContainer}>
+          <Grid item xs={12} md={4}>
+            <Button className={Styles.vetButton} onClick={TaxonomiaPage}>
+              Taxonomia
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Button className={Styles.vetButton} onClick={AnimaisPage}>
+              Animais
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Button className={Styles.vetButton} onClick={AnimalPage}>
+              Cadastrar Animal
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Button className={Styles.vetButton} onClick={Forum}>
+              Criar Post
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Button className={Styles.vetButton} onClick={meusPosts}>
+              Meus Posts
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Button className={Styles.vetButton} onClick={CategoriaForumPage}>
+            Categorias do fórum
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Button className={Styles.vetButton} onClick={minhasComunidade}>
+              Minhas Comunidades
+            </Button>
+          </Grid>
+        </Grid>
       </Paper>
-    </>
+    </>    
   );
 }
 
