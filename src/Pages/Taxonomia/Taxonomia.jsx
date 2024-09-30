@@ -234,7 +234,7 @@ function Taxonomia() {
                                 name="classe"
                                 label={<span>Classe <span style={{ color: 'red' }}> *</span></span>}
                                 type="text"
-                                placeholder='Classe'
+                                placeholder="Classe"
                                 value={formDataCadastro.classe}
                                 onChange={alterarDadosCadastro}
                                 InputLabelProps={{
