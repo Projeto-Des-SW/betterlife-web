@@ -1,22 +1,31 @@
+:root {
+  --button-bg: #3A745F;
+  --button-text: #ffffff;
+  --button-hover-bg: #2d5749;
+  --button-border-radius: 5px;
+  --spacing: 15px;
+}
+
 .paper {
-  padding: 30px;
+  padding: 20px;
+  background-color: #f9f9f9;
   margin: 20px auto;
-  background-color: #f7f7f7;
-  border-radius: 12px;
-  max-width: 900px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
-.title {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-  font-weight: bold;
-  font-size: 24px;
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.gridContainer {
-  margin-top: 20px;
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing);
+  margin-bottom: var(--spacing);
 }
 
 .vetButton {
@@ -32,12 +41,17 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
-.vetButton:hover {
-  background-color: #3A745F;
+.UserButton:hover {
+  background-color: var(--button-hover-bg);
 }
 
-.vetButton:focus {
-  outline: none;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+@media (max-width: 768px) {
+  .buttonGroup {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .UserButton {
+    width: 100%;
+  }
 }

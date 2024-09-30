@@ -28,17 +28,19 @@
     margin-bottom: var(--spacing);
   }
   
-  .UserButton {
-    background-color: var(--button-bg);
-    color: var(--button-text);
+  .vetButton {
+    width: 100%;
+    padding: 12px;
+    background-color: #1A4032;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    text-transform: none;
+    border-radius: 8px;
     border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border-radius: var(--button-border-radius);
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
-  
   .UserButton:hover {
     background-color: var(--button-hover-bg);
   }
