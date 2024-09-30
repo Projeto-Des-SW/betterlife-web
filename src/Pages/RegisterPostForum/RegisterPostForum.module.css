@@ -34,13 +34,13 @@
 }
 
 .PostButton {
-    background-color: #FF9113;
+    background-color: #3A745F;
     color: #fff;
     border: none;
 }
 
 .PostButton:hover {
-    background-color: #E68010;
+    background-color: #3A745F;
 }
 
 h1 {
@@ -82,13 +82,13 @@ textarea {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #FF9113;
+    background-color: #3A745F;
     color: #fff;
     border: none;
 }
 
 .VoltarButton:hover {
-    background-color: #E68010;
+    background-color: #3A745F;
 }
 
 .buttonContainerVoltar {
