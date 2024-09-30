@@ -26,7 +26,7 @@ function TelaPrincipal() {
     <>
       <Header />
       <div className={Styles.ConteudoContainer}>
-        <h1>Bem Vindo</h1>
+        <h1>Sejá bem vindo! {dadosUserLogadoService.getUserInfo().nome}</h1>
         {renderContent()}
       </div>
       <Footer />
