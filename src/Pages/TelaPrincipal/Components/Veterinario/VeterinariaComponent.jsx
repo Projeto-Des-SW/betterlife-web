@@ -11,7 +11,6 @@ function VeterinariaComponent() {
   const AnimaisPage = () => navigate('/animais');
   const Forum = () => navigate('/RegisterPostForum');
   const meusPosts = () => navigate('/meusPosts');
-  const Comunidades = () => navigate('/comunidades');
 
   return (
     <>
@@ -41,11 +40,6 @@ function VeterinariaComponent() {
           <Grid item xs={12} md={4}>
             <Button className={Styles.vetButton} onClick={meusPosts}>
               Meus Posts
-            </Button>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Button className={Styles.vetButton} onClick={Comunidades}>
-              Comunidades
             </Button>
           </Grid>
         </Grid>
