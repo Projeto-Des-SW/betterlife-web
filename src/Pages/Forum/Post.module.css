@@ -1,7 +1,7 @@
 .conteudoContainer {
-    width: 80%;
-    margin: 0 auto;
-    padding: 100px;
+    margin-top: 30px;
+    padding: 50px;
+    background-color: #f2f2f2;
 }
 
 .postContainer {
@@ -14,6 +14,7 @@
 .postTitle {
     font-weight: bold;
     margin-bottom: 10px;
+    color: #3A745F;
 }
 
 .divider {
@@ -31,12 +32,52 @@
     color: #666;
 }
 
-.buttonContainer {
-    text-align: center;
+.respostasContainer {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.respostaItem {
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    border-left: 5px solid #3A745F;
+    border-radius: 5px;
+}
+
+.respostaContainer {
     margin-top: 20px;
 }
 
-.loadingMessage {
+.buttonRight {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    position: relative;
+    bottom: 0;
+    padding: 10px 0;
+}
+
+.buttonContainer {
     text-align: center;
-    margin-top: 50px;
+    margin-top: 20px;
+    padding-top: 10px;
+}
+
+.Button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3A745F;
+    color: #fff;
+    border: none;
+}
+
+.Button:hover {
+    background-color: #2E624E;
 }
