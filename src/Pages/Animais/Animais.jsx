@@ -392,7 +392,7 @@ const Animais = () => {
     return (
         <>
             <Header />
-
+            {dadosUserLogadoService.getUserInfo().tipousuario.includes('Usuário Comum') === false &&(  
             <Dialog
                 aria-labelledby="customized-dialog-title"
                 open={abrirModalEdicao}
@@ -401,7 +401,8 @@ const Animais = () => {
                 disableBackdropClick
                 fullWidth
                 maxWidth="sm"
-            >
+            >   
+                 
                 <DialogTitle>
                     <Grid container alignItems="center">
                         <Grid item xs={10} sm={11}>
@@ -414,7 +415,7 @@ const Animais = () => {
                         </Grid>
                     </Grid>
                 </DialogTitle>
-
+                
                 <DialogContent dividers>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12}>
@@ -657,7 +658,8 @@ const Animais = () => {
                     <button type="button" className={styles.AnimalButton} variant="contained" color="primary" onClick={editarDados}>Salvar</button>
                 </DialogActions>
             </Dialog>
-
+            )}
+            {dadosUserLogadoService.getUserInfo().tipousuario.includes('Usuário Comum') === false &&(
             <Dialog
                 aria-labelledby="customized-dialog-title"
                 open={abrirModalDeletar}
@@ -670,26 +672,28 @@ const Animais = () => {
                 <DialogTitle>
                     <Grid container alignItems="center">
                         <Grid item xs={10} sm={11}>
-                            Deletar Animal
-                        </Grid>
-                        <Grid item xs={2} sm={1}>
-                            <IconButton onClick={() => setAbrirModalDeletar(false)}>
-                                x
-                            </IconButton>
-                        </Grid>
+                            Deletar Animal 
+                        </Grid>                                              
+                            <Grid item xs={2} sm={1} style={{ visibility: 'hidden' }}>
+                                    <IconButton onClick={() => setAbrirModalDeletar(false)}>
+                                    x
+                                    </IconButton>  
+                            </Grid>                        
                     </Grid>
                 </DialogTitle>
                 <DialogContent dividers>
-                    <DialogContentText>
+                    <DialogContentText>                    
                         Tem certeza que deseja deletar esse animal?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions style={{ justifyContent: 'space-around' }}>
                     <button type="button" className={styles.AnimalButton} variant="contained" color="secondary" onClick={fecharModalDeletar}>Cancelar</button>
+                       
                     <button type="button" className={styles.AnimalButton} variant="contained" color="primary" onClick={deletarAnimal}>Deletar</button>
+                    
                 </DialogActions>
             </Dialog>
-
+            )}
             <div className={styles.ConteudoContainer}>
             <h1>Animais</h1>
             <Paper className={styles.paper} elevation={3} style={{ padding: '16px' }}>
