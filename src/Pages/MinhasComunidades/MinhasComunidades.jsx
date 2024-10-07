@@ -3,8 +3,9 @@ import Styles from './MinhasComunidades.module.css';
 import Header from '../Header/Header';
 import { useNavigate } from 'react-router-dom';
 import {
-    TextField, Grid, Paper, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+    TextField, Button, Grid, Paper, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@material-ui/core';
+import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -292,504 +293,210 @@ function MinhasComunidades() {
             <Header />
 
             <Dialog
+                className="dialog-container"
                 aria-labelledby="customized-dialog-title"
                 open={abrirModalCadastro}
                 onClose={fecharModalCadastro}
-                style={{ marginTop: 35, marginBottom: 10 }}
-                disableBackdropClick
                 fullWidth
                 maxWidth="sm"
             >
-                <DialogTitle>
+                <DialogTitle className="dialog-title">
                     <Grid container alignItems="center">
-                        <Grid item xs={10} sm={11}>
+                        <Grid item xs={10}>
                             Criar Comunidade
                         </Grid>
-                        <Grid item xs={2} sm={1}>
-                            <IconButton onClick={fecharModalCadastro}>
-                                x
+                        <Grid item xs={2}>
+                            <IconButton onClick={fecharModalCadastro} className="dialog-title-close">
+                                <CloseIcon />
                             </IconButton>
                         </Grid>
                     </Grid>
                 </DialogTitle>
-                <DialogContent dividers>
+
+                <DialogContent dividers className="dialog-content">
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe o nome da comunidade:
-                            </DialogContentText>
+                        <Grid item xs={12}>
                             <TextField
                                 id="nome"
                                 name="nome"
-                                label={<span>Nome <span style={{ color: 'red' }}> *</span></span>}
-                                type="text"
-                                placeholder='Nome da comunidade'
+                                label="Nome *"
+                                placeholder="Nome da comunidade"
                                 value={formDataCadastro.nome}
                                 onChange={alterarDadosCadastro}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 variant="outlined"
                                 fullWidth
+                                className="text-field"
                             />
                         </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe a descrição da comunidade:
-                            </DialogContentText>
+                        <Grid item xs={12}>
                             <TextField
                                 id="descricao"
                                 name="descricao"
-                                label={<span>Descrição <span style={{ color: 'red' }}> *</span></span>}
-                                type="text"
-                                placeholder='Descrição da comunidade'
+                                label="Descrição *"
+                                placeholder="Descrição da comunidade"
                                 value={formDataCadastro.descricao}
                                 onChange={alterarDadosCadastro}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 variant="outlined"
                                 fullWidth
+                                className="text-field"
                             />
                         </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe o CEP:
-                            </DialogContentText>
+
+                        {/* Campos do Endereço */}
+                        <Grid item xs={6}>
                             <TextField
                                 id="endereco.cep"
                                 name="endereco.cep"
-                                placeholder='CEP'
-                                label={<span>CEP <span style={{ color: 'red' }}> *</span></span>}
+                                label="CEP *"
+                                placeholder="CEP"
                                 value={formDataCadastro.endereco.cep}
                                 onChange={alterarDadosCadastro}
                                 variant="outlined"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 fullWidth
+                                className="text-field"
                             />
                         </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe o Logradouro:
-                            </DialogContentText>
+                        <Grid item xs={6}>
                             <TextField
                                 id="endereco.logradouro"
                                 name="endereco.logradouro"
-                                placeholder='Logradouro'
-                                label={<span>Logradouro <span style={{ color: 'red' }}> *</span></span>}
+                                label="Logradouro *"
+                                placeholder="Logradouro"
                                 value={formDataCadastro.endereco.logradouro}
                                 onChange={alterarDadosCadastro}
                                 variant="outlined"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 fullWidth
+                                className="text-field"
                             />
                         </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe o bairro:
-                            </DialogContentText>
+                        {/* Continuação dos campos do endereço */}
+                        <Grid item xs={6}>
                             <TextField
                                 id="endereco.bairro"
                                 name="endereco.bairro"
-                                placeholder='Bairro'
-                                label={<span>Bairro <span style={{ color: 'red' }}> *</span></span>}
+                                label="Bairro *"
+                                placeholder="Bairro"
                                 value={formDataCadastro.endereco.bairro}
                                 onChange={alterarDadosCadastro}
                                 variant="outlined"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 fullWidth
+                                className="text-field"
                             />
                         </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe a UF:
-                            </DialogContentText>
+                        <Grid item xs={3}>
                             <TextField
                                 id="endereco.uf"
                                 name="endereco.uf"
-                                placeholder='UF'
-                                label={<span>UF <span style={{ color: 'red' }}> *</span></span>}
+                                label="UF *"
+                                placeholder="UF"
                                 value={formDataCadastro.endereco.uf}
                                 onChange={alterarDadosCadastro}
                                 variant="outlined"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 fullWidth
+                                className="text-field"
                             />
                         </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe o país:
-                            </DialogContentText>
+                        <Grid item xs={3}>
                             <TextField
                                 id="endereco.pais"
                                 name="endereco.pais"
-                                placeholder='País'
-                                label={<span>País <span style={{ color: 'red' }}> *</span></span>}
+                                label="País *"
+                                placeholder="País"
                                 value={formDataCadastro.endereco.pais}
                                 onChange={alterarDadosCadastro}
                                 variant="outlined"
                                 fullWidth
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
+                                className="text-field"
                             />
                         </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe o complemento:
-                            </DialogContentText>
+
+                        <Grid item xs={6}>
                             <TextField
                                 id="endereco.complemento"
                                 name="endereco.complemento"
-                                placeholder='Complemento'
-                                label={<span>Complemento <span style={{ color: 'red' }}> *</span></span>}
+                                label="Complemento *"
+                                placeholder="Complemento"
                                 value={formDataCadastro.endereco.complemento}
                                 onChange={alterarDadosCadastro}
                                 variant="outlined"
                                 fullWidth
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
+                                className="text-field"
                             />
                         </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe o número:
-                            </DialogContentText>
+                        <Grid item xs={6}>
                             <TextField
                                 id="endereco.numero"
                                 name="endereco.numero"
-                                placeholder='Número'
-                                label={<span>Número <span style={{ color: 'red' }}> *</span></span>}
+                                label="Número *"
+                                placeholder="Número"
                                 value={formDataCadastro.endereco.numero}
                                 onChange={alterarDadosCadastro}
                                 variant="outlined"
                                 fullWidth
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
+                                className="text-field"
                             />
                         </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe a cidade:
-                            </DialogContentText>
+
+                        <Grid item xs={12}>
                             <TextField
                                 id="endereco.cidade"
                                 name="endereco.cidade"
-                                placeholder='Cidade'
-                                label={<span>Cidade <span style={{ color: 'red' }}> *</span></span>}
+                                label="Cidade *"
+                                placeholder="Cidade"
                                 value={formDataCadastro.endereco.cidade}
                                 onChange={alterarDadosCadastro}
                                 variant="outlined"
                                 fullWidth
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
+                                className="text-field"
                             />
                         </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe o responsável:
-                            </DialogContentText>
+
+                        {/* Campos de Responsável e Telefone */}
+                        <Grid item xs={6}>
                             <TextField
                                 id="responsavel"
                                 name="responsavel"
-                                label={<span>Responsável <span style={{ color: 'red' }}> *</span></span>}
-                                type="text"
-                                placeholder='Responsável'
+                                label="Responsável *"
+                                placeholder="Responsável"
                                 value={formDataCadastro.responsavel}
                                 onChange={alterarDadosCadastro}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 variant="outlined"
                                 fullWidth
+                                className="text-field"
                             />
                         </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe o telefone:
-                            </DialogContentText>
+                        <Grid item xs={6}>
                             <TextField
                                 id="telefone"
                                 name="telefone"
-                                label={<span>Telefone <span style={{ color: 'red' }}> *</span></span>}
-                                type="text"
-                                placeholder='Telefone da Comunidade'
+                                label="Telefone *"
+                                placeholder="Telefone da Comunidade"
                                 value={formDataCadastro.telefone}
                                 onChange={alterarDadosCadastro}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 variant="outlined"
                                 fullWidth
+                                className="text-field"
                             />
                         </Grid>
                     </Grid>
                 </DialogContent>
-                <DialogActions style={{ justifyContent: 'space-around' }}>
-                    <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="secondary" onClick={fecharModalCadastro}>Cancelar</button>
-                    <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="primary" onClick={cadastrarComunidade}>Criar</button>
-                </DialogActions>
-            </Dialog>
 
-            <Dialog
-                aria-labelledby="customized-dialog-title"
-                open={abrirModalEdicao}
-                onClose={fecharModalEdicao}
-                style={{ marginTop: 35, marginBottom: 10 }}
-                disableBackdropClick
-                fullWidth
-                maxWidth="sm"
-            >
-                <DialogTitle>
-                    <Grid container alignItems="center">
-                        <Grid item xs={10} sm={11}>
-                            Editar Comunidade
-                        </Grid>
-                        <Grid item xs={2} sm={1}>
-                            <IconButton onClick={fecharModalEdicao}>
-                                x
-                            </IconButton>
-                        </Grid>
-                    </Grid>
-                </DialogTitle>
-                <DialogContent dividers>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe o nome da comunidade:
-                            </DialogContentText>
-                            <TextField
-                                id="nome"
-                                name="nome"
-                                label={<span>Nome <span style={{ color: 'red' }}> *</span></span>}
-                                type="text"
-                                placeholder='Nome da comunidade'
-                                value={formDataEdicao.nome}
-                                onChange={alterarDadosEdicao}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                variant="outlined"
-                                fullWidth
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe a descrição da comunidade:
-                            </DialogContentText>
-                            <TextField
-                                id="descricao"
-                                name="descricao"
-                                label={<span>Descrição <span style={{ color: 'red' }}> *</span></span>}
-                                type="text"
-                                placeholder='Descrição da comunidade'
-                                value={formDataEdicao.descricao}
-                                onChange={alterarDadosEdicao}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                variant="outlined"
-                                fullWidth
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe o CEP:
-                            </DialogContentText>
-                            <TextField
-                                id="endereco.cep"
-                                name="endereco.cep"
-                                label={<span>CEP <span style={{ color: 'red' }}> *</span></span>}
-                                placeholder='CEP'
-                                value={formDataEdicao.endereco.cep}
-                                onChange={alterarDadosEdicao}
-                                variant="outlined"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                fullWidth
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe o Logradouro:
-                            </DialogContentText>
-                            <TextField
-                                id="endereco.logradouro"
-                                name="endereco.logradouro"
-                                label={<span>Logradouro <span style={{ color: 'red' }}> *</span></span>}
-                                placeholder='Logradouro'
-                                value={formDataEdicao.endereco.logradouro}
-                                onChange={alterarDadosEdicao}
-                                variant="outlined"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                fullWidth
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe o bairro:
-                            </DialogContentText>
-                            <TextField
-                                id="endereco.bairro"
-                                name="endereco.bairro"
-                                label={<span>Bairro <span style={{ color: 'red' }}> *</span></span>}
-                                placeholder='Bairro'
-                                value={formDataEdicao.endereco.bairro}
-                                onChange={alterarDadosEdicao}
-                                variant="outlined"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                fullWidth
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe a UF:
-                            </DialogContentText>
-                            <TextField
-                                id="endereco.uf"
-                                name="endereco.uf"
-                                label={<span>UF <span style={{ color: 'red' }}> *</span></span>}
-                                placeholder='UF'
-                                value={formDataEdicao.endereco.uf}
-                                onChange={alterarDadosEdicao}
-                                variant="outlined"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                fullWidth
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe o país:
-                            </DialogContentText>
-                            <TextField
-                                id="endereco.pais"
-                                name="endereco.pais"
-                                label={<span>País <span style={{ color: 'red' }}> *</span></span>}
-                                placeholder='País'
-                                value={formDataEdicao.endereco.pais}
-                                onChange={alterarDadosEdicao}
-                                variant="outlined"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                fullWidth
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe o complemento:
-                            </DialogContentText>
-                            <TextField
-                                id="endereco.complemento"
-                                name="endereco.complemento"
-                                label={<span>Complemento <span style={{ color: 'red' }}> *</span></span>}
-                                placeholder='Complemento'
-                                value={formDataEdicao.endereco.complemento}
-                                onChange={alterarDadosEdicao}
-                                variant="outlined"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                fullWidth
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe o número:
-                            </DialogContentText>
-                            <TextField
-                                id="endereco.numero"
-                                name="endereco.numero"
-                                label={<span>Número <span style={{ color: 'red' }}> *</span></span>}
-                                placeholder='Número'
-                                value={formDataEdicao.endereco.numero}
-                                onChange={alterarDadosEdicao}
-                                variant="outlined"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                fullWidth
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe a cidade:
-                            </DialogContentText>
-                            <TextField
-                                id="endereco.cidade"
-                                name="endereco.cidade"
-                                label={<span>Cidade <span style={{ color: 'red' }}> *</span></span>}
-                                placeholder='Cidade'
-                                value={formDataEdicao.endereco.cidade}
-                                onChange={alterarDadosEdicao}
-                                variant="outlined"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                fullWidth
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe o responsável:
-                            </DialogContentText>
-                            <TextField
-                                id="responsavel"
-                                name="responsavel"
-                                label={<span>Responsável <span style={{ color: 'red' }}> *</span></span>}
-                                type="text"
-                                placeholder='Responsável'
-                                value={formDataEdicao.responsavel}
-                                onChange={alterarDadosEdicao}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                variant="outlined"
-                                fullWidth
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <DialogContentText>
-                                Informe o telefone:
-                            </DialogContentText>
-                            <TextField
-                                id="telefone"
-                                name="telefone"
-                                label={<span>Telefone <span style={{ color: 'red' }}> *</span></span>}
-                                type="text"
-                                placeholder='Telefone da Comunidade'
-                                value={formDataEdicao.telefone}
-                                onChange={alterarDadosEdicao}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                variant="outlined"
-                                fullWidth
-                            />
-                        </Grid>
-                    </Grid>
-                </DialogContent>
-                <DialogActions style={{ justifyContent: 'space-around' }}>
-                    <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="secondary" onClick={fecharModalEdicao}>Cancelar</button>
-                    <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="primary" onClick={editarDados}>Salvar</button>
+                <DialogActions className="dialog-actions">
+                    <Button
+                        className={`${Styles.CriarTaxonomiaButton} ${Styles.CriarTaxonomiaButtonSecondary}`}
+                        onClick={fecharModalCadastro}
+                        variant="contained"
+                    >
+                        Cancelar
+                    </Button>
+                    <Button
+                        className={`${Styles.CriarTaxonomiaButton} ${Styles.CriarTaxonomiaButtonPrimary}`}
+                        onClick={cadastrarComunidade}
+                        variant="contained"
+                    >
+                        Criar
+                    </Button>
+
                 </DialogActions>
             </Dialog>
 
@@ -1040,7 +747,7 @@ function MinhasComunidades() {
                 <h1>Minhas Comunidade</h1>
                 <Paper className={Styles.paper}>
                     <div className={Styles.buttonContaineCriar}>
-                        <button type="button" className={Styles.CriarTaxonomiaButton} onClick={() => setAbrirModalCadastro(true)}>Criar Comunidade</button>
+                        <button type="button" className={`${Styles.CriarTaxonomiaButton} ${Styles.CriarTaxonomiaButtonPrimary}`} onClick={() => setAbrirModalCadastro(true)}>Criar Comunidade</button>
                     </div>
                     <div style={{ marginBottom: '16px', overflowX: 'auto' }}>
                         <TableContainer component={Paper} style={{ marginTop: '20px' }}>
@@ -1077,7 +784,7 @@ function MinhasComunidades() {
                 </Paper>
 
                 <div className={Styles.buttonContainerVoltar}>
-                    <button type="button" className={Styles.CriarTaxonomiaButton} variant="contained" color="default" onClick={handleBack}>Voltar</button>
+                    <button type="button" className={`${Styles.CriarTaxonomiaButton} ${Styles.CriarTaxonomiaButtonPrimary}`} variant="contained" color="default" onClick={handleBack}>Voltar</button>
                 </div>
             </div>
             <Footer />
