@@ -179,220 +179,147 @@ const RegisterAnimal = () => {
         <Paper className={styles.paper}>
           <h2 className={styles.title}>Dados do Animal</h2>
           <form onSubmit={submeter} className={styles.registerForm}>
-            <div className={styles.form}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="outlined"
-                    type="text"
-                    name="nome"
-                    label={
-                      <span>
-                        Nome do animal <span style={{ color: 'red' }}>*</span>
-                      </span>
-                    }
-                    value={dadosCadastro.nome}
-                    onChange={(e) => setDadosCadastro({ ...dadosCadastro, nome: e.target.value })}
-                    fullWidth
-                    id="nome"
-                  />
-                </Grid>
+          <div className={styles.form}>
+  <Grid container spacing={2}>
+    {[
+      {
+        name: 'nome',
+        label: 'Nome do animal',
+        type: 'text',
+        value: dadosCadastro.nome,
+      },
+      {
+        name: 'nomecientifico',
+        label: 'Nome Científico do animal',
+        type: 'text',
+        value: dadosCadastro.nomecientifico,
+      },
+      {
+        name: 'idade',
+        label: 'Idade',
+        type: 'text',
+        value: dadosCadastro.idade,
+      },
+      {
+        name: 'peso',
+        label: 'Peso (em Kg)',
+        type: 'text',
+        value: dadosCadastro.peso,
+      },
+      {
+        name: 'descricao',
+        label: 'Descrição',
+        type: 'text',
+        value: dadosCadastro.descricao,
+      },
+      {
+        name: 'observacaodaespecie',
+        label: 'Observação da Espécie',
+        type: 'text',
+        value: dadosCadastro.observacaodaespecie,
+      },
+    ].map(({ name, label, type, value }, index) => (
+      <Grid item xs={12} sm={6} key={index}>
+        <TextField
+          variant="outlined"
+          type={type}
+          name={name}
+          label={
+            <span>
+              {label} <span style={{ color: 'red' }}>*</span>
+            </span>
+          }
+          value={value}
+          onChange={(e) => setDadosCadastro({ ...dadosCadastro, [name]: e.target.value })}
+          fullWidth
+          id={name}
+          className={styles.textField}
+        />
+      </Grid>
+    ))}
 
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="outlined"
-                    type="text"
-                    name="nomecientifico"
-                    label={
-                      <span>
-                        Nome Científico do animal <span style={{ color: 'red' }}>*</span>
-                      </span>
-                    }
-                    value={dadosCadastro.nomecientifico}
-                    onChange={(e) => setDadosCadastro({ ...dadosCadastro, nomecientifico: e.target.value })}
-                    fullWidth
-                    id="nomecientifico"
-                  />
-                </Grid>
+    <Grid item xs={12} sm={6}>
+      <FormControl variant="outlined" fullWidth className={styles.formControl}>
+        <InputLabel id="sexo-label">
+          Sexo <span style={{ color: 'red' }}>*</span>
+        </InputLabel>
+        <Select
+          labelId="sexo-label"
+          name="sexo"
+          value={dadosCadastro.sexo}
+          onChange={(e) => setDadosCadastro({ ...dadosCadastro, sexo: e.target.value })}
+          displayEmpty
+        >
+          <MenuItem value="" disabled>
+            Sexo
+          </MenuItem>
+          <MenuItem value="Macho">Macho</MenuItem>
+          <MenuItem value="Fêmea">Fêmea</MenuItem>
+        </Select>
+      </FormControl>
+    </Grid>
 
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="outlined"
-                    type="text"
-                    name="idade"
-                    label={
-                      <span>
-                        Idade <span style={{ color: 'red' }}>*</span>
-                      </span>
-                    }
-                    value={dadosCadastro.idade}
-                    onChange={(e) => setDadosCadastro({ ...dadosCadastro, idade: e.target.value })}
-                    fullWidth
-                    id="nomecientifico"
-                  />
-                </Grid>
+    <Grid item xs={12} sm={6}>
+      <FormControl variant="outlined" fullWidth className={styles.formControl}>
+        <InputLabel id="taxonomia-label">
+          Taxonomia <span style={{ color: 'red' }}>*</span>
+        </InputLabel>
+        <Select
+          labelId="taxonomia-label"
+          name="taxonomia"
+          value={taxonomiaNome}
+          onChange={(e) => {
+            const selectedTaxonomia = e.target.value;
+            setTaxonomiaNome(selectedTaxonomia);
+            setDadosCadastro({ ...dadosCadastro, taxonomiaid: selectedTaxonomia });
+          }}
+          displayEmpty
+        >
+          <MenuItem value="" disabled>
+            Taxonomia
+          </MenuItem>
+          {taxonomias.map((taxonomia) => (
+            <MenuItem key={taxonomia.id} value={taxonomia.id}>
+              {taxonomia.especie}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Grid>
 
-                <Grid item xs={12} sm={6}>
-                  <FormControl variant="outlined" fullWidth>
-                    <InputLabel id="taxonomia-label">
-                      Sexo <span style={{ color: 'red' }}>*</span>
-                    </InputLabel>
-                    <Select
-                      variant="outlined"
-                      name="sexo"
-                      label={
-                        <span>
-                          Sexo <span style={{ color: 'red' }}>*</span>
-                        </span>
-                      }
-                      value={dadosCadastro.sexo}
-                      onChange={(e) => setDadosCadastro({ ...dadosCadastro, sexo: e.target.value })}
-                      fullWidth
-                      displayEmpty
-                    >
-                      <MenuItem value="" disabled>
-                        Sexo
-                      </MenuItem>
-                      <MenuItem value="Macho">Macho</MenuItem>
-                      <MenuItem value="Fêmea">Fêmea</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
+    {[
+      {
+        id: 'imagemAnimal',
+        name: 'imagemAnimal',
+        accept: 'image/*',
+        label: 'Anexar Foto do Animal',
+        onChange: (e) => adicionarFoto(e.target.files[0]),
+      },
+      {
+        id: 'somAnimal',
+        name: 'somAnimal',
+        accept: 'audio/*',
+        label: 'Anexar Som do Animal',
+        onChange: (e) => adicionarSom(e.target.files[0]),
+      },
+    ].map(({ id, name, accept, label, onChange }, index) => (
+      <Grid item xs={12} sm={6} key={index}>
+        <label htmlFor={id} className={styles.fileLabel}>
+          {label} <span style={{ color: 'red' }}>*</span>
+        </label>
+        <input
+          type="file"
+          id={id}
+          name={name}
+          accept={accept}
+          onChange={onChange}
+          className={styles.fileInput}
+        />
+      </Grid>
+    ))}
+  </Grid>
+</div>
 
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="outlined"
-                    type="text"
-                    name="peso"
-                    label={
-                      <span>
-                        Peso (em Kg) <span style={{ color: 'red' }}>*</span>
-                      </span>
-                    }
-                    value={dadosCadastro.peso}
-                    onChange={(e) => setDadosCadastro({ ...dadosCadastro, peso: e.target.value })}
-                    fullWidth
-                    id="peso"
-                  />
-
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="outlined"
-                    type="text"
-                    name="descricao"
-                    label={
-                      <span>
-                        Descrição <span style={{ color: 'red' }}>*</span>
-                      </span>
-                    }
-                    value={dadosCadastro.descricao}
-                    onChange={(e) => setDadosCadastro({ ...dadosCadastro, descricao: e.target.value })}
-                    fullWidth
-                    id="descricao"
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="outlined"
-                    type="text"
-                    name="observacaodaespecie"
-                    label={
-                      <span>
-                        Observação da Espécie <span style={{ color: 'red' }}>*</span>
-                      </span>
-                    }
-                    value={dadosCadastro.observacaodaespecie}
-                    onChange={(e) => setDadosCadastro({ ...dadosCadastro, observacaodaespecie: e.target.value })}
-                    fullWidth
-                    id="observacaodaespecie"
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <FormControl variant="outlined" fullWidth>
-                    <InputLabel id="taxonomia-label">
-                      Taxonomia <span style={{ color: 'red' }}>*</span>
-                    </InputLabel>
-                    <Select
-                      labelId="taxonomia-label"
-                      name="taxonomia"
-                      value={taxonomiaNome}
-                      onChange={(e) => {
-                        const selectedTaxonomia = e.target.value;
-                        setTaxonomiaNome(selectedTaxonomia);
-                        setDadosCadastro({ ...dadosCadastro, taxonomiaid: selectedTaxonomia });
-                      }}
-                      label="Taxonomia *"
-                      displayEmpty
-                    >
-                      <MenuItem value="" disabled>
-                        Taxonomia
-                      </MenuItem>
-                      {taxonomias.map((taxonomia) => (
-                        <MenuItem key={taxonomia.id} value={taxonomia.id}>
-                          {taxonomia.especie}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-
-                <Grid item xs={12} sm={6} >
-                  <label htmlFor="somAnimal" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
-                    Anexar Foto do Animal <span style={{ color: 'red' }}>*</span>
-                  </label>
-                  <input
-                    type="file"
-                    id="imagemAnimal"
-                    name="imagemAnimal"
-                    accept="image/*"
-                    onChange={(e) => adicionarFoto(e.target.files[0])}
-                    style={{
-                      display: 'block',
-                      maxWidth: '100%',
-                      padding: '8px',
-                      borderRadius: '4px',
-                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)',
-                      backgroundColor: '#f9f9f9',
-                      border: '1px solid #ccc',
-                      cursor: 'pointer',
-                      textOverflow: 'ellipsis',
-                      overflow: 'hidden',
-                      whiteSpace: 'nowrap',
-                    }}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={6} >
-                  <label htmlFor="somAnimal" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
-                    Anexar Som do Animal <span style={{ color: 'red' }}>*</span>
-                  </label>
-                  <input
-                    type="file"
-                    id="somAnimal"
-                    name="somAnimal"
-                    accept="audio/*"
-                    onChange={(e) => adicionarSom(e.target.files[0])}
-                    style={{
-                      display: 'block',
-                      maxWidth: '100%',
-                      padding: '8px',
-                      borderRadius: '4px',
-                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.2)',
-                      backgroundColor: '#f9f9f9',
-                      border: '1px solid #ccc',
-                      cursor: 'pointer',
-                      textOverflow: 'ellipsis',
-                      overflow: 'hidden',
-                      whiteSpace: 'nowrap',
-                    }}
-                  />
-                </Grid>
-              </Grid>
-            </div>
             <div className={styles.buttonContainer}>
               <button type="submit" className={styles.submitButton}>Cadastrar Animal</button>
             </div>
