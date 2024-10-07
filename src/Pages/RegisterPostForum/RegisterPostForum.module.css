@@ -1,98 +1,151 @@
+/* Container principal */
 .ConteudoContainer {
     background-color: #1C4839;
     color: white;
     min-height: 100vh;
-    padding: 30px;
-    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    box-sizing: border-box;
 }
 
+/* Container de formulário */
 .container {
     width: 90%;
     max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
     background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
 }
 
-.buttonContainer {
-    display: flex;
-    justify-content: space-evenly;
-    width: 100%;
-    margin-top: 20px;
-}
-
-.PostButton {
-    padding: 15px 30px;
-    font-size: 18px;
-    border-radius: 10px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.PostButton {
-    background-color: #3A745F;
-    color: #fff;
-    border: none;
-}
-
-.PostButton:hover {
-    background-color: #3A745F;
-}
-
+/* Título */
 h1 {
     text-align: center;
+    color: #1C4839;
+    font-size: 2rem;
     margin-bottom: 20px;
+    font-weight: 600;
 }
 
+/* Grupos de Formulário */
 .formGroup {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+    font-size: 1rem;
 }
 
+/* Campos de texto e select */
 input[type="text"],
 input[type="date"],
 select,
 textarea {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
+    border-radius: 8px;
+    font-size: 16px;
     box-sizing: border-box;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #3A745F;
+    outline: none;
 }
 
 textarea {
     resize: vertical;
 }
 
-.VoltarButton {
-    padding: 15px 30px;
+/* Botão Principal */
+.PostButton {
+    width: 100%;
+    padding: 15px;
     font-size: 18px;
-    border-radius: 10px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    border-radius: 8px;
     background-color: #3A745F;
     color: #fff;
     border: none;
+    cursor: pointer;
+    font-weight: 600;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.PostButton:hover {
+    background-color: #2D5A48;
+    transform: translateY(-3px);
+}
+
+/* Botão Voltar */
+.VoltarButton {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 8px;
+    background-color: #C70039;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .VoltarButton:hover {
+    background-color: #A0002F;
+    transform: translateY(-3px);
+}
+
+/* Botão Container */
+.buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Espaço entre os botões */
+    margin-top: 30px;
+}
+
+/* Botões Estilos */
+.PostButton, .VoltarButton {
+    width: 48%; /* Alinhamento uniforme ocupando 48% do espaço cada */
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 8px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.PostButton {
     background-color: #3A745F;
 }
 
-.buttonContainerVoltar {
-    display: flex;
-    justify-content: end;
-    width: 100%;
+.PostButton:hover {
+    background-color: #2D5A48;
+    transform: translateY(-3px);
+}
+
+.VoltarButton {
+    background-color: #3A745F;
+}
+
+.VoltarButton:hover {
+    background-color: #2D5A48;
+    transform: translateY(-3px);
 }
