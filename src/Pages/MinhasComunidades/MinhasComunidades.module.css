@@ -36,11 +36,34 @@
 }
 
 .CriarTaxonomiaButton {
-  background-color: #3A745F;;
+  padding: 6px 12px;
+  font-size: 15px;
+  border-radius: 8px;
   color: #fff;
   border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.CriarTaxonomiaButtonPrimary {
+  background-color: #3A745F; /* Cor do botão "Criar" */
+}
+
+.CriarTaxonomiaButtonPrimary:hover {
+  background-color: #2D5A48;
+}
+
+.CriarTaxonomiaButtonSecondary {
+  background-color: #C70039; /* Cor do botão "Cancelar" */
+}
+
+.CriarTaxonomiaButtonSecondary:hover {
+  background-color: #A0002F;
 }
 
 .CriarTaxonomiaButton:hover {
-  background-color: #3A745F;;
+  background-color: #03291b;;
 }
